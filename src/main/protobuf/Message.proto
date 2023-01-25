@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "ca.NetSysLab.ProtocolBuffers";
+option java_outer_classname = "Message";
+
+message Msg {
+    bytes messageID = 1;
+    bytes payload = 2;
+    fixed64 checkSum = 3;
+}
