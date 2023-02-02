@@ -24,6 +24,7 @@ public class KVStore {
     public  void clearStore () {
         this.store.clear();
         this.store = new ConcurrentHashMap<>();
+        Runtime.getRuntime().freeMemory();
         System.gc();
     }
 }

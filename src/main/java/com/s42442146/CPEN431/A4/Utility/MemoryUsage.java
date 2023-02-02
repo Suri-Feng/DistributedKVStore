@@ -7,15 +7,11 @@ public class MemoryUsage {
     }
 
     public static long getUsedMemory() {
-        return bytesToMegabytes(getMaxMemory() - getFreeMemory());
-    }
-
-    public static long getTotalMemory() {
-        return bytesToMegabytes(Runtime.getRuntime().totalMemory());
+        return bytesToMegabytes(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     }
 
     public static long getFreeMemory() {
-        return bytesToMegabytes(Runtime.getRuntime().freeMemory());
+        return getMaxMemory() - getUsedMemory();
     }
 
     private static long bytesToMegabytes (long bytes) {

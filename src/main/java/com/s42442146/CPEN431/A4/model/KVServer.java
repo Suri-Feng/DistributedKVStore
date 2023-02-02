@@ -17,14 +17,14 @@ public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
     public static final int MAX_VALUE_LENGTH = 10000; // bytes
     public static final int TIME_OUT = 2; // Assume a message propagation time = 1 second
-    public static final int CACHE_SIZE = 500;
-    public static final int THREAD_POOL_SIZE = 10;
+    public static final int DEFAULT_CACHE_SIZE = 1000;
+    public static final int THREAD_POOL_SIZE = 5;
 
     public DatagramSocket socket;
     public final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     public final Cache<ByteBuffer, Message.Msg> cache =
             Caffeine.newBuilder()
-                    .maximumSize(CACHE_SIZE)
+                    .maximumSize(DEFAULT_CACHE_SIZE)
                     .expireAfterWrite(TIME_OUT, TimeUnit.SECONDS)
                     .build();
 

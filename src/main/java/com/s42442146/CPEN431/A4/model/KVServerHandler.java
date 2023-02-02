@@ -69,11 +69,10 @@ public class KVServerHandler implements Runnable {
                     .setCheckSum(checksum.getValue())
                     .build();
 
-            // Cache request id and response msg
-            cache.put(ByteBuffer.wrap(id), responseMsg);
-            // Send response to client
-            sendResponse(responseMsg);
 
+            sendResponse(responseMsg);
+            resizeCache();
+            cache.put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +88,22 @@ public class KVServerHandler implements Runnable {
         socket.send(responsePkt);
     }
 
+    private synchronized void resizeCache () {
+        cache.cleanUp();
+        cache.policy().eviction().ifPresent(eviction -> {
+            if (eviction.getMaximum() != KVServer.DEFAULT_CACHE_SIZE &&
+                    cache.estimatedSize() < KVServer.DEFAULT_CACHE_SIZE * 2/ 3) {
+                eviction.setMaximum(KVServer.DEFAULT_CACHE_SIZE);
+                System.out.println("Resizing cache size to 500.");
+                System.out.println("===================================");
+            } else if (cache.estimatedSize() >= (eviction.getMaximum() * 2 / 3)) {
+                System.out.println("Current size: " + eviction.getMaximum());
+                eviction.setMaximum(2 * eviction.getMaximum());
+                System.out.println("Resizing cache size to: " + eviction.getMaximum());
+                System.out.println("===================================");
+            }
+        });
+    }
 
     /*
      *  Generate a response payload
@@ -188,6 +203,8 @@ public class KVServerHandler implements Runnable {
 
     private  void wipeOut() {
         store.clearStore();
+        cache.invalidateAll();
+        cache.policy().eviction().ifPresent(eviction -> eviction.setMaximum(KVServer.DEFAULT_CACHE_SIZE));
     }
 
     private boolean isMemoryOverload() {
