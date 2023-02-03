@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+
 
 import ca.NetSysLab.ProtocolBuffers.Message;
 
@@ -17,16 +16,27 @@ public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
     public static final int MAX_VALUE_LENGTH = 10000; // bytes
     public static final int TIME_OUT = 2; // Assume a message propagation time = 1 second
-    public static final int DEFAULT_CACHE_SIZE = 1000;
+    public static final int DEFAULT_CACHE_SIZE = 500;
+    private long currentCacheSize = DEFAULT_CACHE_SIZE;
     public static final int THREAD_POOL_SIZE = 5;
 
     public DatagramSocket socket;
     public final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+
     public final Cache<ByteBuffer, Message.Msg> cache =
             Caffeine.newBuilder()
                     .maximumSize(DEFAULT_CACHE_SIZE)
+                    .executor(cleanUpExec())
                     .expireAfterWrite(TIME_OUT, TimeUnit.SECONDS)
                     .build();
+
+    private ScheduledExecutorService cleanUpExec() {
+        ScheduledExecutorService maintenanceService = Executors.newScheduledThreadPool(1);
+        maintenanceService.scheduleAtFixedRate(() -> {
+            cache.cleanUp();
+        }, 0, 5, TimeUnit.SECONDS);
+        return maintenanceService;
+    }
 
     public KVServer(int port) {
         try {
@@ -36,11 +46,25 @@ public class KVServer {
         }
     }
 
+    private void resizeCache() {
+        if (cache.estimatedSize() >= currentCacheSize * 2/ 3) {
+            cache.policy().eviction().ifPresent(eviction -> {
+                eviction.setMaximum(2 * eviction.getMaximum());
+                currentCacheSize = eviction.getMaximum();
+            });
+        } else if (currentCacheSize != DEFAULT_CACHE_SIZE && cache.estimatedSize() < DEFAULT_CACHE_SIZE * 2/ 3) {
+            cache.policy().eviction().ifPresent(eviction -> {
+                eviction.setMaximum(DEFAULT_CACHE_SIZE);
+                currentCacheSize = DEFAULT_CACHE_SIZE;
+            });
+        }
+    }
+
     public void start() {
-        byte[] buf;
         // receive request
         while (true) {
-            buf = new byte[15000];
+            resizeCache();
+            byte[] buf = new byte[15000];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
             try {

@@ -8,7 +8,7 @@ public class App
     public static void main( String[] args )
     {
 
-            new KVServer(Integer.parseInt(args[0])).start();
+            new KVServer(12345).start();
 
     }
 }

@@ -69,9 +69,7 @@ public class KVServerHandler implements Runnable {
                     .setCheckSum(checksum.getValue())
                     .build();
 
-
             sendResponse(responseMsg);
-            resizeCache();
             cache.put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -86,23 +84,6 @@ public class KVServerHandler implements Runnable {
                 address,
                 port);
         socket.send(responsePkt);
-    }
-
-    private synchronized void resizeCache () {
-        cache.cleanUp();
-        cache.policy().eviction().ifPresent(eviction -> {
-            if (eviction.getMaximum() != KVServer.DEFAULT_CACHE_SIZE &&
-                    cache.estimatedSize() < KVServer.DEFAULT_CACHE_SIZE * 2/ 3) {
-                eviction.setMaximum(KVServer.DEFAULT_CACHE_SIZE);
-                System.out.println("Resizing cache size to 500.");
-                System.out.println("===================================");
-            } else if (cache.estimatedSize() >= (eviction.getMaximum() * 2 / 3)) {
-                System.out.println("Current size: " + eviction.getMaximum());
-                eviction.setMaximum(2 * eviction.getMaximum());
-                System.out.println("Resizing cache size to: " + eviction.getMaximum());
-                System.out.println("===================================");
-            }
-        });
     }
 
     /*
@@ -204,11 +185,14 @@ public class KVServerHandler implements Runnable {
     private  void wipeOut() {
         store.clearStore();
         cache.invalidateAll();
+        cache.cleanUp();
         cache.policy().eviction().ifPresent(eviction -> eviction.setMaximum(KVServer.DEFAULT_CACHE_SIZE));
+        Runtime.getRuntime().freeMemory();
+        System.gc();
     }
 
     private boolean isMemoryOverload() {
-        return MemoryUsage.getFreeMemory() < 0.05 * MemoryUsage.getMaxMemory();
+        return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
     }
 }
 
