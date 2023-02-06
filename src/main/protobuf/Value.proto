@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-option java_package = "ca.NetSysLab.ProtocolBuffers";
-option java_outer_classname = "Value";
-
-message Val {
-  int32 version = 1;
-  bytes value = 2;
-}

@@ -2,11 +2,7 @@ package com.s42442146.CPEN431.A4.model;
 
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.KeyValueResponse;
-
-import ca.NetSysLab.ProtocolBuffers.Value;
 import ca.NetSysLab.ProtocolBuffers.Message;
-
-import com.github.benmanes.caffeine.cache.Cache;
 import com.s42442146.CPEN431.A4.Utility.MemoryUsage;
 
 import java.io.IOException;
@@ -20,21 +16,19 @@ import java.util.zip.CRC32;
 import static com.s42442146.CPEN431.A4.model.Command.*;
 import static com.s42442146.CPEN431.A4.model.ErrorCode.*;
 
-
 public class KVServerHandler implements Runnable {
     DatagramSocket socket;
     Message.Msg requestMessage;
-    Cache<ByteBuffer, Message.Msg> cache;
     InetAddress address;
     int port;
     KVStore store = KVStore.getInstance();
+    StoreCache storeCache = StoreCache.getInstance();
+
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
-                    Cache<ByteBuffer, Message.Msg> cache,
                     InetAddress address,
                     int port) {
         this.socket = socket;
-        this.cache = cache;
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
@@ -49,7 +43,7 @@ public class KVServerHandler implements Runnable {
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
             // If cached request, get response msg from cache and send it
-            Message.Msg cachedResponse = cache.getIfPresent(ByteBuffer.wrap(id));
+            Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
             if (cachedResponse != null) {
                 sendResponse(cachedResponse);
                 return;
@@ -70,7 +64,7 @@ public class KVServerHandler implements Runnable {
                     .build();
 
             sendResponse(responseMsg);
-            cache.put(ByteBuffer.wrap(id), responseMsg);
+            storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +83,7 @@ public class KVServerHandler implements Runnable {
     /*
      *  Generate a response payload
      */
-    public  KeyValueResponse.KVResponse processRequest(KeyValueRequest.KVRequest requestPayload) {
+    private KeyValueResponse.KVResponse processRequest(KeyValueRequest.KVRequest requestPayload) {
         // Get command, key, and value from request
         int commandCode = requestPayload.getCommand();
 
@@ -124,17 +118,15 @@ public class KVServerHandler implements Runnable {
                             .build();
                 }
 
+                ValueV valueV = new ValueV(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(ByteBuffer.wrap(key),
-                        Value.Val.newBuilder()
-                                .setValue(requestPayload.getValue())
-                                .setVersion(requestPayload.getVersion())
-                                .build());
+                        valueV);
 
                 return builder
                         .setErrCode(SUCCESSFUL.getCode())
                         .build();
             case GET:
-                Value.Val valueInStore = store.getStore().get(ByteBuffer.wrap(key));
+                ValueV valueInStore = store.getStore().get(ByteBuffer.wrap(key));
                 if (valueInStore == null) {
                     return builder
                             .setErrCode(NONEXISTENT_KEY.getCode())
@@ -169,7 +161,7 @@ public class KVServerHandler implements Runnable {
             case GET_PID:
                 return builder
                         .setErrCode(SUCCESSFUL.getCode())
-                        .setPid((int) ProcessHandle.current().pid())   // TODO: this gives a long
+                        .setPid((int) ProcessHandle.current().pid())
                         .build();
             case GET_MEMBERSHIP_COUNT:
                 return builder
@@ -184,15 +176,13 @@ public class KVServerHandler implements Runnable {
 
     private  void wipeOut() {
         store.clearStore();
-        cache.invalidateAll();
-        cache.cleanUp();
-        cache.policy().eviction().ifPresent(eviction -> eviction.setMaximum(KVServer.DEFAULT_CACHE_SIZE));
+        storeCache.clearCache();
         Runtime.getRuntime().freeMemory();
         System.gc();
     }
 
     private boolean isMemoryOverload() {
-        return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
+        return MemoryUsage.getFreeMemory() < 0.035 * MemoryUsage.getMaxMemory();
     }
 }
 
