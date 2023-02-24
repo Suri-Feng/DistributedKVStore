@@ -1,0 +1,12 @@
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/KVServerHandler.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/ca/NetSysLab/ProtocolBuffers/Message.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/StoreCache.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/ca/NetSysLab/ProtocolBuffers/KeyValueResponse.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/Utility/MemoryUsage.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/KVStore.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/ValueV.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/ErrorCode.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/Command.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/App.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/s42442146/CPEN431/A4/model/KVServer.java
