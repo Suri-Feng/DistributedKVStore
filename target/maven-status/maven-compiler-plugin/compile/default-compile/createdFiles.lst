@@ -27,3 +27,4 @@ ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequestOrBuilder.class
 com/s42442146/CPEN431/A4/model/KVServer.class
 ca/NetSysLab/ProtocolBuffers/Message.class
+com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.class

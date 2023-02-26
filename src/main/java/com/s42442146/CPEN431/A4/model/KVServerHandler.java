@@ -7,16 +7,16 @@ import com.google.protobuf.ByteString;
 import com.s42442146.CPEN431.A4.Utility.MemoryUsage;
 import com.s42442146.CPEN431.A4.Utility.StringUtils;
 import com.s42442146.CPEN431.A4.model.Distribution.Node;
-import com.s42442146.CPEN431.A4.model.Distribution.NodesMap;
+import com.s42442146.CPEN431.A4.model.Distribution.NodesCircle;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
-import java.util.List;
 import java.util.Optional;
-import java.util.TreeSet;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.zip.CRC32;
 
 import static com.s42442146.CPEN431.A4.model.Command.*;
@@ -27,21 +27,18 @@ public class KVServerHandler implements Runnable {
     Message.Msg requestMessage;
     InetAddress address;
     int port;
-    List<Node> nodes;
     KVStore store = KVStore.getInstance();
     StoreCache storeCache = StoreCache.getInstance();
-    NodesMap nodesMap = NodesMap.getInstance();
+    NodesCircle nodesCircle = NodesCircle.getInstance();
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
                     InetAddress address,
-                    int port,
-                    List<Node> nodes) {
+                    int port) {
         this.socket = socket;
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
-        this.nodes = nodes;
     }
 
     @Override
@@ -53,20 +50,32 @@ public class KVServerHandler implements Runnable {
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
             if (!requestMessage.hasClientAddress()) {
+                System.out.println("N0 client address");
                 int bucketHash = findBucketHash(reqPayload.getKey().hashCode());
                 // Reroute
                 if (bucketHash != KVServer.ownHash) {
                     // 感觉reroute出来的key好像都不存在了？？
-                    Node node = nodesMap.getNodesTable().get(bucketHash);
-                    reRoute(bucketHash);
-
+                    Node node = nodesCircle.getNodesTable().get(bucketHash);
                     System.out.println("==============");
+                    System.out.println("own hash: " + KVServer.ownHash);
+                    System.out.println("correct hash: " + bucketHash);
                     System.out.println(StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
                     System.out.println("keyHash: " + reqPayload.getKey().hashCode());
                     System.out.println("Rerouting to port: " + node.getPort());
                     System.out.println("==============");
+
+                    reRoute(bucketHash);
                     return;
                 }
+            }
+            else {
+                System.out.println("==============");
+                System.out.println("Rerouted!!!!");
+                int bucketHash = findBucketHash(reqPayload.getKey().hashCode());
+                System.out.println("My own hash: " +KVServer.ownHash);
+                System.out.println("correct hash: " + bucketHash);
+                System.out.println("key: " + StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
+                System.out.println("==============");
             }
 
             // If cached request, get response msg from cache and send it
@@ -90,7 +99,13 @@ public class KVServerHandler implements Runnable {
                     .setCheckSum(checksum.getValue())
                     .build();
 
-            sendResponse(responseMsg, this.address, this.port);
+            if (requestMessage.hasClientAddress()) {
+                sendResponse(responseMsg,
+                        InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
+                        requestMessage.getClientPort());
+            } else {
+                sendResponse(responseMsg, this.address, this.port);
+            }
             storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -98,7 +113,7 @@ public class KVServerHandler implements Runnable {
     }
 
     private void reRoute(int nodeHash) throws IOException {
-        Node node = nodesMap.getNodesTable().get(nodeHash);
+        Node node = nodesCircle.getNodesTable().get(nodeHash);
         Message.Msg msg = Message.Msg.newBuilder()
                 .setMessageID(requestMessage.getMessageID())
                 .setPayload(requestMessage.getPayload())
@@ -116,27 +131,16 @@ public class KVServerHandler implements Runnable {
     }
 
     private int findBucketHash(int key) {
-        int n = 1 << (nodes.size());
+        int n = 1 << (nodesCircle.getNodesTable().size());
         int keyHash = key % n < 0 ? key % n + n : key % n;
 
-        if (nodesMap.getNodesTable().containsKey(keyHash)) {
+        if (nodesCircle.getNodesTable().containsKey(keyHash)) {
             return keyHash;
         }
 
         // Find successor hash
-        int bucketHash = n;
-        int smallestHash = n;
-        for (int hashInMap: nodesMap.getNodesTable().keySet()) {
-            if (keyHash < hashInMap && hashInMap < bucketHash) {
-                bucketHash = hashInMap;
-            }
-            if (hashInMap < smallestHash) {
-                smallestHash = hashInMap;
-            }
-        }
-
-        bucketHash = bucketHash == n ? smallestHash : bucketHash;
-        return bucketHash;
+        ConcurrentNavigableMap<Integer, Node> tailMap = nodesCircle.getNodesTable().tailMap(keyHash);
+        return tailMap.isEmpty() ? nodesCircle.getNodesTable().firstKey() : tailMap.firstKey();
     }
 
     private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {

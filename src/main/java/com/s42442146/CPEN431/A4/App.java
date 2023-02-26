@@ -1,5 +1,6 @@
 package com.s42442146.CPEN431.A4;
 
+import com.s42442146.CPEN431.A4.model.Distribution.NodesCircle;
 import com.s42442146.CPEN431.A4.model.KVServer;
 import com.s42442146.CPEN431.A4.model.Distribution.Node;
 
@@ -13,7 +14,15 @@ public class App {
     public static void main( String[] args ) {
         try {
             ArrayList<Node> nodes = parseNodes();
-            new KVServer(Integer.parseInt(args[0]), nodes).start();
+
+            int numNodes = nodes.size();
+            int n = 1 << numNodes;
+            for (Node node: nodes) {
+                int hash = (int) (node.getId() % n < 0 ? node.getId() % n + n : node.getId() % n);
+                NodesCircle.getInstance().getNodesTable().put(hash, node);
+            }
+
+            new KVServer(Integer.parseInt(args[0])).start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
