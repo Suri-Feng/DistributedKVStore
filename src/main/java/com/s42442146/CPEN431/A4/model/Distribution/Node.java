@@ -29,7 +29,7 @@ public class Node {
      * @param string String to hash to 64-bit
      * @return
      */
-    private long hashTo64bit(String string) {
+    public static long hashTo64bit(String string) {
         // Take a large prime
         long h = 1125899906842597L;
         int len = string.length();

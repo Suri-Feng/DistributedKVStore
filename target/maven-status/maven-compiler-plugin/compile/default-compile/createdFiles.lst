@@ -7,13 +7,16 @@ ca/NetSysLab/ProtocolBuffers/Message$Msg$Builder.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$Builder.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$Builder.class
 com/s42442146/CPEN431/A4/model/ErrorCode.class
+com/s42442146/CPEN431/A4/Utility/StringUtils.class
 com/s42442146/CPEN431/A4/Utility/MemoryUsage.class
+com/s42442146/CPEN431/A4/model/Distribution/Node.class
 ca/NetSysLab/ProtocolBuffers/Message$Msg$1.class
 com/s42442146/CPEN431/A4/model/KVServerHandler$1.class
 ca/NetSysLab/ProtocolBuffers/Message$Msg.class
 com/s42442146/CPEN431/A4/model/StoreCache.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponseOrBuilder.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$1.class
+com/s42442146/CPEN431/A4/Utility/ByteOrder.class
 com/s42442146/CPEN431/A4/model/Command.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class
@@ -23,3 +26,4 @@ ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequestOrBuilder.class
 com/s42442146/CPEN431/A4/model/KVServer.class
 ca/NetSysLab/ProtocolBuffers/Message.class
+com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.class

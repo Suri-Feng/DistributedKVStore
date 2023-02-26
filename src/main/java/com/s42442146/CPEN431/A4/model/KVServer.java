@@ -2,13 +2,11 @@ package com.s42442146.CPEN431.A4.model;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.*;
 import ca.NetSysLab.ProtocolBuffers.Message;
 import com.s42442146.CPEN431.A4.model.Distribution.Node;
-import com.s42442146.CPEN431.A4.model.Distribution.NodesMap;
+import com.s42442146.CPEN431.A4.model.Distribution.NodesCircle;
 
 public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
@@ -17,28 +15,23 @@ public class KVServer {
     private long currentCacheSize = DEFAULT_CACHE_SIZE;
     private static final int THREAD_POOL_SIZE = 5;
     private final StoreCache storeCache = StoreCache.getInstance();
-    private final NodesMap nodesMap = NodesMap.getInstance();
+    private final NodesCircle nodesCircle = NodesCircle.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    private List<Node> nodes;
     public static int ownHash = -1;
 
-    public KVServer(int port, ArrayList<Node> nodes) {
+    public KVServer(int port) {
         try {
             socket = new DatagramSocket(port);
-            this.nodes = nodes;
 
-            int numNodes = nodes.size();
+            String ip = InetAddress.getLocalHost().getHostAddress() + port;
+            long id = Node.hashTo64bit(ip);
+            int numNodes = nodesCircle.getNodesTable().size();
             int n = 1 << numNodes;
-            for (Node node: nodes) {
-                int hash = (int) (node.getId() % n < 0 ? node.getId() % n + n : node.getId() % n);
-                nodesMap.getNodesTable().put(hash, node);
-                if (port == node.getPort()
-                        && InetAddress.getLocalHost().getHostAddress().equals(node.getAddress().getHostAddress())) {
-                    ownHash = hash;
-                    System.out.println("Server running on port: " + port);
-                }
-            }
+            ownHash = (int) (id % n < 0 ? id % n + n : id % n);
+            Node node  = nodesCircle.getNodesTable().get(ownHash);
+            System.out.println("Server running on port: " + node.getPort());
+
             if (ownHash == -1) {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
             }
@@ -75,7 +68,7 @@ public class KVServer {
                         (Arrays.copyOfRange(buf, 0, packet.getLength()));
 
                 pool.execute(new KVServerHandler(requestMessage,
-                        socket, packet.getAddress(), packet.getPort(), nodes));
+                        socket, packet.getAddress(), packet.getPort()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
