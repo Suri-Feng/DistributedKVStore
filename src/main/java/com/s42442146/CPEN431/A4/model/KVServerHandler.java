@@ -3,14 +3,20 @@ package com.s42442146.CPEN431.A4.model;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.KeyValueResponse;
 import ca.NetSysLab.ProtocolBuffers.Message;
+import com.google.protobuf.ByteString;
 import com.s42442146.CPEN431.A4.Utility.MemoryUsage;
+import com.s42442146.CPEN431.A4.Utility.StringUtils;
+import com.s42442146.CPEN431.A4.model.Distribution.Node;
+import com.s42442146.CPEN431.A4.model.Distribution.NodesMap;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 import java.util.zip.CRC32;
 
 import static com.s42442146.CPEN431.A4.model.Command.*;
@@ -21,17 +27,21 @@ public class KVServerHandler implements Runnable {
     Message.Msg requestMessage;
     InetAddress address;
     int port;
+    List<Node> nodes;
     KVStore store = KVStore.getInstance();
     StoreCache storeCache = StoreCache.getInstance();
+    NodesMap nodesMap = NodesMap.getInstance();
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
                     InetAddress address,
-                    int port) {
+                    int port,
+                    List<Node> nodes) {
         this.socket = socket;
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
+        this.nodes = nodes;
     }
 
     @Override
@@ -42,10 +52,27 @@ public class KVServerHandler implements Runnable {
             KeyValueRequest.KVRequest reqPayload = KeyValueRequest.KVRequest
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
+            if (!requestMessage.hasClientAddress()) {
+                int bucketHash = findBucketHash(reqPayload.getKey().hashCode());
+                // Reroute
+                if (bucketHash != KVServer.ownHash) {
+                    // 感觉reroute出来的key好像都不存在了？？
+                    Node node = nodesMap.getNodesTable().get(bucketHash);
+                    reRoute(bucketHash);
+
+                    System.out.println("==============");
+                    System.out.println(StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
+                    System.out.println("keyHash: " + reqPayload.getKey().hashCode());
+                    System.out.println("Rerouting to port: " + node.getPort());
+                    System.out.println("==============");
+                    return;
+                }
+            }
+
             // If cached request, get response msg from cache and send it
             Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
             if (cachedResponse != null) {
-                sendResponse(cachedResponse);
+                sendResponse(cachedResponse, this.address, this.port);
                 return;
             }
 
@@ -63,14 +90,56 @@ public class KVServerHandler implements Runnable {
                     .setCheckSum(checksum.getValue())
                     .build();
 
-            sendResponse(responseMsg);
+            sendResponse(responseMsg, this.address, this.port);
             storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void sendResponse(Message.Msg msg) throws IOException {
+    private void reRoute(int nodeHash) throws IOException {
+        Node node = nodesMap.getNodesTable().get(nodeHash);
+        Message.Msg msg = Message.Msg.newBuilder()
+                .setMessageID(requestMessage.getMessageID())
+                .setPayload(requestMessage.getPayload())
+                .setCheckSum(requestMessage.getCheckSum())
+                .setClientPort(this.port)
+                .setClientAddress(ByteString.copyFrom(this.address.getAddress()))
+                .build();
+        byte[] responseAsByteArray = msg.toByteArray();
+        DatagramPacket responsePkt = new DatagramPacket(
+                responseAsByteArray,
+                responseAsByteArray.length,
+                node.getAddress(),
+                node.getPort());
+        socket.send(responsePkt);
+    }
+
+    private int findBucketHash(int key) {
+        int n = 1 << (nodes.size());
+        int keyHash = key % n < 0 ? key % n + n : key % n;
+
+        if (nodesMap.getNodesTable().containsKey(keyHash)) {
+            return keyHash;
+        }
+
+        // Find successor hash
+        int bucketHash = n;
+        int smallestHash = n;
+        for (int hashInMap: nodesMap.getNodesTable().keySet()) {
+            if (keyHash < hashInMap && hashInMap < bucketHash) {
+                bucketHash = hashInMap;
+            }
+            if (hashInMap < smallestHash) {
+                smallestHash = hashInMap;
+            }
+        }
+
+        bucketHash = bucketHash == n ? smallestHash : bucketHash;
+        return bucketHash;
+    }
+
+    private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {
         byte[] responseAsByteArray = msg.toByteArray();
         DatagramPacket responsePkt = new DatagramPacket(
                 responseAsByteArray,

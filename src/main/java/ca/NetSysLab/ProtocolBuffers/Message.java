@@ -35,6 +35,28 @@ public final class Message {
      * @return The checkSum.
      */
     long getCheckSum();
+
+    /**
+     * <code>optional bytes clientAddress = 4;</code>
+     * @return Whether the clientAddress field is set.
+     */
+    boolean hasClientAddress();
+    /**
+     * <code>optional bytes clientAddress = 4;</code>
+     * @return The clientAddress.
+     */
+    com.google.protobuf.ByteString getClientAddress();
+
+    /**
+     * <code>optional int32 clientPort = 5;</code>
+     * @return Whether the clientPort field is set.
+     */
+    boolean hasClientPort();
+    /**
+     * <code>optional int32 clientPort = 5;</code>
+     * @return The clientPort.
+     */
+    int getClientPort();
   }
   /**
    * Protobuf type {@code Msg}
@@ -51,6 +73,7 @@ public final class Message {
     private Msg() {
       messageID_ = com.google.protobuf.ByteString.EMPTY;
       payload_ = com.google.protobuf.ByteString.EMPTY;
+      clientAddress_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -78,6 +101,7 @@ public final class Message {
               ca.NetSysLab.ProtocolBuffers.Message.Msg.class, ca.NetSysLab.ProtocolBuffers.Message.Msg.Builder.class);
     }
 
+    private int bitField0_;
     public static final int MESSAGEID_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString messageID_ = com.google.protobuf.ByteString.EMPTY;
     /**
@@ -111,6 +135,44 @@ public final class Message {
       return checkSum_;
     }
 
+    public static final int CLIENTADDRESS_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString clientAddress_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <code>optional bytes clientAddress = 4;</code>
+     * @return Whether the clientAddress field is set.
+     */
+    @java.lang.Override
+    public boolean hasClientAddress() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>optional bytes clientAddress = 4;</code>
+     * @return The clientAddress.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getClientAddress() {
+      return clientAddress_;
+    }
+
+    public static final int CLIENTPORT_FIELD_NUMBER = 5;
+    private int clientPort_ = 0;
+    /**
+     * <code>optional int32 clientPort = 5;</code>
+     * @return Whether the clientPort field is set.
+     */
+    @java.lang.Override
+    public boolean hasClientPort() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <code>optional int32 clientPort = 5;</code>
+     * @return The clientPort.
+     */
+    @java.lang.Override
+    public int getClientPort() {
+      return clientPort_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -134,6 +196,12 @@ public final class Message {
       if (checkSum_ != 0L) {
         output.writeFixed64(3, checkSum_);
       }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeBytes(4, clientAddress_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeInt32(5, clientPort_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -154,6 +222,14 @@ public final class Message {
       if (checkSum_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed64Size(3, checkSum_);
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, clientAddress_);
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, clientPort_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -176,6 +252,16 @@ public final class Message {
           .equals(other.getPayload())) return false;
       if (getCheckSum()
           != other.getCheckSum()) return false;
+      if (hasClientAddress() != other.hasClientAddress()) return false;
+      if (hasClientAddress()) {
+        if (!getClientAddress()
+            .equals(other.getClientAddress())) return false;
+      }
+      if (hasClientPort() != other.hasClientPort()) return false;
+      if (hasClientPort()) {
+        if (getClientPort()
+            != other.getClientPort()) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -194,6 +280,14 @@ public final class Message {
       hash = (37 * hash) + CHECKSUM_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCheckSum());
+      if (hasClientAddress()) {
+        hash = (37 * hash) + CLIENTADDRESS_FIELD_NUMBER;
+        hash = (53 * hash) + getClientAddress().hashCode();
+      }
+      if (hasClientPort()) {
+        hash = (37 * hash) + CLIENTPORT_FIELD_NUMBER;
+        hash = (53 * hash) + getClientPort();
+      }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -326,6 +420,8 @@ public final class Message {
         messageID_ = com.google.protobuf.ByteString.EMPTY;
         payload_ = com.google.protobuf.ByteString.EMPTY;
         checkSum_ = 0L;
+        clientAddress_ = com.google.protobuf.ByteString.EMPTY;
+        clientPort_ = 0;
         return this;
       }
 
@@ -368,6 +464,16 @@ public final class Message {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.checkSum_ = checkSum_;
         }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.clientAddress_ = clientAddress_;
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.clientPort_ = clientPort_;
+          to_bitField0_ |= 0x00000002;
+        }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -423,6 +529,12 @@ public final class Message {
         if (other.getCheckSum() != 0L) {
           setCheckSum(other.getCheckSum());
         }
+        if (other.hasClientAddress()) {
+          setClientAddress(other.getClientAddress());
+        }
+        if (other.hasClientPort()) {
+          setClientPort(other.getClientPort());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -464,6 +576,16 @@ public final class Message {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 25
+              case 34: {
+                clientAddress_ = input.readBytes();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              case 40: {
+                clientPort_ = input.readInt32();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 40
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -576,6 +698,86 @@ public final class Message {
         onChanged();
         return this;
       }
+
+      private com.google.protobuf.ByteString clientAddress_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes clientAddress = 4;</code>
+       * @return Whether the clientAddress field is set.
+       */
+      @java.lang.Override
+      public boolean hasClientAddress() {
+        return ((bitField0_ & 0x00000008) != 0);
+      }
+      /**
+       * <code>optional bytes clientAddress = 4;</code>
+       * @return The clientAddress.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getClientAddress() {
+        return clientAddress_;
+      }
+      /**
+       * <code>optional bytes clientAddress = 4;</code>
+       * @param value The clientAddress to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientAddress(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        clientAddress_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes clientAddress = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientAddress() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        clientAddress_ = getDefaultInstance().getClientAddress();
+        onChanged();
+        return this;
+      }
+
+      private int clientPort_ ;
+      /**
+       * <code>optional int32 clientPort = 5;</code>
+       * @return Whether the clientPort field is set.
+       */
+      @java.lang.Override
+      public boolean hasClientPort() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>optional int32 clientPort = 5;</code>
+       * @return The clientPort.
+       */
+      @java.lang.Override
+      public int getClientPort() {
+        return clientPort_;
+      }
+      /**
+       * <code>optional int32 clientPort = 5;</code>
+       * @param value The clientPort to set.
+       * @return This builder for chaining.
+       */
+      public Builder setClientPort(int value) {
+        
+        clientPort_ = value;
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 clientPort = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearClientPort() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        clientPort_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -654,10 +856,12 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rMessage.proto\";\n\003Msg\022\021\n\tmessageID\030\001 \001(" +
-      "\014\022\017\n\007payload\030\002 \001(\014\022\020\n\010checkSum\030\003 \001(\006B\'\n\034" +
-      "ca.NetSysLab.ProtocolBuffersB\007Messageb\006p" +
-      "roto3"
+      "\n\rMessage.proto\"\221\001\n\003Msg\022\021\n\tmessageID\030\001 \001" +
+      "(\014\022\017\n\007payload\030\002 \001(\014\022\020\n\010checkSum\030\003 \001(\006\022\032\n" +
+      "\rclientAddress\030\004 \001(\014H\000\210\001\001\022\027\n\nclientPort\030" +
+      "\005 \001(\005H\001\210\001\001B\020\n\016_clientAddressB\r\n\013_clientP" +
+      "ortB\'\n\034ca.NetSysLab.ProtocolBuffersB\007Mes" +
+      "sageb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -668,7 +872,7 @@ public final class Message {
     internal_static_Msg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Msg_descriptor,
-        new java.lang.String[] { "MessageID", "Payload", "CheckSum", });
+        new java.lang.String[] { "MessageID", "Payload", "CheckSum", "ClientAddress", "ClientPort", "ClientAddress", "ClientPort", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
