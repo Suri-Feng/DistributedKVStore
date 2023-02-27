@@ -19,7 +19,6 @@ ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$1.class
 com/s42442146/CPEN431/A4/Utility/ByteOrder.class
 com/s42442146/CPEN431/A4/model/Command.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class
-com/s42442146/CPEN431/A4/model/Distribution/NodesMap.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class
 com/s42442146/CPEN431/A4/model/KVStore.class
 com/s42442146/CPEN431/A4/model/ValueV.class
