@@ -16,7 +16,6 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.zip.CRC32;
 
 import static com.s42442146.CPEN431.A4.model.Command.*;
@@ -49,35 +48,20 @@ public class KVServerHandler implements Runnable {
             KeyValueRequest.KVRequest reqPayload = KeyValueRequest.KVRequest
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
-            if (!requestMessage.hasClientAddress()) {
-                System.out.println("N0 client address");
+            int command = reqPayload.getCommand();
+            if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
                 int bucketHash = findBucketHash(reqPayload.getKey().hashCode());
                 // Reroute
                 if (bucketHash != KVServer.ownHash) {
-                    // 感觉reroute出来的key好像都不存在了？？
                     Node node = nodesCircle.getNodesTable().get(bucketHash);
                     System.out.println("==============");
-                    System.out.println("own hash: " + KVServer.ownHash);
-                    System.out.println("correct hash: " + bucketHash);
-                    System.out.println(StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
-                    System.out.println("keyHash: " + reqPayload.getKey().hashCode());
-                    System.out.println("Rerouting to port: " + node.getPort());
+                    System.out.println("Rerouting to port: " + node.getPort() + " Command: " + reqPayload.getCommand());
                     System.out.println("==============");
-
                     reRoute(bucketHash);
                     return;
                 }
             }
-            else {
-                System.out.println("==============");
-                System.out.println("Rerouted!!!!");
-                int bucketHash = findBucketHash(reqPayload.getKey().hashCode());
-                System.out.println("My own hash: " +KVServer.ownHash);
-                System.out.println("correct hash: " + bucketHash);
-                System.out.println("key: " + StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
-                System.out.println("==============");
-            }
-
+            // 1，3之内但是我的key，或者就是invalid或者不用route的指令
             // If cached request, get response msg from cache and send it
             Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
             if (cachedResponse != null) {
@@ -103,8 +87,14 @@ public class KVServerHandler implements Runnable {
                 sendResponse(responseMsg,
                         InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
                         requestMessage.getClientPort());
+                System.out.println("==============");
+                System.out.println("rerouted from: " + port + " Command: " + reqPayload.getCommand() + ". Now Sending to  " + requestMessage.getClientPort());
+                System.out.println("==============");
             } else {
                 sendResponse(responseMsg, this.address, this.port);
+                System.out.println("==============");
+                System.out.println("From client: " + this.port + "。 Sending to port: " + this.port + " Command code: " + reqPayload.getCommand());
+                System.out.println("==============");
             }
             storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
@@ -134,11 +124,6 @@ public class KVServerHandler implements Runnable {
         int n = 1 << (nodesCircle.getNodesTable().size());
         int keyHash = key % n < 0 ? key % n + n : key % n;
 
-        if (nodesCircle.getNodesTable().containsKey(keyHash)) {
-            return keyHash;
-        }
-
-        // Find successor hash
         ConcurrentNavigableMap<Integer, Node> tailMap = nodesCircle.getNodesTable().tailMap(keyHash);
         return tailMap.isEmpty() ? nodesCircle.getNodesTable().firstKey() : tailMap.firstKey();
     }

@@ -30,9 +30,9 @@ public class KVServer {
             int n = 1 << numNodes;
             ownHash = (int) (id % n < 0 ? id % n + n : id % n);
             Node node  = nodesCircle.getNodesTable().get(ownHash);
-            System.out.println("Server running on port: " + node.getPort());
-
-            if (ownHash == -1) {
+            if (node != null) {
+                System.out.println("Server running on port: " + node.getPort());
+            } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
             }
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class KVServer {
         // receive request
         while (true) {
             resizeCache();
-            byte[] buf = new byte[13000];
+            byte[] buf = new byte[15000];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
             try {

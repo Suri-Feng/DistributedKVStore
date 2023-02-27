@@ -19,6 +19,8 @@ public class App {
             int n = 1 << numNodes;
             for (Node node: nodes) {
                 int hash = (int) (node.getId() % n < 0 ? node.getId() % n + n : node.getId() % n);
+                System.out.println("hash: " + hash);
+                System.out.println("port :" + node.getPort());
                 NodesCircle.getInstance().getNodesTable().put(hash, node);
             }
 
