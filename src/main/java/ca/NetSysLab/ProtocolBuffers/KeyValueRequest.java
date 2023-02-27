@@ -56,6 +56,23 @@ public final class KeyValueRequest {
      * @return The version.
      */
     int getVersion();
+
+    /**
+     * <code>repeated uint64 heartbeat = 5;</code>
+     * @return A list containing the heartbeat.
+     */
+    java.util.List<java.lang.Long> getHeartbeatList();
+    /**
+     * <code>repeated uint64 heartbeat = 5;</code>
+     * @return The count of heartbeat.
+     */
+    int getHeartbeatCount();
+    /**
+     * <code>repeated uint64 heartbeat = 5;</code>
+     * @param index The index of the element to return.
+     * @return The heartbeat at the given index.
+     */
+    long getHeartbeat(int index);
   }
   /**
    * Protobuf type {@code KVRequest}
@@ -72,6 +89,7 @@ public final class KeyValueRequest {
     private KVRequest() {
       key_ = com.google.protobuf.ByteString.EMPTY;
       value_ = com.google.protobuf.ByteString.EMPTY;
+      heartbeat_ = emptyLongList();
     }
 
     @java.lang.Override
@@ -168,6 +186,35 @@ public final class KeyValueRequest {
       return version_;
     }
 
+    public static final int HEARTBEAT_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.Internal.LongList heartbeat_;
+    /**
+     * <code>repeated uint64 heartbeat = 5;</code>
+     * @return A list containing the heartbeat.
+     */
+    @java.lang.Override
+    public java.util.List<java.lang.Long>
+        getHeartbeatList() {
+      return heartbeat_;
+    }
+    /**
+     * <code>repeated uint64 heartbeat = 5;</code>
+     * @return The count of heartbeat.
+     */
+    public int getHeartbeatCount() {
+      return heartbeat_.size();
+    }
+    /**
+     * <code>repeated uint64 heartbeat = 5;</code>
+     * @param index The index of the element to return.
+     * @return The heartbeat at the given index.
+     */
+    public long getHeartbeat(int index) {
+      return heartbeat_.getLong(index);
+    }
+    private int heartbeatMemoizedSerializedSize = -1;
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -182,6 +229,7 @@ public final class KeyValueRequest {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (command_ != 0) {
         output.writeUInt32(1, command_);
       }
@@ -193,6 +241,13 @@ public final class KeyValueRequest {
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         output.writeInt32(4, version_);
+      }
+      if (getHeartbeatList().size() > 0) {
+        output.writeUInt32NoTag(42);
+        output.writeUInt32NoTag(heartbeatMemoizedSerializedSize);
+      }
+      for (int i = 0; i < heartbeat_.size(); i++) {
+        output.writeUInt64NoTag(heartbeat_.getLong(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -218,6 +273,20 @@ public final class KeyValueRequest {
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, version_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < heartbeat_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeUInt64SizeNoTag(heartbeat_.getLong(i));
+        }
+        size += dataSize;
+        if (!getHeartbeatList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        heartbeatMemoizedSerializedSize = dataSize;
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -251,6 +320,8 @@ public final class KeyValueRequest {
         if (getVersion()
             != other.getVersion()) return false;
       }
+      if (!getHeartbeatList()
+          .equals(other.getHeartbeatList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -275,6 +346,10 @@ public final class KeyValueRequest {
       if (hasVersion()) {
         hash = (37 * hash) + VERSION_FIELD_NUMBER;
         hash = (53 * hash) + getVersion();
+      }
+      if (getHeartbeatCount() > 0) {
+        hash = (37 * hash) + HEARTBEAT_FIELD_NUMBER;
+        hash = (53 * hash) + getHeartbeatList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -409,6 +484,7 @@ public final class KeyValueRequest {
         key_ = com.google.protobuf.ByteString.EMPTY;
         value_ = com.google.protobuf.ByteString.EMPTY;
         version_ = 0;
+        heartbeat_ = emptyLongList();
         return this;
       }
 
@@ -435,9 +511,18 @@ public final class KeyValueRequest {
       @java.lang.Override
       public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest buildPartial() {
         ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest result = new ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest(this);
+        buildPartialRepeatedFields(result);
         if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartialRepeatedFields(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest result) {
+        if (((bitField0_ & 0x00000010) != 0)) {
+          heartbeat_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.heartbeat_ = heartbeat_;
       }
 
       private void buildPartial0(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest result) {
@@ -517,6 +602,16 @@ public final class KeyValueRequest {
         if (other.hasVersion()) {
           setVersion(other.getVersion());
         }
+        if (!other.heartbeat_.isEmpty()) {
+          if (heartbeat_.isEmpty()) {
+            heartbeat_ = other.heartbeat_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureHeartbeatIsMutable();
+            heartbeat_.addAll(other.heartbeat_);
+          }
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -563,6 +658,22 @@ public final class KeyValueRequest {
                 bitField0_ |= 0x00000008;
                 break;
               } // case 32
+              case 40: {
+                long v = input.readUInt64();
+                ensureHeartbeatIsMutable();
+                heartbeat_.addLong(v);
+                break;
+              } // case 40
+              case 42: {
+                int length = input.readRawVarint32();
+                int limit = input.pushLimit(length);
+                ensureHeartbeatIsMutable();
+                while (input.getBytesUntilLimit() > 0) {
+                  heartbeat_.addLong(input.readUInt64());
+                }
+                input.popLimit(limit);
+                break;
+              } // case 42
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -731,6 +842,87 @@ public final class KeyValueRequest {
         onChanged();
         return this;
       }
+
+      private com.google.protobuf.Internal.LongList heartbeat_ = emptyLongList();
+      private void ensureHeartbeatIsMutable() {
+        if (!((bitField0_ & 0x00000010) != 0)) {
+          heartbeat_ = mutableCopy(heartbeat_);
+          bitField0_ |= 0x00000010;
+        }
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @return A list containing the heartbeat.
+       */
+      public java.util.List<java.lang.Long>
+          getHeartbeatList() {
+        return ((bitField0_ & 0x00000010) != 0) ?
+                 java.util.Collections.unmodifiableList(heartbeat_) : heartbeat_;
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @return The count of heartbeat.
+       */
+      public int getHeartbeatCount() {
+        return heartbeat_.size();
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @param index The index of the element to return.
+       * @return The heartbeat at the given index.
+       */
+      public long getHeartbeat(int index) {
+        return heartbeat_.getLong(index);
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @param index The index to set the value at.
+       * @param value The heartbeat to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHeartbeat(
+          int index, long value) {
+        
+        ensureHeartbeatIsMutable();
+        heartbeat_.setLong(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @param value The heartbeat to add.
+       * @return This builder for chaining.
+       */
+      public Builder addHeartbeat(long value) {
+        
+        ensureHeartbeatIsMutable();
+        heartbeat_.addLong(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @param values The heartbeat to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllHeartbeat(
+          java.lang.Iterable<? extends java.lang.Long> values) {
+        ensureHeartbeatIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, heartbeat_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated uint64 heartbeat = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHeartbeat() {
+        heartbeat_ = emptyLongList();
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -809,11 +1001,12 @@ public final class KeyValueRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025KeyValueRequest.proto\"v\n\tKVRequest\022\017\n\007" +
-      "command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005value" +
-      "\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001B\006\n\004_ke" +
-      "yB\010\n\006_valueB\n\n\010_versionB/\n\034ca.NetSysLab." +
-      "ProtocolBuffersB\017KeyValueRequestb\006proto3"
+      "\n\025KeyValueRequest.proto\"\211\001\n\tKVRequest\022\017\n" +
+      "\007command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005valu" +
+      "e\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\021\n\the" +
+      "artbeat\030\005 \003(\004B\006\n\004_keyB\010\n\006_valueB\n\n\010_vers" +
+      "ionB/\n\034ca.NetSysLab.ProtocolBuffersB\017Key" +
+      "ValueRequestb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -824,7 +1017,7 @@ public final class KeyValueRequest {
     internal_static_KVRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KVRequest_descriptor,
-        new java.lang.String[] { "Command", "Key", "Value", "Version", "Key", "Value", "Version", });
+        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Key", "Value", "Version", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

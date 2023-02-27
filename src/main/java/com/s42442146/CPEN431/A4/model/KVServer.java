@@ -5,8 +5,10 @@ import java.net.*;
 import java.util.Arrays;
 import java.util.concurrent.*;
 import ca.NetSysLab.ProtocolBuffers.Message;
+import com.s42442146.CPEN431.A4.model.Distribution.EpidemicServer;
 import com.s42442146.CPEN431.A4.model.Distribution.Node;
 import com.s42442146.CPEN431.A4.model.Distribution.NodesCircle;
+import com.s42442146.CPEN431.A4.model.Store.StoreCache;
 
 public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
@@ -18,22 +20,29 @@ public class KVServer {
     private final NodesCircle nodesCircle = NodesCircle.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    public static int ownHash = -1;
+    private final ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
 
     public KVServer(int port) {
         try {
             socket = new DatagramSocket(port);
-
             String ip = InetAddress.getLocalHost().getHostAddress() + port;
-            long id = Node.hashTo64bit(ip);
-            int numNodes = nodesCircle.getNodesTable().size();
-            int n = 1 << numNodes;
-            ownHash = (int) (id % n < 0 ? id % n + n : id % n);
-            Node node  = nodesCircle.getNodesTable().get(ownHash);
+            Node node = nodesCircle.getNodeFromIp(ip);
+
+            // Make sure the current node is in the nodes list
             if (node != null) {
                 System.out.println("Server running on port: " + node.getPort());
+                nodesCircle.setThisNodeHash(nodesCircle.getCircleHashFromNodeHash(node.getHash()));
+                nodesCircle.setThisNodeId(node.getId());
+
+                // start epidemic server
+                EpidemicServer server = new EpidemicServer(socket, node.getId());
+                epidemicService.scheduleAtFixedRate(
+                        server,
+                        0, 5, TimeUnit.SECONDS);
+//                pool.execute(new EpidemicServer(socket, node.getId()));
             } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
+                System.exit(0);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

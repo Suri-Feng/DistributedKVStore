@@ -5,17 +5,19 @@ import ca.NetSysLab.ProtocolBuffers.KeyValueResponse;
 import ca.NetSysLab.ProtocolBuffers.Message;
 import com.google.protobuf.ByteString;
 import com.s42442146.CPEN431.A4.Utility.MemoryUsage;
-import com.s42442146.CPEN431.A4.Utility.StringUtils;
+import com.s42442146.CPEN431.A4.model.Distribution.HeartbeatsManager;
 import com.s42442146.CPEN431.A4.model.Distribution.Node;
 import com.s42442146.CPEN431.A4.model.Distribution.NodesCircle;
+import com.s42442146.CPEN431.A4.model.Store.KVStore;
+import com.s42442146.CPEN431.A4.model.Store.StoreCache;
+import com.s42442146.CPEN431.A4.model.Store.ValueV;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.*;
 import java.util.zip.CRC32;
 
 import static com.s42442146.CPEN431.A4.model.Command.*;
@@ -29,6 +31,8 @@ public class KVServerHandler implements Runnable {
     KVStore store = KVStore.getInstance();
     StoreCache storeCache = StoreCache.getInstance();
     NodesCircle nodesCircle = NodesCircle.getInstance();
+
+    HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
@@ -49,23 +53,30 @@ public class KVServerHandler implements Runnable {
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
             int command = reqPayload.getCommand();
+
+            if (command == 10) {
+                System.out.println("=====================");
+                heartbeatsManager.updateHeartbeats(reqPayload.getHeartbeatList());
+                return;
+            }
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
-                int bucketHash = findBucketHash(reqPayload.getKey().hashCode());
+                int bucketHash = nodesCircle.findRingKeyByHash(reqPayload.getKey().hashCode());
                 // Reroute
-                if (bucketHash != KVServer.ownHash) {
-                    Node node = nodesCircle.getNodesTable().get(bucketHash);
-                    System.out.println("==============");
-                    System.out.println("Rerouting to port: " + node.getPort() + " Command: " + reqPayload.getCommand());
-                    System.out.println("==============");
+                if (bucketHash != nodesCircle.getThisNodeHash()) {
+                    Node node = nodesCircle.getCircle().get(bucketHash);
+//                    System.out.println("==============");
+//                    System.out.println("Rerouting to port: " + node.getPort() + " Command: " + reqPayload.getCommand() + " ID: " + StringUtils.byteArrayToHexString(requestMessage.getMessageID().toByteArray() )
+//                    + " setting Client port: " + this.port);
+//                    System.out.println("==============");
                     reRoute(bucketHash);
                     return;
                 }
             }
-            // 1，3之内但是我的key，或者就是invalid或者不用route的指令
+
             // If cached request, get response msg from cache and send it
             Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
             if (cachedResponse != null) {
-                sendResponse(cachedResponse, this.address, this.port);
+                sendResponse(cachedResponse, requestMessage);
                 return;
             }
 
@@ -83,19 +94,7 @@ public class KVServerHandler implements Runnable {
                     .setCheckSum(checksum.getValue())
                     .build();
 
-            if (requestMessage.hasClientAddress()) {
-                sendResponse(responseMsg,
-                        InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
-                        requestMessage.getClientPort());
-                System.out.println("==============");
-                System.out.println("rerouted from: " + port + " Command: " + reqPayload.getCommand() + ". Now Sending to  " + requestMessage.getClientPort());
-                System.out.println("==============");
-            } else {
-                sendResponse(responseMsg, this.address, this.port);
-                System.out.println("==============");
-                System.out.println("From client: " + this.port + "。 Sending to port: " + this.port + " Command code: " + reqPayload.getCommand());
-                System.out.println("==============");
-            }
+            sendResponse(responseMsg, requestMessage);
             storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -103,7 +102,7 @@ public class KVServerHandler implements Runnable {
     }
 
     private void reRoute(int nodeHash) throws IOException {
-        Node node = nodesCircle.getNodesTable().get(nodeHash);
+        Node node = nodesCircle.getCircle().get(nodeHash);
         Message.Msg msg = Message.Msg.newBuilder()
                 .setMessageID(requestMessage.getMessageID())
                 .setPayload(requestMessage.getPayload())
@@ -120,21 +119,28 @@ public class KVServerHandler implements Runnable {
         socket.send(responsePkt);
     }
 
-    private int findBucketHash(int key) {
-        int n = 1 << (nodesCircle.getNodesTable().size());
-        int keyHash = key % n < 0 ? key % n + n : key % n;
-
-        ConcurrentNavigableMap<Integer, Node> tailMap = nodesCircle.getNodesTable().tailMap(keyHash);
-        return tailMap.isEmpty() ? nodesCircle.getNodesTable().firstKey() : tailMap.firstKey();
-    }
-
-    private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {
+    private void sendResponse(Message.Msg msg, Message.Msg requestMessage) throws IOException {
         byte[] responseAsByteArray = msg.toByteArray();
-        DatagramPacket responsePkt = new DatagramPacket(
-                responseAsByteArray,
-                responseAsByteArray.length,
-                address,
-                port);
+        DatagramPacket responsePkt;
+        if (requestMessage.hasClientAddress()) {
+//            System.out.println("==============");
+//            System.out.println("rerouted from: " + port + " id: " + requestMessage.getMessageID() + ". Now Sending to  " + requestMessage.getClientPort());
+//            System.out.println("==============");
+            responsePkt = new DatagramPacket(
+                    responseAsByteArray,
+                    responseAsByteArray.length,
+                    InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
+                    requestMessage.getClientPort());
+        } else {
+//            System.out.println("==============");
+//            System.out.println("From client: " + this.port + "。 Sending to port: " + this.port + " id" + requestMessage.getMessageID());
+//            System.out.println("==============");
+            responsePkt = new DatagramPacket(
+                    responseAsByteArray,
+                    responseAsByteArray.length,
+                    this.address,
+                    this.port);
+        }
         socket.send(responsePkt);
     }
 
@@ -237,6 +243,14 @@ public class KVServerHandler implements Runnable {
         storeCache.clearCache();
         Runtime.getRuntime().freeMemory();
         System.gc();
+    }
+
+    private boolean verifyChecksum(Message.Msg request) {
+        CRC32 check = new CRC32();
+        check.update(request.getMessageID().toByteArray());
+        check.update(request.getPayload().toByteArray());
+
+        return check.getValue() == request.getCheckSum();
     }
 
     private boolean isMemoryOverload() {

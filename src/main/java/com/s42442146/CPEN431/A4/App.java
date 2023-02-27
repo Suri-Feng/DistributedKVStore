@@ -9,20 +9,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 public class App {
     public static void main( String[] args ) {
         try {
             ArrayList<Node> nodes = parseNodes();
-
-            int numNodes = nodes.size();
-            int n = 1 << numNodes;
-            for (Node node: nodes) {
-                int hash = (int) (node.getId() % n < 0 ? node.getId() % n + n : node.getId() % n);
-                System.out.println("hash: " + hash);
-                System.out.println("port :" + node.getPort());
-                NodesCircle.getInstance().getNodesTable().put(hash, node);
-            }
+            NodesCircle.getInstance().setNodeList(nodes);
+            NodesCircle.getInstance().buildHashCircle();
 
             new KVServer(Integer.parseInt(args[0])).start();
         } catch (IOException e) {
@@ -36,9 +28,10 @@ public class App {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line = bufferedReader.readLine();
+        int id = 0;
         while (line != null) {
             String[] args = line.split(":");
-            Node node = new Node(args[0], Integer.parseInt(args[1]));
+            Node node = new Node(args[0], Integer.parseInt(args[1]), id++);
             nodes.add(node);
             line = bufferedReader.readLine();
         }

@@ -5,19 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="wuyu">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/EpidemicServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/HeartbeatsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/A4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/A4EC2.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/nodes-list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nodes-list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Store/KVStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/StoreCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Store/StoreCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/ValueV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Store/ValueV.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/protobuf/KeyValueRequest.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/protobuf/KeyValueRequest.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/protobuf/java/Message.proto" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVStore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/StoreCache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/ValueV.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +96,7 @@
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.s42442146.CPEN431.A4.App" />
       <module name="cpen431_2023_project_g3" />
-      <option name="PROGRAM_PARAMETERS" value="12345" />
+      <option name="PROGRAM_PARAMETERS" value="12346" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -112,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677444015123</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="wuyu">
+      <created>1677457873142</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1677457873142</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
