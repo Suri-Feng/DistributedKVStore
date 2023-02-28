@@ -15,7 +15,6 @@ public class App {
             ArrayList<Node> nodes = parseNodes();
             NodesCircle.getInstance().setNodeList(nodes);
             NodesCircle.getInstance().buildHashCircle();
-
             new KVServer(Integer.parseInt(args[0])).start();
         } catch (IOException e) {
             throw new RuntimeException(e);

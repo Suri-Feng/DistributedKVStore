@@ -7,22 +7,28 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 public class NodesCircle {
     private final static NodesCircle instance = new NodesCircle();
-    private ConcurrentSkipListMap<Integer, Node> circle;
+    private final ConcurrentSkipListMap<Integer, Node> circle;
     public static NodesCircle getInstance() {
         return instance;
     }
-    private ConcurrentHashMap<Integer, Node> nodesList;
+    private final ConcurrentHashMap<Integer, Node> aliveNodesList;
+    private final ConcurrentHashMap<Integer, Node> allNodesList;
+    private final ConcurrentHashMap<Integer, Node> deadNodesList;
+
+
     private int startupNodesSize;
     private int thisNodeId;
-    private int thisNodeHash;
+    private int thisNodeRingHash;
     private NodesCircle() {
         circle = new ConcurrentSkipListMap<>();
-        nodesList = new ConcurrentHashMap<>();
-        thisNodeHash = -1;
+        aliveNodesList = new ConcurrentHashMap<>();
+        allNodesList = new ConcurrentHashMap<>();
+        deadNodesList = new ConcurrentHashMap<>();
+        thisNodeRingHash = -1;
         thisNodeId = -1;
     }
     public void buildHashCircle() {
-        for (Node node: nodesList.values()) {
+        for (Node node: aliveNodesList.values()) {
             int hash = getCircleHashFromNodeHash(node.getHash());
             circle.put(hash, node);
         }
@@ -32,31 +38,37 @@ public class NodesCircle {
         this.thisNodeId = id;
     }
 
-    public void setThisNodeHash(int hash) {
-        this.thisNodeHash = hash;
+    public void setThisNodeRingHash(int hash) {
+        this.thisNodeRingHash = hash;
     }
 
     public int getThisNodeId() {
         return thisNodeId;
     }
 
-    public int getThisNodeHash() {
-        return thisNodeHash;
+    public int getThisNodeRingHash() {
+        return thisNodeRingHash;
     }
 
     public void setNodeList(ArrayList<Node> list) {
         for (Node node: list) {
-            this.nodesList.put(node.getId(), node);
+            this.aliveNodesList.put(node.getId(), node);
+            this.allNodesList.put(node.getId(), node);
+
         }
-        this.startupNodesSize = this.nodesList.size();
+        this.startupNodesSize = this.aliveNodesList.size();
     }
 
     public int getStartupNodesSize() {
-        return startupNodesSize;
+        return this.startupNodesSize;
+    }
+
+    public int getCurrentNodeSize() {
+        return this.aliveNodesList.size();
     }
 
     public Node getNodeById(int id) {
-        return nodesList.get(id);
+        return allNodesList.get(id);
     }
 
     public ConcurrentSkipListMap<Integer, Node> getCircle() {
@@ -64,7 +76,7 @@ public class NodesCircle {
     }
 
     public int findRingKeyByHash(int key) {
-        int n = 1 << (nodesList.size());
+        int n = 1 << (aliveNodesList.size());
         int keyHash = key % n < 0 ? key % n + n : key % n;
 
         ConcurrentNavigableMap<Integer, Node> tailMap = circle.tailMap(keyHash);
@@ -74,26 +86,43 @@ public class NodesCircle {
     /**
      * Gets hash on circle corresponding to a node hash
      * @param hash hash of a node
-     * @return
      */
     public int getCircleHashFromNodeHash(long hash) {
-        int numNodes = nodesList.size();
+        int numNodes = aliveNodesList.size();
         int n = 1 << numNodes;
         return  (int) (hash % n < 0 ? hash % n + n : hash % n);
     }
-    public void removeNode(int key) {
-        Node node = circle.get(key);
-        nodesList.remove(node.getId());
-        circle.remove(key);
+    public void removeNode(int ringKey) {
+        Node node = circle.get(ringKey);
+        aliveNodesList.remove(node.getId());
+        circle.remove(ringKey);
+        deadNodesList.put(node.getId(), node);
+    }
+
+    public void rejoinNode(Node node) {
+        aliveNodesList.put(node.getId(), node);
+        int hash = getCircleHashFromNodeHash(node.getHash());
+        circle.put(hash, node);
+        deadNodesList.remove(node.getId());
     }
 
     /**
      * Gets Node corresponding to an ip
      * @param ip ip of a node in the format of address + port
-     * @return
      */
     public Node getNodeFromIp(String ip) {
         long id = Node.hashTo64bit(ip);
         return getCircle().get(getCircleHashFromNodeHash(id));
+    }
+
+    public ConcurrentHashMap<Integer, Node> getAliveNodesList() {
+        return aliveNodesList;
+    }
+
+    public ConcurrentHashMap<Integer, Node> getAllNodesList() {
+        return allNodesList;
+    }
+    public ConcurrentHashMap<Integer, Node> getDeadNodesList() {
+        return deadNodesList;
     }
 }

@@ -47,6 +47,7 @@ public class KVServerHandler implements Runnable {
     @Override
     public void run() {
         try {
+//            heartbeatsManager.recoverLiveNodes();
             byte[] id = requestMessage.getMessageID().toByteArray();
             // Request payload from client
             KeyValueRequest.KVRequest reqPayload = KeyValueRequest.KVRequest
@@ -55,20 +56,25 @@ public class KVServerHandler implements Runnable {
             int command = reqPayload.getCommand();
 
             if (command == 10) {
-                System.out.println("=====================");
                 heartbeatsManager.updateHeartbeats(reqPayload.getHeartbeatList());
                 return;
             }
+
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
-                int bucketHash = nodesCircle.findRingKeyByHash(reqPayload.getKey().hashCode());
-                // Reroute
-                if (bucketHash != nodesCircle.getThisNodeHash()) {
-                    Node node = nodesCircle.getCircle().get(bucketHash);
-//                    System.out.println("==============");
-//                    System.out.println("Rerouting to port: " + node.getPort() + " Command: " + reqPayload.getCommand() + " ID: " + StringUtils.byteArrayToHexString(requestMessage.getMessageID().toByteArray() )
-//                    + " setting Client port: " + this.port);
-//                    System.out.println("==============");
-                    reRoute(bucketHash);
+                int correctNodeRingHash = -1;
+                Node node = null;
+                // Find correct node and Reroute
+                do {
+                    if (correctNodeRingHash != -1) {
+                        nodesCircle.removeNode(correctNodeRingHash);
+                        System.out.println("Dead node: " + node.getPort() + " Num servers left: " + nodesCircle.getCurrentNodeSize());
+                    }
+                    correctNodeRingHash = nodesCircle.findRingKeyByHash(reqPayload.getKey().hashCode());
+                    node = nodesCircle.getCircle().get(correctNodeRingHash);
+                } while (!heartbeatsManager.isNodeAlive(node.getId()));
+
+                if (correctNodeRingHash != nodesCircle.getThisNodeRingHash()) {
+                    reRoute(correctNodeRingHash);
                     return;
                 }
             }
@@ -124,7 +130,9 @@ public class KVServerHandler implements Runnable {
         DatagramPacket responsePkt;
         if (requestMessage.hasClientAddress()) {
 //            System.out.println("==============");
-//            System.out.println("rerouted from: " + port + " id: " + requestMessage.getMessageID() + ". Now Sending to  " + requestMessage.getClientPort());
+//            System.out.println("ID: "
+//                    + StringUtils.byteArrayToHexString(requestMessage.getMessageID().toByteArray() ));
+////            System.out.println("rerouted from: " + port  + ". Now Sending to  " + requestMessage.getClientPort());
 //            System.out.println("==============");
             responsePkt = new DatagramPacket(
                     responseAsByteArray,
@@ -133,7 +141,7 @@ public class KVServerHandler implements Runnable {
                     requestMessage.getClientPort());
         } else {
 //            System.out.println("==============");
-//            System.out.println("From client: " + this.port + "。 Sending to port: " + this.port + " id" + requestMessage.getMessageID());
+//            System.out.println("From client: " + this.port + "。 Sending to port: " + this.port);
 //            System.out.println("==============");
             responsePkt = new DatagramPacket(
                     responseAsByteArray,
@@ -212,6 +220,7 @@ public class KVServerHandler implements Runnable {
                         .setErrCode(SUCCESSFUL.getCode())
                         .build();
             case SHUTDOWN:
+                System.out.println("Shutting down!!!!!!!");
                 System.exit(0);
             case WIPE_OUT:
                 wipeOut();
@@ -243,14 +252,6 @@ public class KVServerHandler implements Runnable {
         storeCache.clearCache();
         Runtime.getRuntime().freeMemory();
         System.gc();
-    }
-
-    private boolean verifyChecksum(Message.Msg request) {
-        CRC32 check = new CRC32();
-        check.update(request.getMessageID().toByteArray());
-        check.update(request.getPayload().toByteArray());
-
-        return check.getValue() == request.getCheckSum();
     }
 
     private boolean isMemoryOverload() {

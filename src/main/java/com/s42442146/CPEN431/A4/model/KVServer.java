@@ -17,29 +17,27 @@ public class KVServer {
     private long currentCacheSize = DEFAULT_CACHE_SIZE;
     private static final int THREAD_POOL_SIZE = 5;
     private final StoreCache storeCache = StoreCache.getInstance();
-    private final NodesCircle nodesCircle = NodesCircle.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    private final ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
 
     public KVServer(int port) {
         try {
             socket = new DatagramSocket(port);
             String ip = InetAddress.getLocalHost().getHostAddress() + port;
+            NodesCircle nodesCircle = NodesCircle.getInstance();
             Node node = nodesCircle.getNodeFromIp(ip);
 
             // Make sure the current node is in the nodes list
             if (node != null) {
                 System.out.println("Server running on port: " + node.getPort());
-                nodesCircle.setThisNodeHash(nodesCircle.getCircleHashFromNodeHash(node.getHash()));
+                nodesCircle.setThisNodeRingHash(nodesCircle.getCircleHashFromNodeHash(node.getHash()));
                 nodesCircle.setThisNodeId(node.getId());
 
                 // start epidemic server
                 EpidemicServer server = new EpidemicServer(socket, node.getId());
+                ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
                 epidemicService.scheduleAtFixedRate(
-                        server,
-                        0, 5, TimeUnit.SECONDS);
-//                pool.execute(new EpidemicServer(socket, node.getId()));
+                        server, 0, 10, TimeUnit.MILLISECONDS);
             } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
                 System.exit(0);
