@@ -4,24 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="wuyu">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodes-list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nodes-list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/EpidemicServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/EpidemicServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/HeartbeatsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/s42442146/CPEN431/A4/model/KVServerHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-    </list>
+    <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="A7" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677541974905</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="A7">
+      <created>1677605571760</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1677605571760</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -145,6 +135,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="wuyu" />
-    <option name="LAST_COMMIT_MESSAGE" value="wuyu" />
+    <MESSAGE value="A7" />
+    <option name="LAST_COMMIT_MESSAGE" value="A7" />
   </component>
 </project>
