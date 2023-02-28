@@ -71,7 +71,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.s42442146.CPEN431.A4.App</mainClass>
+              <mainClass>com.g3.CPEN431.A7.App</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
