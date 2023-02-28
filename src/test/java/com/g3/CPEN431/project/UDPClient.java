@@ -10,6 +10,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import java.io.IOException;
 import java.net.*;
 import java.util.LinkedList;
+import java.util.Random;
 
 import static com.g3.CPEN431.project.MessageBuilder.buildKVRequest;
 import static com.g3.CPEN431.project.Utils.General.*;
@@ -49,7 +50,7 @@ public class UDPClient {
             delay *= 2;
             KeyValueResponse.KVResponse response = receiveMsg();
             if (response == null) {
-                System.out.println("Packet lost or corrupted");
+                //System.out.println("Packet lost or corrupted");
                 continue;
             }
             errCode = response.getErrCode();
@@ -104,16 +105,12 @@ public class UDPClient {
     }
 
     private DatagramPacket pack(InetAddress ip, int port, KeyValueRequest.KVRequest request) {
-        byte[] buf = new byte[16];
-        byte[] ip_bytes = socket.getLocalAddress().getAddress();
-        System.arraycopy(ip_bytes, 0, buf, 0, 4);
-        ByteOrder.short2beb((short)socket.getLocalPort(), buf, 4);
-        messageID = ByteString.copyFrom(buf);
+        messageID = generateMessageID(socket);
 
         Message.Msg msg = Message.Msg.newBuilder()
                 .setMessageID(messageID)
                 .setPayload(request.toByteString())
-                .setCheckSum(getChecksum(buf, request.toByteArray()))
+                .setCheckSum(getChecksum(messageID.toByteArray(), request.toByteArray()))
                 .build();
 
         return new DatagramPacket(msg.toByteArray(), msg.getSerializedSize(), ip, port);
@@ -130,9 +127,9 @@ public class UDPClient {
         try {
             socket.receive(recvPacket);
 
-            System.out.println("Received message from " +
-                    recvPacket.getAddress() +
-                    ":" + recvPacket.getPort());
+//            System.out.println("Received message from " +
+//                    recvPacket.getAddress() +
+//                    ":" + recvPacket.getPort());
 
             byte[] bytes = new byte[recvPacket.getLength()];
             System.arraycopy(recvPacket.getData(), 0, bytes, 0, recvPacket.getLength());
@@ -153,8 +150,9 @@ public class UDPClient {
 
         long recvChecksum = msg.getCheckSum();
 
-        // Didnt get response
+//         // TODO Didnt get response
 //        if (resPayload.getSerializedSize() == 0) {
+//            System.out.println("Exception: Nothing in KVResponse");
 //            return null;
 //        }
 
@@ -170,9 +168,6 @@ public class UDPClient {
             return null;
         }
 
-        System.out.println("=========");
-        System.out.println(resPayload);
-        System.out.println("=========");
         return resPayload;
     }
 }

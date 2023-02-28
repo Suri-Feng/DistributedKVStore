@@ -25,7 +25,7 @@ public class TestHandler {
     private static final int SERVER_PORT = 12345;
 
     public static void printOutcome(OutcomePair outcomePair) {
-        System.out.println("Outcome: [ " + outcomePair.getStatus() +", "+ outcomePair.getValue() +" ]");
+        System.out.println("[ " + outcomePair.getStatus() + ", " + outcomePair.getValue() + "]");
     }
     public static OutcomePair put(String key, String val, int version, UDPClient client) throws SocketTimeoutException, UnknownHostException, InterruptedException {
         KeyValueRequest.KVRequest request = buildKVRequest(Commands.PUT, key, val, version);
