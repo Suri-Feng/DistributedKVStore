@@ -6,17 +6,17 @@ package ca.NetSysLab.ProtocolBuffers;
 public final class KeyValueResponse {
   private KeyValueResponse() {}
   public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistryLite registry) {
+          com.google.protobuf.ExtensionRegistryLite registry) {
   }
 
   public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistry registry) {
+          com.google.protobuf.ExtensionRegistry registry) {
     registerAllExtensions(
-        (com.google.protobuf.ExtensionRegistryLite) registry);
+            (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface KVResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:KVResponse)
-      com.google.protobuf.MessageOrBuilder {
+          // @@protoc_insertion_point(interface_extends:KVResponse)
+          com.google.protobuf.MessageOrBuilder {
 
     /**
      * <code>uint32 errCode = 1;</code>
@@ -83,10 +83,10 @@ public final class KeyValueResponse {
    * Protobuf type {@code KVResponse}
    */
   public static final class KVResponse extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:KVResponse)
-      KVResponseOrBuilder {
-  private static final long serialVersionUID = 0L;
+          com.google.protobuf.GeneratedMessageV3 implements
+          // @@protoc_insertion_point(message_implements:KVResponse)
+          KVResponseOrBuilder {
+    private static final long serialVersionUID = 0L;
     // Use KVResponse.newBuilder() to construct.
     private KVResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -95,50 +95,118 @@ public final class KeyValueResponse {
       value_ = com.google.protobuf.ByteString.EMPTY;
     }
 
-    @Override
+    @java.lang.Override
     @SuppressWarnings({"unused"})
-    protected Object newInstance(
-        UnusedPrivateParameter unused) {
+    protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
       return new KVResponse();
     }
 
-    @Override
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
     }
+    private KVResponse(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              errCode_ = input.readUInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000001;
+              value_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              pid_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000004;
+              version_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000008;
+              overloadWaitTime_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
+              membershipCount_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                      input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+                e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return KeyValueResponse.internal_static_KVResponse_descriptor;
+    getDescriptor() {
+      return ca.NetSysLab.ProtocolBuffers.KeyValueResponse.internal_static_KVResponse_descriptor;
     }
 
-    @Override
-    protected FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return KeyValueResponse.internal_static_KVResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              KeyValueResponse.KVResponse.class, KeyValueResponse.KVResponse.Builder.class);
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    internalGetFieldAccessorTable() {
+      return ca.NetSysLab.ProtocolBuffers.KeyValueResponse.internal_static_KVResponse_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                      ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.class, ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.Builder.class);
     }
 
     private int bitField0_;
     public static final int ERRCODE_FIELD_NUMBER = 1;
-    private int errCode_ = 0;
+    private int errCode_;
     /**
      * <code>uint32 errCode = 1;</code>
      * @return The errCode.
      */
-    @Override
+    @java.lang.Override
     public int getErrCode() {
       return errCode_;
     }
 
     public static final int VALUE_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
+    private com.google.protobuf.ByteString value_;
     /**
      * <code>optional bytes value = 2;</code>
      * @return Whether the value field is set.
      */
-    @Override
+    @java.lang.Override
     public boolean hasValue() {
       return ((bitField0_ & 0x00000001) != 0);
     }
@@ -146,18 +214,18 @@ public final class KeyValueResponse {
      * <code>optional bytes value = 2;</code>
      * @return The value.
      */
-    @Override
+    @java.lang.Override
     public com.google.protobuf.ByteString getValue() {
       return value_;
     }
 
     public static final int PID_FIELD_NUMBER = 3;
-    private int pid_ = 0;
+    private int pid_;
     /**
      * <code>optional int32 pid = 3;</code>
      * @return Whether the pid field is set.
      */
-    @Override
+    @java.lang.Override
     public boolean hasPid() {
       return ((bitField0_ & 0x00000002) != 0);
     }
@@ -165,18 +233,18 @@ public final class KeyValueResponse {
      * <code>optional int32 pid = 3;</code>
      * @return The pid.
      */
-    @Override
+    @java.lang.Override
     public int getPid() {
       return pid_;
     }
 
     public static final int VERSION_FIELD_NUMBER = 4;
-    private int version_ = 0;
+    private int version_;
     /**
      * <code>optional int32 version = 4;</code>
      * @return Whether the version field is set.
      */
-    @Override
+    @java.lang.Override
     public boolean hasVersion() {
       return ((bitField0_ & 0x00000004) != 0);
     }
@@ -184,18 +252,18 @@ public final class KeyValueResponse {
      * <code>optional int32 version = 4;</code>
      * @return The version.
      */
-    @Override
+    @java.lang.Override
     public int getVersion() {
       return version_;
     }
 
     public static final int OVERLOADWAITTIME_FIELD_NUMBER = 5;
-    private int overloadWaitTime_ = 0;
+    private int overloadWaitTime_;
     /**
      * <code>optional int32 overloadWaitTime = 5;</code>
      * @return Whether the overloadWaitTime field is set.
      */
-    @Override
+    @java.lang.Override
     public boolean hasOverloadWaitTime() {
       return ((bitField0_ & 0x00000008) != 0);
     }
@@ -203,18 +271,18 @@ public final class KeyValueResponse {
      * <code>optional int32 overloadWaitTime = 5;</code>
      * @return The overloadWaitTime.
      */
-    @Override
+    @java.lang.Override
     public int getOverloadWaitTime() {
       return overloadWaitTime_;
     }
 
     public static final int MEMBERSHIPCOUNT_FIELD_NUMBER = 6;
-    private int membershipCount_ = 0;
+    private int membershipCount_;
     /**
      * <code>optional int32 membershipCount = 6;</code>
      * @return Whether the membershipCount field is set.
      */
-    @Override
+    @java.lang.Override
     public boolean hasMembershipCount() {
       return ((bitField0_ & 0x00000010) != 0);
     }
@@ -222,13 +290,13 @@ public final class KeyValueResponse {
      * <code>optional int32 membershipCount = 6;</code>
      * @return The membershipCount.
      */
-    @Override
+    @java.lang.Override
     public int getMembershipCount() {
       return membershipCount_;
     }
 
     private byte memoizedIsInitialized = -1;
-    @Override
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -238,9 +306,9 @@ public final class KeyValueResponse {
       return true;
     }
 
-    @Override
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
+            throws java.io.IOException {
       if (errCode_ != 0) {
         output.writeUInt32(1, errCode_);
       }
@@ -259,10 +327,10 @@ public final class KeyValueResponse {
       if (((bitField0_ & 0x00000010) != 0)) {
         output.writeInt32(6, membershipCount_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
-    @Override
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -270,75 +338,75 @@ public final class KeyValueResponse {
       size = 0;
       if (errCode_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(1, errCode_);
+                .computeUInt32Size(1, errCode_);
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, value_);
+                .computeBytesSize(2, value_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, pid_);
+                .computeInt32Size(3, pid_);
       }
       if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, version_);
+                .computeInt32Size(4, version_);
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, overloadWaitTime_);
+                .computeInt32Size(5, overloadWaitTime_);
       }
       if (((bitField0_ & 0x00000010) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(6, membershipCount_);
+                .computeInt32Size(6, membershipCount_);
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
 
-    @Override
-    public boolean equals(final Object obj) {
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
-       return true;
+        return true;
       }
-      if (!(obj instanceof KeyValueResponse.KVResponse)) {
+      if (!(obj instanceof ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse)) {
         return super.equals(obj);
       }
-      KeyValueResponse.KVResponse other = (KeyValueResponse.KVResponse) obj;
+      ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse other = (ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse) obj;
 
       if (getErrCode()
-          != other.getErrCode()) return false;
+              != other.getErrCode()) return false;
       if (hasValue() != other.hasValue()) return false;
       if (hasValue()) {
         if (!getValue()
-            .equals(other.getValue())) return false;
+                .equals(other.getValue())) return false;
       }
       if (hasPid() != other.hasPid()) return false;
       if (hasPid()) {
         if (getPid()
-            != other.getPid()) return false;
+                != other.getPid()) return false;
       }
       if (hasVersion() != other.hasVersion()) return false;
       if (hasVersion()) {
         if (getVersion()
-            != other.getVersion()) return false;
+                != other.getVersion()) return false;
       }
       if (hasOverloadWaitTime() != other.hasOverloadWaitTime()) return false;
       if (hasOverloadWaitTime()) {
         if (getOverloadWaitTime()
-            != other.getOverloadWaitTime()) return false;
+                != other.getOverloadWaitTime()) return false;
       }
       if (hasMembershipCount() != other.hasMembershipCount()) return false;
       if (hasMembershipCount()) {
         if (getMembershipCount()
-            != other.getMembershipCount()) return false;
+                != other.getMembershipCount()) return false;
       }
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
-    @Override
+    @java.lang.Override
     public int hashCode() {
       if (memoizedHashCode != 0) {
         return memoizedHashCode;
@@ -367,98 +435,98 @@ public final class KeyValueResponse {
         hash = (37 * hash) + MEMBERSHIPCOUNT_FIELD_NUMBER;
         hash = (53 * hash) + getMembershipCount();
       }
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static KeyValueResponse.KVResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static KeyValueResponse.KVResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static KeyValueResponse.KVResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+              .parseWithIOException(PARSER, input);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+              .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static KeyValueResponse.KVResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
+              .parseDelimitedWithIOException(PARSER, input);
     }
-    public static KeyValueResponse.KVResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+              .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
+              .parseWithIOException(PARSER, input);
     }
-    public static KeyValueResponse.KVResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
+              .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
-    @Override
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(KeyValueResponse.KVResponse prototype) {
+    public static Builder newBuilder(ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
-    @Override
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
+              ? new Builder() : new Builder().mergeFrom(this);
     }
 
-    @Override
+    @java.lang.Override
     protected Builder newBuilderForType(
-        BuilderParent parent) {
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -466,146 +534,150 @@ public final class KeyValueResponse {
      * Protobuf type {@code KVResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:KVResponse)
-        KeyValueResponse.KVResponseOrBuilder {
+            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:KVResponse)
+            ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return KeyValueResponse.internal_static_KVResponse_descriptor;
+      getDescriptor() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueResponse.internal_static_KVResponse_descriptor;
       }
 
-      @Override
-      protected FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return KeyValueResponse.internal_static_KVResponse_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                KeyValueResponse.KVResponse.class, KeyValueResponse.KVResponse.Builder.class);
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internalGetFieldAccessorTable() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueResponse.internal_static_KVResponse_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                        ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.class, ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.Builder.class);
       }
 
       // Construct using ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
-          BuilderParent parent) {
+              com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
       }
-      @Override
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         errCode_ = 0;
+
         value_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         pid_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         version_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         overloadWaitTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         membershipCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
-      @Override
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return KeyValueResponse.internal_static_KVResponse_descriptor;
+      getDescriptorForType() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueResponse.internal_static_KVResponse_descriptor;
       }
 
-      @Override
-      public KeyValueResponse.KVResponse getDefaultInstanceForType() {
-        return KeyValueResponse.KVResponse.getDefaultInstance();
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse getDefaultInstanceForType() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.getDefaultInstance();
       }
 
-      @Override
-      public KeyValueResponse.KVResponse build() {
-        KeyValueResponse.KVResponse result = buildPartial();
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse build() {
+        ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      @Override
-      public KeyValueResponse.KVResponse buildPartial() {
-        KeyValueResponse.KVResponse result = new KeyValueResponse.KVResponse(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse buildPartial() {
+        ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse result = new ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.errCode_ = errCode_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.value_ = value_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.pid_ = pid_;
+          to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.version_ = version_;
+          to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.overloadWaitTime_ = overloadWaitTime_;
+          to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.membershipCount_ = membershipCount_;
+          to_bitField0_ |= 0x00000010;
+        }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(KeyValueResponse.KVResponse result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.errCode_ = errCode_;
-        }
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.value_ = value_;
-          to_bitField0_ |= 0x00000001;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.pid_ = pid_;
-          to_bitField0_ |= 0x00000002;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.version_ = version_;
-          to_bitField0_ |= 0x00000004;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.overloadWaitTime_ = overloadWaitTime_;
-          to_bitField0_ |= 0x00000008;
-        }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.membershipCount_ = membershipCount_;
-          to_bitField0_ |= 0x00000010;
-        }
-        result.bitField0_ |= to_bitField0_;
-      }
-
-      @Override
+      @java.lang.Override
       public Builder clone() {
         return super.clone();
       }
-      @Override
+      @java.lang.Override
       public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+              com.google.protobuf.Descriptors.FieldDescriptor field,
+              java.lang.Object value) {
         return super.setField(field, value);
       }
-      @Override
+      @java.lang.Override
       public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
+              com.google.protobuf.Descriptors.FieldDescriptor field) {
         return super.clearField(field);
       }
-      @Override
+      @java.lang.Override
       public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+              com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return super.clearOneof(oneof);
       }
-      @Override
+      @java.lang.Override
       public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
+              com.google.protobuf.Descriptors.FieldDescriptor field,
+              int index, java.lang.Object value) {
         return super.setRepeatedField(field, index, value);
       }
-      @Override
+      @java.lang.Override
       public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
+              com.google.protobuf.Descriptors.FieldDescriptor field,
+              java.lang.Object value) {
         return super.addRepeatedField(field, value);
       }
-      @Override
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof KeyValueResponse.KVResponse) {
-          return mergeFrom((KeyValueResponse.KVResponse)other);
+        if (other instanceof ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse) {
+          return mergeFrom((ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(KeyValueResponse.KVResponse other) {
-        if (other == KeyValueResponse.KVResponse.getDefaultInstance()) return this;
+      public Builder mergeFrom(ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse other) {
+        if (other == ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse.getDefaultInstance()) return this;
         if (other.getErrCode() != 0) {
           setErrCode(other.getErrCode());
         }
@@ -624,75 +696,32 @@ public final class KeyValueResponse {
         if (other.hasMembershipCount()) {
           setMembershipCount(other.getMembershipCount());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
 
-      @Override
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
-      @Override
+      @java.lang.Override
       public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new NullPointerException();
-        }
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+        ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 8: {
-                errCode_ = input.readUInt32();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 8
-              case 18: {
-                value_ = input.readBytes();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 18
-              case 24: {
-                pid_ = input.readInt32();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 24
-              case 32: {
-                version_ = input.readInt32();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 32
-              case 40: {
-                overloadWaitTime_ = input.readInt32();
-                bitField0_ |= 0x00000010;
-                break;
-              } // case 40
-              case 48: {
-                membershipCount_ = input.readInt32();
-                bitField0_ |= 0x00000020;
-                break;
-              } // case 48
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
       private int bitField0_;
@@ -702,7 +731,7 @@ public final class KeyValueResponse {
        * <code>uint32 errCode = 1;</code>
        * @return The errCode.
        */
-      @Override
+      @java.lang.Override
       public int getErrCode() {
         return errCode_;
       }
@@ -712,9 +741,8 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder setErrCode(int value) {
-        
+
         errCode_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -723,7 +751,7 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder clearErrCode() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+
         errCode_ = 0;
         onChanged();
         return this;
@@ -734,15 +762,15 @@ public final class KeyValueResponse {
        * <code>optional bytes value = 2;</code>
        * @return Whether the value field is set.
        */
-      @Override
+      @java.lang.Override
       public boolean hasValue() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>optional bytes value = 2;</code>
        * @return The value.
        */
-      @Override
+      @java.lang.Override
       public com.google.protobuf.ByteString getValue() {
         return value_;
       }
@@ -752,9 +780,11 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder setValue(com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
         value_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -763,7 +793,7 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder clearValue() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         value_ = getDefaultInstance().getValue();
         onChanged();
         return this;
@@ -774,15 +804,15 @@ public final class KeyValueResponse {
        * <code>optional int32 pid = 3;</code>
        * @return Whether the pid field is set.
        */
-      @Override
+      @java.lang.Override
       public boolean hasPid() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>optional int32 pid = 3;</code>
        * @return The pid.
        */
-      @Override
+      @java.lang.Override
       public int getPid() {
         return pid_;
       }
@@ -792,9 +822,8 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder setPid(int value) {
-        
+        bitField0_ |= 0x00000002;
         pid_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -803,7 +832,7 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder clearPid() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         pid_ = 0;
         onChanged();
         return this;
@@ -814,15 +843,15 @@ public final class KeyValueResponse {
        * <code>optional int32 version = 4;</code>
        * @return Whether the version field is set.
        */
-      @Override
+      @java.lang.Override
       public boolean hasVersion() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return ((bitField0_ & 0x00000004) != 0);
       }
       /**
        * <code>optional int32 version = 4;</code>
        * @return The version.
        */
-      @Override
+      @java.lang.Override
       public int getVersion() {
         return version_;
       }
@@ -832,9 +861,8 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder setVersion(int value) {
-        
+        bitField0_ |= 0x00000004;
         version_ = value;
-        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -843,7 +871,7 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder clearVersion() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         version_ = 0;
         onChanged();
         return this;
@@ -854,15 +882,15 @@ public final class KeyValueResponse {
        * <code>optional int32 overloadWaitTime = 5;</code>
        * @return Whether the overloadWaitTime field is set.
        */
-      @Override
+      @java.lang.Override
       public boolean hasOverloadWaitTime() {
-        return ((bitField0_ & 0x00000010) != 0);
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>optional int32 overloadWaitTime = 5;</code>
        * @return The overloadWaitTime.
        */
-      @Override
+      @java.lang.Override
       public int getOverloadWaitTime() {
         return overloadWaitTime_;
       }
@@ -872,9 +900,8 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder setOverloadWaitTime(int value) {
-        
+        bitField0_ |= 0x00000008;
         overloadWaitTime_ = value;
-        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -883,7 +910,7 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder clearOverloadWaitTime() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         overloadWaitTime_ = 0;
         onChanged();
         return this;
@@ -894,15 +921,15 @@ public final class KeyValueResponse {
        * <code>optional int32 membershipCount = 6;</code>
        * @return Whether the membershipCount field is set.
        */
-      @Override
+      @java.lang.Override
       public boolean hasMembershipCount() {
-        return ((bitField0_ & 0x00000020) != 0);
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>optional int32 membershipCount = 6;</code>
        * @return The membershipCount.
        */
-      @Override
+      @java.lang.Override
       public int getMembershipCount() {
         return membershipCount_;
       }
@@ -912,9 +939,8 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder setMembershipCount(int value) {
-        
+        bitField0_ |= 0x00000010;
         membershipCount_ = value;
-        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -923,20 +949,20 @@ public final class KeyValueResponse {
        * @return This builder for chaining.
        */
       public Builder clearMembershipCount() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000010);
         membershipCount_ = 0;
         onChanged();
         return this;
       }
-      @Override
+      @java.lang.Override
       public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
+              final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
-      @Override
+      @java.lang.Override
       public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
+              final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
       }
 
@@ -945,34 +971,23 @@ public final class KeyValueResponse {
     }
 
     // @@protoc_insertion_point(class_scope:KVResponse)
-    private static final KeyValueResponse.KVResponse DEFAULT_INSTANCE;
+    private static final ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new KeyValueResponse.KVResponse();
+      DEFAULT_INSTANCE = new ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse();
     }
 
-    public static KeyValueResponse.KVResponse getDefaultInstance() {
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
     private static final com.google.protobuf.Parser<KVResponse>
-        PARSER = new com.google.protobuf.AbstractParser<KVResponse>() {
-      @Override
+            PARSER = new com.google.protobuf.AbstractParser<KVResponse>() {
+      @java.lang.Override
       public KVResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+        return new KVResponse(input, extensionRegistry);
       }
     };
 
@@ -980,51 +995,51 @@ public final class KeyValueResponse {
       return PARSER;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Parser<KVResponse> getParserForType() {
       return PARSER;
     }
 
-    @Override
-    public KeyValueResponse.KVResponse getDefaultInstanceForType() {
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueResponse.KVResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_KVResponse_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_KVResponse_fieldAccessorTable;
+          internal_static_KVResponse_descriptor;
+  private static final
+  com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internal_static_KVResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
+  getDescriptor() {
     return descriptor;
   }
   private static  com.google.protobuf.Descriptors.FileDescriptor
-      descriptor;
+          descriptor;
   static {
-    String[] descriptorData = {
-      "\n\026KeyValueResponse.proto\"\335\001\n\nKVResponse\022" +
-      "\017\n\007errCode\030\001 \001(\r\022\022\n\005value\030\002 \001(\014H\000\210\001\001\022\020\n\003" +
-      "pid\030\003 \001(\005H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\035\n\020" +
-      "overloadWaitTime\030\005 \001(\005H\003\210\001\001\022\034\n\017membershi" +
-      "pCount\030\006 \001(\005H\004\210\001\001B\010\n\006_valueB\006\n\004_pidB\n\n\010_" +
-      "versionB\023\n\021_overloadWaitTimeB\022\n\020_members" +
-      "hipCountB0\n\034ca.NetSysLab.ProtocolBuffers" +
-      "B\020KeyValueResponseb\006proto3"
+    java.lang.String[] descriptorData = {
+            "\n\026KeyValueResponse.proto\"\335\001\n\nKVResponse\022" +
+                    "\017\n\007errCode\030\001 \001(\r\022\022\n\005value\030\002 \001(\014H\000\210\001\001\022\020\n\003" +
+                    "pid\030\003 \001(\005H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\035\n\020" +
+                    "overloadWaitTime\030\005 \001(\005H\003\210\001\001\022\034\n\017membershi" +
+                    "pCount\030\006 \001(\005H\004\210\001\001B\010\n\006_valueB\006\n\004_pidB\n\n\010_" +
+                    "versionB\023\n\021_overloadWaitTimeB\022\n\020_members" +
+                    "hipCountB0\n\034ca.NetSysLab.ProtocolBuffers" +
+                    "B\020KeyValueResponseb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-        });
+            .internalBuildGeneratedFileFrom(descriptorData,
+                    new com.google.protobuf.Descriptors.FileDescriptor[] {
+                    });
     internal_static_KVResponse_descriptor =
-      getDescriptor().getMessageTypes().get(0);
+            getDescriptor().getMessageTypes().get(0);
     internal_static_KVResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_KVResponse_descriptor,
-        new String[] { "ErrCode", "Value", "Pid", "Version", "OverloadWaitTime", "MembershipCount", "Value", "Pid", "Version", "OverloadWaitTime", "MembershipCount", });
+            com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+            internal_static_KVResponse_descriptor,
+            new java.lang.String[] { "ErrCode", "Value", "Pid", "Version", "OverloadWaitTime", "MembershipCount", "Value", "Pid", "Version", "OverloadWaitTime", "MembershipCount", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
