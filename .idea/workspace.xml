@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="wuyu">
-      <change afterPath="$PROJECT_DIR$/scripts/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/aws_env_client.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/aws_env_server.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/aws_files_transport.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/aws_nodefile_client.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/aws_nodefile_server.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/aws_serverlistfile_client.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
