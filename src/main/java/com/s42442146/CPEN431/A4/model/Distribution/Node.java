@@ -2,15 +2,18 @@ package com.s42442146.CPEN431.A4.model.Distribution;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 public class Node {
     private InetAddress address;
     private int port;
-    private long id;
-    public Node(String host, int port) throws UnknownHostException {
+    private long hash;
+    private int id;
+    public Node(String host, int port, int id) throws UnknownHostException {
         this.address = InetAddress.getByName(host);
         this.port = port;
-        this.id = hashTo64bit(host + port);
+        this.hash = hashTo64bit(host + port);
+        this.id = id;
     }
 
     public InetAddress getAddress() {
@@ -19,8 +22,23 @@ public class Node {
     public int getPort() {
         return port;
     }
-    public long getId() {
-        return id;
+    public long getHash() {
+        return hash;
+    }
+
+    public int getId() {return id;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return port == node.port && address.equals(node.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, port);
     }
 
     /**

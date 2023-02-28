@@ -11,7 +11,8 @@ public enum Command {
     WIPE_OUT (0x05),
     IS_ALIVE (0x06),
     GET_PID (0x07),
-    GET_MEMBERSHIP_COUNT (0x08);
+    GET_MEMBERSHIP_COUNT (0x08),
+    IAM_ALIVE (10);
 
     private final int code;
 

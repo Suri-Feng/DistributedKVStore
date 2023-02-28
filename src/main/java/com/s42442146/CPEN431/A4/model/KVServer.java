@@ -5,8 +5,10 @@ import java.net.*;
 import java.util.Arrays;
 import java.util.concurrent.*;
 import ca.NetSysLab.ProtocolBuffers.Message;
+import com.s42442146.CPEN431.A4.model.Distribution.EpidemicServer;
 import com.s42442146.CPEN431.A4.model.Distribution.Node;
 import com.s42442146.CPEN431.A4.model.Distribution.NodesCircle;
+import com.s42442146.CPEN431.A4.model.Store.StoreCache;
 
 public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
@@ -15,25 +17,30 @@ public class KVServer {
     private long currentCacheSize = DEFAULT_CACHE_SIZE;
     private static final int THREAD_POOL_SIZE = 5;
     private final StoreCache storeCache = StoreCache.getInstance();
-    private final NodesCircle nodesCircle = NodesCircle.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    public static int ownHash = -1;
 
     public KVServer(int port) {
         try {
             socket = new DatagramSocket(port);
-
             String ip = InetAddress.getLocalHost().getHostAddress() + port;
-            long id = Node.hashTo64bit(ip);
-            int numNodes = nodesCircle.getNodesTable().size();
-            int n = 1 << numNodes;
-            ownHash = (int) (id % n < 0 ? id % n + n : id % n);
-            Node node  = nodesCircle.getNodesTable().get(ownHash);
-            System.out.println("Server running on port: " + node.getPort());
+            NodesCircle nodesCircle = NodesCircle.getInstance();
+            Node node = nodesCircle.getNodeFromIp(ip);
 
-            if (ownHash == -1) {
+            // Make sure the current node is in the nodes list
+            if (node != null) {
+                System.out.println("Server running on port: " + node.getPort());
+                nodesCircle.setThisNodeRingHash(nodesCircle.getCircleHashFromNodeHash(node.getHash()));
+                nodesCircle.setThisNodeId(node.getId());
+
+                // start epidemic server
+                EpidemicServer server = new EpidemicServer(socket, node.getId());
+                ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
+                epidemicService.scheduleAtFixedRate(
+                        server, 0, 10, TimeUnit.MILLISECONDS);
+            } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
+                System.exit(0);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -59,7 +66,7 @@ public class KVServer {
         // receive request
         while (true) {
             resizeCache();
-            byte[] buf = new byte[13000];
+            byte[] buf = new byte[15000];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
             try {
