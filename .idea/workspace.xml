@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="wuyu">
-      <change afterPath="$PROJECT_DIR$/scripts/nodes_run.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/nodes_shutdown.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPEN431_2022_A4.iml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
