@@ -1,0 +1,9 @@
+Client-public-ip:52.25.9.27
+Client-private-ip:172.31.7.231
+Server-public-ip:35.81.80.134
+Server-private-ip:172.31.7.231
+Number-of-nodes:20
+First-port:12345
+Server_jar_file:A7.jar
+Client_jar_file:a7_2023_eval_tests_v1.jar
+Key:duck.pem
