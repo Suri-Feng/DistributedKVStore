@@ -221,7 +221,6 @@ public class KVServerHandler implements Runnable {
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case SHUTDOWN:
-                System.out.println("Shutting down!");
                 System.exit(0);
             case WIPE_OUT:
                 wipeOut();

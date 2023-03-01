@@ -5,25 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder">
-      <change beforePath="$PROJECT_DIR$/CPEN431_2022_A4.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nodes-list.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/Utility/ByteOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/ByteOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/Utility/MemoryUsage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/MemoryUsage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/Utility/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/StringUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/EpidemicServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Store/KVStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/KVStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Store/StoreCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/StoreCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4/model/Store/ValueV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/ValueV.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,26 +43,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "jdk.selected.JAVA_MODULE": "corretto-17",
-    "last_opened_file_path": "/Users/meganma/Desktop/2023w/CPEN 431/cpen431_2023_project_g3/src/main/java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/meganma/Desktop/2023w/CPEN 431/cpen431_2023_project_g3/src/main/java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
       <recent name="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
