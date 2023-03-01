@@ -29,7 +29,7 @@ scp -i $key $info_txt ubuntu@$server_public_ip:
 # jar file
 scp -i $key $server_jar_file ubuntu@$server_public_ip:
 # env sh 
-scp -i $key $env_sh ubuntu@$server_public_ip:
+scp -i $key $server_env_sh ubuntu@$server_public_ip:
 # txt generation sh
 scp -i $key $server_nodefile_sh ubuntu@$server_public_ip:
 # command sh 
@@ -44,7 +44,7 @@ scp -i $key $info_txt ubuntu@$client_public_ip:
 scp -i $key $server_jar_file ubuntu@$client_public_ip:
 scp -i $key $client_jar_file ubuntu@$client_public_ip:
 # env sh 
-scp -i $key $env_sh ubuntu@$client_public_ip:
+scp -i $key $client_env_sh ubuntu@$client_public_ip:
 # txt generation sh
 scp -i $key $client_nodefile_sh ubuntu@$client_public_ip:
 scp -i $key $client_serverlist_file ubuntu@$client_public_ip:
