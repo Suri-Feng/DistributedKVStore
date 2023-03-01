@@ -35,6 +35,21 @@
   ```
 - clean 
   ```bash
-  bash nodes_shundown.sh
+  bash nodes_shundown.sh 
   sudo tc qdisc del dev <iface> root
   ```
+
+### Run on local machine
+- change params in info.txt
+  - server private ip, server public ip
+  - **number of nodes of choice**, port of choice 
+- generate new txt 
+  ```bash
+  bash aws_nodefile_server.txt
+  bash aws_serverlistfile_server.sh
+  ```
+- start server and client 
+  ```bash
+  bash nodes_run.sh
+  java -jar <client_jar> -servers-list=servers.txt
+  ``` 
