@@ -74,8 +74,10 @@ public class NodesCircle {
     }
 
     public int findRingKeyByHash(int nodeHash) {
-        int n = 1 << (aliveNodesList.size());
-        int keyHash = nodeHash % n < 0 ? nodeHash % n + n : nodeHash % n;
+        //int n = 1 << (aliveNodesList.size());
+        // int keyHash = nodeHash % n < 0 ? nodeHash % n + n : nodeHash % n;
+        int n = startupNodesSize*100;
+        int keyHash = nodeHash % n < 0 ? (-nodeHash) % n : nodeHash % n;
 
         ConcurrentNavigableMap<Integer, Node> tailMap = circle.tailMap(keyHash);
         return tailMap.isEmpty() ? circle.firstKey() : tailMap.firstKey();
@@ -86,9 +88,11 @@ public class NodesCircle {
      * @param hash hash of a node
      */
     public int getCircleHashFromNodeHash(long hash) {
-        int numNodes = aliveNodesList.size();
-        int n = 1 << numNodes;
-        return  (int) (hash % n < 0 ? hash % n + n : hash % n);
+//        int numNodes = aliveNodesList.size();
+//        int n = 1 << numNodes;
+//        return  (int) (hash % n < 0 ? hash % n + n : hash % n);
+        int n = startupNodesSize*100;
+        return (int) (hash % n < 0 ? (-hash) % n : hash % n);
     }
     public void removeNode(int ringKey) {
         Node node = circle.get(ringKey);

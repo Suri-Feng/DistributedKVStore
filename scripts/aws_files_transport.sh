@@ -21,6 +21,7 @@ client_serverlist_file='aws_serverlistfile_client.sh'
 # command sh
 nodes_run_sh='nodes_run.sh'
 nodes_shutdown_sh='nodes_shutdown.sh'
+client_run_sh='client_run.sh'
 
 # transport server files
 # meta
@@ -51,3 +52,4 @@ scp -i $key $client_serverlist_file ubuntu@$client_public_ip:
 # command sh 
 scp -i $key $nodes_run_sh ubuntu@$client_public_ip:
 scp -i $key $nodes_shutdown_sh ubuntu@$client_public_ip:
+scp -i $key $client_run_sh ubuntu@$client_public_ip:

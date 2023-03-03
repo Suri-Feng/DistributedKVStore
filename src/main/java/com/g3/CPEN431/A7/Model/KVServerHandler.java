@@ -64,6 +64,7 @@ public class KVServerHandler implements Runnable {
                     if (correctNodeRingHash != -1) {
                         nodesCircle.removeNode(correctNodeRingHash);
                         System.out.println("Dead node: " + node.getPort() + " Num servers left: " + nodesCircle.getAliveNodesCount());
+                        System.out.println("I am node " + nodesCircle.getThisNodeId() + " , I have " + store.getStore().size() + " keys");
                     }
                     correctNodeRingHash = nodesCircle.findRingKeyByHash(reqPayload.getKey().hashCode());
                     node = nodesCircle.getCircle().get(correctNodeRingHash);
@@ -221,7 +222,8 @@ public class KVServerHandler implements Runnable {
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case SHUTDOWN:
-                System.exit(0);
+                System.out.println("Before shutting down. I am node " + nodesCircle.getThisNodeId() + " , I have " + store.getStore().size() + " keys");
+//                System.exit(0);
             case WIPE_OUT:
                 wipeOut();
                 return builder
@@ -239,7 +241,7 @@ public class KVServerHandler implements Runnable {
             case GET_MEMBERSHIP_COUNT:
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
-                        .setMembershipCount(1)
+                        .setMembershipCount(nodesCircle.getAliveNodesCount())
                         .build();
         }
         return builder

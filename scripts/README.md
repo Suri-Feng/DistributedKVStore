@@ -1,55 +1,48 @@
-### Local Machine 
+### AWS
 - edit params in info.txt
 - move following file to the same folder
   - client jar 
   - server jar 
   - cpen431_pop.pub 
   - aws pem to the same folder
-- transport all files
+- communicate with aws - scp/ ssh
   ```bash
-  bash aws_files_transport.sh
+  bash aws_comm.sh <ssh/trasnport_to/transport_back> <client/server>
   ```
-- ssh   [!!TODO: automate the process in remote machines]
-  ```bash
-  ssh -i <pem> ubuntu@<public_ip>
-  ```
-- after the test/submit, transfer log file back
-  ```bash
-  scp -i <pem> ubuntu@<public_ip>:<logfile> <logfile>
-  ``` 
-
-### AWS Remote Machines 
+  - If no client/ server arg provided for transport_to case, will transport to both
 - setting env respectively on aws client machine/ aws server machine
   ```bash
   bash aws_env_client.sh 
   bash aws_env_server.sh
   ```
-- run server nodes on aws client machine/ aws server machine
-  ```bash  [!!TODO: save print in logs]
-  bash nodes_run.sh
-  ```
-- run client on aws client machine (test/ submit)
-  ```bash 
-  java -jar <client_jar> -servers-list=servers.txt
-  java -jar <client_jar> -servers-list=servers.txt -submit -secret-code 5709282193
-  ```
-- clean 
+- in env.sh - simulating network latency
   ```bash
-  bash nodes_shundown.sh 
+  #TODO
+  sudo tc qdisc add dev lo   root netem delay 5msec loss 2.5%
+  sudo tc qdisc add dev ens5 root netem delay 5msec loss 2.5%
   sudo tc qdisc del dev <iface> root
   ```
 
-### Run on local machine
+### Run Server/ Client
 - change params in info.txt
-  - server private ip, server public ip
-  - **number of nodes of choice**, port of choice 
-- generate new txt 
-  ```bash
-  bash aws_nodefile_server.txt
-  bash aws_serverlistfile_server.sh
-  ```
+  - server private ip [1], server public ip [2]
+  - **number of nodes of choice**, port of choice
+  - server jar file, client jar file [3]
+  - submit secret code [4]
+  - [1] if you want to have a proper private ip in nodes-list.txt
+  - [2] if you need to create servers.txt for the test client
+  - [3] if you want to run client
+  - [4] if you want to run client in submit mode
 - start server and client 
   ```bash
-  bash nodes_run.sh
-  java -jar <client_jar> -servers-list=servers.txt
-  ``` 
+  bash nodes_run.sh <servers> # java -Xmx64m -jar $jarfile $port
+  bash client_run.sh <submit> # java -Xmx64m -jar $jarfile $port
+  ```
+  - ***bash nodes_run.sh*** will create a ***nodes-list.txt*** <private_ip, port>, if there doesn't exist one
+  - ***bash nodes_run.sh servers*** will create a ***servers.txt*** <public_ip, port>, if there doesn't exist one
+  - The two txt file can be created manually using ***aws_nodefile_server.sh***, and ***aws_serverlistfile_client.sh***
+  - Server output saved in ***nodes_output.log***
+- kill all alive nodes
+  ```
+  bash nodes_kill.sh 
+  ```

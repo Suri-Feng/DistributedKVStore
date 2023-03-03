@@ -7,3 +7,4 @@ First-port:12345
 Server_jar_file:A7.jar
 Client_jar_file:a7_2023_eval_tests_v1.jar
 Key:duck.pem
+Submit-secret-code:5709282193
