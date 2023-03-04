@@ -11,6 +11,7 @@ fi
 serverlistfile="servers.txt"
 
 > $serverlistfile
+
 last_port=$(expr $first_port + $number_of_nodes)
 last_port=$(expr $last_port - 1)
 for port in `seq $first_port $last_port`

@@ -5,5 +5,3 @@ while read line || [ -n "$line" ]; do
   pid=$(lsof -i :$port -t)
   [[ ! -z "$pid" ]] && kill -9 $pid && echo "Shut down server process with pid $pid on port $port"
 done < $nodefile
-
-#sudo tc qdisc del dev <iface> root

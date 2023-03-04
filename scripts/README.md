@@ -12,37 +12,39 @@
   - If no client/ server arg provided for transport_to case, will transport to both
 - setting env respectively on aws client machine/ aws server machine
   ```bash
-  bash aws_env_client.sh 
-  bash aws_env_server.sh
+  bash aws_env.sh <client/ server/ set_netem/ del_netem>
   ```
-- in env.sh - simulating network latency
-  ```bash
-  #TODO
-  sudo tc qdisc add dev lo   root netem delay 5msec loss 2.5%
-  sudo tc qdisc add dev ens5 root netem delay 5msec loss 2.5%
-  sudo tc qdisc del dev <iface> root
-  ```
+  - ***iface*** are lo and ens5
+  - ***bash aws_env.sh set_netem delay 5*** add 5msec delay
+  - ***bash aws_env.sh set_netem loss 2.5*** add 2.5% loss
+
 
 ### Run Server/ Client
 - change params in info.txt
-  - server private ip [1], server public ip [2]
+  - server private ip, server public ip, one server private ip
   - **number of nodes of choice**, port of choice
-  - server jar file, client jar file [3]
-  - submit secret code [4]
-  - [1] if you want to have a proper private ip in nodes-list.txt
-  - [2] if you need to create servers.txt for the test client
-  - [3] if you want to run client
-  - [4] if you want to run client in submit mode
+  - server jar file, client jar file
+  - submission secret code
 - start server and client 
   ```bash
-  bash nodes_run.sh <servers> # java -Xmx64m -jar $jarfile $port
-  bash client_run.sh <submit> # java -Xmx64m -jar $jarfile $port
+  bash run.sh <server/one-server/client> # java -Xmx64m -jar $jarfile $port
   ```
-  - ***bash nodes_run.sh*** will create a ***nodes-list.txt*** <private_ip, port>, if there doesn't exist one
-  - ***bash nodes_run.sh servers*** will create a ***servers.txt*** <public_ip, port>, if there doesn't exist one
-  - The two txt file can be created manually using ***aws_nodefile_server.sh***, and ***aws_serverlistfile_client.sh***
-  - Server output saved in ***nodes_output.log***
-- kill all alive nodes
+  - ***bash run.sh server***
+    - This is based on the assumption that the client and the servers are deployed on two different machine
+    - ***bash run.sh server*** will create a ***nodes-list.txt*** in format of <server_private_ip, port> with ***n ports***, if there doesn't exist one
+    - server nodes will be run in background, and outputs saved in ***nodes_output.log***
+  - ***bash run.sh one-server***
+    - This is based on the assumption that the client and the server are deployed on the same machine
+    - ***bash run.sh one-server*** will create a ***nodes-list.txt*** in format of <one_server_private_ip, 43100> with ***1 port***, if there doesn't exist one
+    - one server node will be run in background, and outputs saved in ***nodes_output.log***
+  - ***bash run.sh client***
+    - client will be run in foreground
+    - with optional argument, ***bash run.sh client submit*** will create a ***servers.txt*** in format of <server_public_ip, port> with n ports, if there doesn't exist one; 
+    and submit to the leaderboard
+  - Remarks
+    - First argument ***<server/one-server/client>*** is compulsory
+    - ***nodes-list.txt*** and ***servers.txt*** will be overwritten, if there exists one
+- kill all alive nodes accoring to ***nodes-list.txt***
   ```
-  bash nodes_kill.sh 
+  bash kill_nodes.sh
   ```

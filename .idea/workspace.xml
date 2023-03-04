@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ee8b0d0-a681-41e2-86c1-cba4b37f5c55" name="Changes" comment="" />
+    <list default="true" id="8ee8b0d0-a681-41e2-86c1-cba4b37f5c55" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/scripts/aws_nodefile.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_comm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_comm.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_env_client.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_env.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_env_server.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_nodefile_client.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_nodefile_server.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_serverlistfile_client.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_serverlistfile_client.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/client_run.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/nodes_run.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/nodes_shutdown.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/kill_nodes.sh" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,18 +55,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "jdk.selected.JAVA_MODULE": "corretto-17",
-    "last_opened_file_path": "/Users/suri/IdeaProjects/CPEN431_2023_A04/scripts",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/suri/IdeaProjects/CPEN431_2023_A04/scripts&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/scripts" />

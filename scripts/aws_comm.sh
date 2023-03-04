@@ -12,16 +12,13 @@ export info_txt='info.txt'
 export public_key='cpen431_pop.pub'
 # static params 
 # env setting sh
-export client_env_sh='aws_env_client.sh'
-export server_env_sh='aws_env_server.sh'
+export env_sh='aws_env.sh'
 # node list txt generation sh
-export server_nodefile_sh='aws_nodefile_server.sh'
-export client_nodefile_sh='aws_nodefile_client.sh'
+export nodefile_sh='aws_nodefile.sh'
 export client_serverlist_file='aws_serverlistfile_client.sh'
 # command sh
-export nodes_run_sh='nodes_run.sh'
-export nodes_shutdown_sh='nodes_shutdown.sh'
-export client_run_sh='client_run.sh'
+export run_sh='run.sh'
+export kill_sh='kill_nodes.sh'
 
 
 tansport_server()
@@ -34,12 +31,12 @@ tansport_server()
     # jar file
     scp -i $key $server_jar_file ubuntu@$server_public_ip:
     # env sh 
-    scp -i $key $server_env_sh ubuntu@$server_public_ip:
+    scp -i $key $env_sh ubuntu@$server_public_ip:
     # txt generation sh
-    scp -i $key $server_nodefile_sh ubuntu@$server_public_ip:
+    scp -i $key $nodefile_sh ubuntu@$server_public_ip:
     # command sh 
-    scp -i $key $nodes_run_sh ubuntu@$server_public_ip:
-    scp -i $key $nodes_shutdown_sh ubuntu@$server_public_ip:
+    scp -i $key $run_sh ubuntu@$server_public_ip:
+    scp -i $key $kill_sh ubuntu@$server_public_ip:
 }
 
 transport_client()
@@ -52,14 +49,14 @@ transport_client()
     scp -i $key $server_jar_file ubuntu@$client_public_ip:
     scp -i $key $client_jar_file ubuntu@$client_public_ip:
     # env sh 
-    scp -i $key $client_env_sh ubuntu@$client_public_ip:
+    scp -i $key $env_sh ubuntu@$client_public_ip:
     # txt generation sh
-    scp -i $key $client_nodefile_sh ubuntu@$client_public_ip:
+    scp -i $key $nodefile_sh ubuntu@$client_public_ip:
     scp -i $key $client_serverlist_file ubuntu@$client_public_ip:
     # command sh 
-    scp -i $key $nodes_run_sh ubuntu@$client_public_ip:
+    scp -i $key $run_sh ubuntu@$client_public_ip:
     scp -i $key $nodes_shutdown_sh ubuntu@$client_public_ip:
-    scp -i $key $client_run_sh ubuntu@$client_public_ip:
+    scp -i $key $kill_sh ubuntu@$client_public_ip:
 }
 
 # TODO: if 2 args
@@ -70,6 +67,7 @@ if [[ $1 == ssh ]]; then
     elif [[ $2 == client ]]; then
         echo "ssh to aws client machine"
         ssh -i $key ubuntu@$client_public_ip
+    fi
 fi
 
 # TODO: if 1-2 args
@@ -84,15 +82,19 @@ if [[ $1 == transport_to ]]; then
     fi
 fi
 
-# TODO: if 2 args
+# TODO: if 2 args // one-server
 if [[ $1 == transport_back ]]; then
     if [[ $2 == server ]]; then
         server_log=$(echo `grep -i "Server_log" $meta` | cut -d ":" -f 2)
-        echo "transferring log $server_log back from aws server machine"
+        echo "transferring servers' log $server_log back from aws server machine"
         scp -i $key ubuntu@$server_public_ip:$server_log $server_log
+    elif [[ $2 == one-server ]]; then
+        server_log=$(echo `grep -i "Server_log" $meta` | cut -d ":" -f 2)
+        echo "transferring one server's log $server_log back from aws client machine"
+        scp -i $key ubuntu@$client_public_ip:$server_log $server_log
     elif [[ $2 == client ]]; then
         client_log=$(echo `grep -i "Client_log" $meta` | cut -d ":" -f 2) 
-        echo "transferring log $client_log back from aws client machine"
+        echo "transferring client log $client_log back from aws client machine"
         scp -i $key ubuntu@$client_public_ip:$client_log $client_log
     fi
 fi
