@@ -5,11 +5,11 @@
   - server jar 
   - cpen431_pop.pub 
   - aws pem to the same folder
-- communicate with aws - scp/ ssh
+- communicate with aws - scp/ ssh on ***local machine*** 
   ```bash
   bash aws_comm.sh <ssh/trasnport_to/transport_back> <client/server>
   ```
-  Below are 8 usage
+  Below are 3 usages
   ```bash
   # transfer all related files
   bash aws_comm.sh transport_to # no second arg, tranport to both
@@ -23,14 +23,20 @@
   bash aws_comm.sh transport_back one-server
   bash aws_comm.sh transport back client 
   ```
-  Remark: This should be run locally.
 
-- setting env respectively on aws client machine/ aws server machine
+- setting env respectively ***on aws client machine/ aws server machine***
   ```bash
   bash aws_env.sh <setup/set_netem/ del_netem>
-  # only set_netem have further args
   ```
-  - This should be run on aws machines
+  Below are 3 usages
+  ```bash
+  # set up environment when starting an aws machine 
+  bash aws_env.sh setup
+  # set network emulator
+  bash aws_env.sh set_netem <args> #TODO
+  # reset network emulator
+  bash aws_env.sh del_netem 
+  ```
   - ***iface*** are lo and ens5
   - ***bash aws_env.sh set_netem delay 5*** add 5msec delay
   - ***bash aws_env.sh set_netem loss 2.5*** add 2.5% loss
@@ -61,7 +67,7 @@
   - Remarks
     - First argument ***<server/one-server/client>*** is compulsory
     - ***nodes-list.txt*** and ***servers.txt*** will not be overwritten if there exists one
-- kill all alive nodes accoring to ***nodes-list.txt***
+- kill all alive nodes accoring to generated ***nodes-list.txt***
   ```
   bash kill_nodes.sh
   ```
