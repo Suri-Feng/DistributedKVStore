@@ -2,7 +2,6 @@ Client-public-ip:54.191.114.155
 Client-private-ip:172.31.16.118
 Server-public-ip:54.191.114.155
 Server-private-ip:172.31.16.118
-One-Server-private-ip:54.191.114.155
 Number-of-nodes:20
 First-port:12345
 Server_jar_file:A8.jar

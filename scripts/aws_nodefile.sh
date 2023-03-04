@@ -3,9 +3,9 @@ META='info.txt'
 nodefile="nodes-list.txt"
 if [ -f "$META" ]; then
     export server_private_ip=$(echo `grep -i "Server-private-ip" $META` | cut -d ":" -f 2)
+    export client_private_ip=$(echo `grep -i "Client-private-ip" $META` | cut -d ":" -f 2)
     export number_of_nodes=$(echo `grep -i "Number-of-nodes" $META` | cut -d ":" -f 2)
     export first_port=$(echo `grep -i "First-port" $META` | cut -d ":" -f 2)
-    export one_server_private_ip=$(echo `grep -i "One-server-private-ip" $META` | cut -d ":" -f 2)
 else
     echo "$META does not exist. Abort!"
     exit
@@ -15,8 +15,9 @@ fi
 
 if [[ $1 == one-server ]]; then
 
-  echo "$one_server_private_ip:43100" >> $nodefile
-  echo "generating nodes-list.txt file on client $one_server_private_ip for 43100 port"
+  echo "$client_private_ip:43100" >> $nodefile
+  echo "assuming the one server is running on the client machine"
+  echo "generating nodes-list.txt file with $client_private_ip:43100"
 
 elif [[ $1 == server ]]; then
 

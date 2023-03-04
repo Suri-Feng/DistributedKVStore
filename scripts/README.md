@@ -9,11 +9,28 @@
   ```bash
   bash aws_comm.sh <ssh/trasnport_to/transport_back> <client/server>
   ```
-  - If no client/ server arg provided for transport_to case, will transport to both
+  Below are 8 usage
+  ```bash
+  # transfer all related files
+  bash transport_to # no second arg, tranport to both
+  bash transport_to server
+  bash transport_to client
+  # ssh
+  bash aws_comm.sh ssh server
+  bash aws_comm.sh ssh client
+  # transfer back log file
+  bash transport_back server
+  bash transport_back one-server
+  bash transport back client 
+  ```
+  Remark: This should be run locally.
+
 - setting env respectively on aws client machine/ aws server machine
   ```bash
-  bash aws_env.sh <client/ server/ set_netem/ del_netem>
+  bash aws_env.sh <setup/set_netem/ del_netem>
+  # only set_netem have further args
   ```
+  - This should be run on aws machines
   - ***iface*** are lo and ens5
   - ***bash aws_env.sh set_netem delay 5*** add 5msec delay
   - ***bash aws_env.sh set_netem loss 2.5*** add 2.5% loss

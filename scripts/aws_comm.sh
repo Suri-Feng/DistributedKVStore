@@ -20,46 +20,45 @@ export client_serverlist_file='aws_serverlistfile_client.sh'
 export run_sh='run.sh'
 export kill_sh='kill_nodes.sh'
 
+transport()
+{
+  address=$1
+  # meta
+  scp -i $key $info_txt ubuntu@$address:
+  # jar file
+  scp -i $key $server_jar_file ubuntu@$address:
+  # env sh
+  scp -i $key $env_sh ubuntu@$address:
+  # txt generation sh
+  scp -i $key $nodefile_sh ubuntu@$address:
+  # command sh
+  scp -i $key $run_sh ubuntu@$address:
+  scp -i $key $kill_sh ubuntu@$address:
+}
 
-tansport_server()
+transport_server()
 {
     # transport server files
     echo "Transporting files to aws server machine."
-    # meta
+    transport $server_public_ip
+
+    # meta public key
     scp -i $key $public_key ubuntu@$server_public_ip:
-    scp -i $key $info_txt ubuntu@$server_public_ip:
-    # jar file
-    scp -i $key $server_jar_file ubuntu@$server_public_ip:
-    # env sh 
-    scp -i $key $env_sh ubuntu@$server_public_ip:
-    # txt generation sh
-    scp -i $key $nodefile_sh ubuntu@$server_public_ip:
-    # command sh 
-    scp -i $key $run_sh ubuntu@$server_public_ip:
-    scp -i $key $kill_sh ubuntu@$server_public_ip:
 }
 
 transport_client()
 {
     # transport client files 
     echo "Transporting files to aws client machine."
-    # meta
-    scp -i $key $info_txt ubuntu@$client_public_ip:
-    # jar file
-    scp -i $key $server_jar_file ubuntu@$client_public_ip:
+    transport $client_public_ip
+
+    # client jar
     scp -i $key $client_jar_file ubuntu@$client_public_ip:
-    # env sh 
-    scp -i $key $env_sh ubuntu@$client_public_ip:
-    # txt generation sh
-    scp -i $key $nodefile_sh ubuntu@$client_public_ip:
+    # servers.txt generation sh
     scp -i $key $client_serverlist_file ubuntu@$client_public_ip:
-    # command sh 
-    scp -i $key $run_sh ubuntu@$client_public_ip:
-    scp -i $key $nodes_shutdown_sh ubuntu@$client_public_ip:
-    scp -i $key $kill_sh ubuntu@$client_public_ip:
 }
 
-# TODO: if 2 args
+# if 2 args
 if [[ $1 == ssh ]]; then
     if [[ $2 == server ]]; then
         echo "ssh to aws server machine"
@@ -70,7 +69,7 @@ if [[ $1 == ssh ]]; then
     fi
 fi
 
-# TODO: if 1-2 args
+# if 1-2 args
 if [[ $1 == transport_to ]]; then
     if [[ $2 == server ]]; then
         transport_server
@@ -82,7 +81,7 @@ if [[ $1 == transport_to ]]; then
     fi
 fi
 
-# TODO: if 2 args // one-server
+# if 2 args
 if [[ $1 == transport_back ]]; then
     if [[ $2 == server ]]; then
         server_log=$(echo `grep -i "Server_log" $meta` | cut -d ":" -f 2)
@@ -90,7 +89,7 @@ if [[ $1 == transport_back ]]; then
         scp -i $key ubuntu@$server_public_ip:$server_log $server_log
     elif [[ $2 == one-server ]]; then
         server_log=$(echo `grep -i "Server_log" $meta` | cut -d ":" -f 2)
-        echo "transferring one server's log $server_log back from aws client machine"
+        echo "assuming the one server running on the same machine with client, transferring one server's log $server_log back from aws client machine"
         scp -i $key ubuntu@$client_public_ip:$server_log $server_log
     elif [[ $2 == client ]]; then
         client_log=$(echo `grep -i "Client_log" $meta` | cut -d ":" -f 2) 
