@@ -24,14 +24,12 @@ public class KVServer {
     public KVServer(int port) {
         try {
             socket = new DatagramSocket(port);
-            String ip = InetAddress.getLocalHost().getHostAddress() + port;
             NodesCircle nodesCircle = NodesCircle.getInstance();
-            Node node = nodesCircle.getNodeFromIp(ip);
+            Node node = nodesCircle.getNodeFromIp(InetAddress.getLocalHost().getHostAddress(), port);
 
             // Make sure the current node is in the nodes list
             if (node != null) {
                 System.out.println("Server running on port: " + node.getPort());
-                nodesCircle.setThisNodeRingHash(nodesCircle.getCircleHashFromNodeHash(node.getHash()));
                 nodesCircle.setThisNodeId(node.getId());
 
                 // start epidemic server

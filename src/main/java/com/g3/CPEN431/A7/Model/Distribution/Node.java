@@ -1,18 +1,37 @@
 package com.g3.CPEN431.A7.Model.Distribution;
 
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class Node {
     private InetAddress address;
     private int port;
-    private long hash;
     private int id;
+    private int sha256Hash;
+    private int sha512Hash;
+
+    private int sha384hex;
     public Node(String host, int port, int id) throws UnknownHostException {
         this.address = InetAddress.getByName(host);
         this.port = port;
-        this.hash = hashTo64bit(host + port);
+        String sha256hex = Hashing.sha256()
+                .hashString(host+port, StandardCharsets.UTF_8)
+                .toString();
+        String sha512hex = Hashing.sha512()
+                .hashString(host+port, StandardCharsets.UTF_8)
+                .toString();
+        String sha384hex = Hashing.sha384()
+                .hashString(host+port, StandardCharsets.UTF_8)
+                .toString();
+        this.sha256Hash = sha256hex.hashCode();
+        this.sha512Hash = sha512hex.hashCode();
+        this.sha384hex = sha384hex.hashCode();
         this.id = id;
     }
 
@@ -22,11 +41,20 @@ public class Node {
     public int getPort() {
         return port;
     }
-    public long getHash() {
-        return hash;
-    }
 
     public int getId() {return id;}
+
+    public int getSha256Hash() {
+        return sha256Hash;
+    }
+
+    public int getSha512Hash() {
+        return sha512Hash;
+    }
+
+    public int getSha384Hash() {
+        return sha384hex;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -39,22 +67,5 @@ public class Node {
     @Override
     public int hashCode() {
         return Objects.hash(address, port);
-    }
-
-    /**
-     * Converts Strings to 64-bit longs
-     * http://stackoverflow.com/questions/1660501/what-is-a-good-64bit-hash-function-in-java-for-textual-strings
-     * @param string String to hash to 64-bit
-     * @return
-     */
-    public static long hashTo64bit(String string) {
-        // Take a large prime
-        long h = 1125899906842597L;
-        int len = string.length();
-
-        for (int i = 0; i < len; i++) {
-            h = 31*h + string.charAt(i);
-        }
-        return h;
     }
 }

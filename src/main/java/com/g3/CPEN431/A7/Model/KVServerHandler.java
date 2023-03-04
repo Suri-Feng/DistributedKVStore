@@ -10,6 +10,7 @@ import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
 import com.g3.CPEN431.A7.Model.Store.KVStore;
 import com.g3.CPEN431.A7.Model.Store.StoreCache;
 import com.g3.CPEN431.A7.Model.Store.ValueV;
+import com.g3.CPEN431.A7.Utility.StringUtils;
 import com.google.protobuf.ByteString;
 
 import java.io.IOException;
@@ -55,15 +56,15 @@ public class KVServerHandler implements Runnable {
             }
 
             heartbeatsManager.recoverLiveNodes();
-            // Only reroute PUT/GET/REMOVE requests
+            // reroute PUT/GET/REMOVE requests if request comes directly from client and doesn't belong to current node
+            int correctNodeRingHash = -1;
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
-                int correctNodeRingHash = -1;
                 Node node = null;
                 // Find correct node and Reroute
                 do {
                     if (correctNodeRingHash != -1) {
                         nodesCircle.removeNode(correctNodeRingHash);
-                        System.out.println("Dead node: " + node.getPort() + " Num servers left: " + nodesCircle.getAliveNodesCount());
+                        System.out.println(socket.getLocalPort() + ": Dead node: " + node.getPort() + " Num servers left: " + nodesCircle.getAliveNodesCount());
                     }
                     correctNodeRingHash = nodesCircle.findRingKeyByHash(reqPayload.getKey().hashCode());
                     node = nodesCircle.getCircle().get(correctNodeRingHash);
@@ -75,6 +76,18 @@ public class KVServerHandler implements Runnable {
                 }
             }
 
+            // 1. request comes from another node
+            // 2. request from client but belongs to my node
+            // For GET/REMOVE requests, if I don't have the key, then forward to next node in the ring
+//            if (command == Command.GET.getCode() || command == Command.REMOVE.getCode()) {
+//                byte[] id = requestMessage.getMessageID().toByteArray();
+//                if (!store.getStore().containsKey(ByteBuffer.wrap(id))) {
+//                    // Reroute to next node
+//                    Node nextNode = nodesCircle.findNextNode(correctNodeRingHash);
+//                    reRoute(nextNode);
+//                    return;
+//                }
+//            }
             getResponseFromOwnNode(reqPayload);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -84,8 +97,7 @@ public class KVServerHandler implements Runnable {
     private void getResponseFromOwnNode(KeyValueRequest.KVRequest reqPayload) throws IOException {
         // If cached request, get response msg from cache and send it
         byte[] id = requestMessage.getMessageID().toByteArray();
-
-        Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
+            Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
         if (cachedResponse != null) {
             sendResponse(cachedResponse, requestMessage);
             return;
@@ -110,13 +122,25 @@ public class KVServerHandler implements Runnable {
     }
 
     private void reRoute(Node node) throws IOException {
-        Message.Msg msg = Message.Msg.newBuilder()
-                .setMessageID(requestMessage.getMessageID())
-                .setPayload(requestMessage.getPayload())
-                .setCheckSum(requestMessage.getCheckSum())
-                .setClientPort(this.port)
-                .setClientAddress(ByteString.copyFrom(this.address.getAddress()))
-                .build();
+        Message.Msg msg;
+        if (requestMessage.hasClientAddress()) {
+            msg = Message.Msg.newBuilder()
+                    .setMessageID(requestMessage.getMessageID())
+                    .setPayload(requestMessage.getPayload())
+                    .setCheckSum(requestMessage.getCheckSum())
+                    .setClientPort(requestMessage.getClientPort())
+                    .setClientAddress(requestMessage.getClientAddress())
+                    .build();
+        } else {
+            msg = Message.Msg.newBuilder()
+                    .setMessageID(requestMessage.getMessageID())
+                    .setPayload(requestMessage.getPayload())
+                    .setCheckSum(requestMessage.getCheckSum())
+                    .setClientPort(this.port)
+                    .setClientAddress(ByteString.copyFrom(this.address.getAddress()))
+                    .build();
+        }
+
         byte[] responseAsByteArray = msg.toByteArray();
         DatagramPacket responsePkt = new DatagramPacket(
                 responseAsByteArray,
@@ -221,6 +245,7 @@ public class KVServerHandler implements Runnable {
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case SHUTDOWN:
+                System.out.println(socket.getLocalPort() + " has " + store.getStore().size() + "keys");
                 System.exit(0);
             case WIPE_OUT:
                 wipeOut();
