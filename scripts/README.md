@@ -12,16 +12,16 @@
   Below are 8 usage
   ```bash
   # transfer all related files
-  bash transport_to # no second arg, tranport to both
-  bash transport_to server
-  bash transport_to client
+  bash aws_comm.sh transport_to # no second arg, tranport to both
+  bash aws_comm.sh transport_to server
+  bash aws_comm.sh transport_to client
   # ssh
   bash aws_comm.sh ssh server
   bash aws_comm.sh ssh client
   # transfer back log file
-  bash transport_back server
-  bash transport_back one-server
-  bash transport back client 
+  bash aws_comm.sh transport_back server
+  bash aws_comm.sh transport_back one-server
+  bash aws_comm.sh transport back client 
   ```
   Remark: This should be run locally.
 
@@ -52,7 +52,7 @@
     - server nodes will be run in background, and outputs saved in ***nodes_output.log***
   - ***bash run.sh one-server***
     - This is based on the assumption that the client and the server are deployed on the same machine
-    - ***bash run.sh one-server*** will create a ***nodes-list.txt*** in format of <one_server_private_ip, 43100> with ***1 port***, if there doesn't exist one
+    - ***bash run.sh one-server*** will create a ***nodes-list.txt*** in format of <client_private_ip, 43100> with ***1 port***, if there doesn't exist one
     - one server node will be run in background, and outputs saved in ***nodes_output.log***
   - ***bash run.sh client***
     - client will be run in foreground
