@@ -43,7 +43,7 @@
     and submit to the leaderboard
   - Remarks
     - First argument ***<server/one-server/client>*** is compulsory
-    - ***nodes-list.txt*** and ***servers.txt*** will be overwritten, if there exists one
+    - ***nodes-list.txt*** and ***servers.txt*** will not be overwritten if there exists one
 - kill all alive nodes accoring to ***nodes-list.txt***
   ```
   bash kill_nodes.sh

@@ -13,12 +13,12 @@ fi
 
 > $nodefile
 
-if [[ $1 == server ]]; then
+if [[ $1 == one-server ]]; then
 
-  echo "$client_private_ip:43100" >> $nodefile
-  echo "generating nodes-list.txt file on client $client_private_ip for 43100 port"
+  echo "$one_server_private_ip:43100" >> $nodefile
+  echo "generating nodes-list.txt file on client $one_server_private_ip for 43100 port"
 
-elif [[ $1 == one-server ]]; then
+elif [[ $1 == server ]]; then
 
   if [ -z "$number_of_nodes" ] || [ -z "$first_port" ]
   then

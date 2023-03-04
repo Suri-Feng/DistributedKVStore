@@ -5,20 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ee8b0d0-a681-41e2-86c1-cba4b37f5c55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/scripts/aws_nodefile.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/run.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aws_comm.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_comm.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aws_env_client.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_env.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aws_env_server.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aws_nodefile_client.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aws_nodefile_server.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/aws_serverlistfile_client.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_serverlistfile_client.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/client_run.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/nodes_run.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/nodes_shutdown.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/kill_nodes.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/aws_nodefile.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/aws_nodefile.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/kill_nodes.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/kill_nodes.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/run.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -39,9 +39,12 @@ elif [[ $1 == client ]]; then
 
     serverlistfile="servers.txt"
 
+    if [[ ! -f "$serverlistfile" ]]; then
+      echo "servers.txt doesn't exist. generating new ..."
+      bash aws_serverlistfile_client.sh
+    fi
+
     if [[ $2 == submit ]]; then
-        echo "creating servers.txt created based on server public ip and ports in info.txt"
-        bash aws_serverlistfile_client.sh
         submit_code=$(echo `grep -i "Submit-secret-code" $META` | cut -d ":" -f 2)
         echo "client is running in submission mode."
         java -jar $jarfile -servers-list=servers.txt -submit -secret-code $submit_code
