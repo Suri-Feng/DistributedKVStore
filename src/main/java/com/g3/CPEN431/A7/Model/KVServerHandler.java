@@ -80,6 +80,7 @@ public class KVServerHandler implements Runnable {
                         // Instead, request will be sent to node.
                         hintedNode = node;
                     }
+                    // TODO: probably should get hintedNode from allNodesList
                     node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
                 } while (!heartbeatsManager.isNodeAlive(node));
 
