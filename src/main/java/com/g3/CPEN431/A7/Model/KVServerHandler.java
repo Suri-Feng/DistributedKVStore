@@ -232,22 +232,19 @@ public class KVServerHandler implements Runnable {
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case GET:
-                if (hintedStore == null) {
-
-                }
-                ValueV valueInStore = store.getStore().get(ByteBuffer.wrap(key));
-                if (valueInStore == null) {
-                    return builder
-                            .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
-                            .build();
-                }
+                    ValueV valueInStore = store.getStore().get(ByteBuffer.wrap(key));
+                    if (valueInStore == null) {
+                        return builder
+                                .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
+                                .build();
+                    }
 //                System.out.println(socket.getLocalPort()  + " number of keys: "
 //                        + store.getStore().size());
-                return builder
-                        .setErrCode(ErrorCode.SUCCESSFUL.getCode())
-                        .setValue(valueInStore.getValue())
-                        .setVersion(valueInStore.getVersion())
-                        .build();
+                    return builder
+                            .setErrCode(ErrorCode.SUCCESSFUL.getCode())
+                            .setValue(valueInStore.getValue())
+                            .setVersion(valueInStore.getVersion())
+                            .build();
             case REMOVE:
                 if (store.getStore().get(ByteBuffer.wrap(key)) == null) {
                     return builder

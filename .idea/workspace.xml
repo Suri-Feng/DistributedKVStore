@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder">
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/HintedStore.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nodes-list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nodes-list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers/Message.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/Node.java" afterDir="false" />
@@ -80,9 +83,12 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ca.NetSysLab.ProtocolBuffers" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.s42442146.CPEN431.A4.Utility" />
