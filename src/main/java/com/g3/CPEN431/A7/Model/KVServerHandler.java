@@ -3,7 +3,7 @@ package com.g3.CPEN431.A7.Model;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.KeyValueResponse;
 import ca.NetSysLab.ProtocolBuffers.Message;
-import com.g3.CPEN431.A7.Model.Store.HintedStore;
+import com.g3.CPEN431.A7.Model.Distribution.KeyTransferManager;
 import com.g3.CPEN431.A7.Utility.MemoryUsage;
 import com.g3.CPEN431.A7.Model.Distribution.HeartbeatsManager;
 import com.g3.CPEN431.A7.Model.Distribution.Node;
@@ -11,7 +11,6 @@ import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
 import com.g3.CPEN431.A7.Model.Store.KVStore;
 import com.g3.CPEN431.A7.Model.Store.StoreCache;
 import com.g3.CPEN431.A7.Model.Store.ValueV;
-import com.g3.CPEN431.A7.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -21,7 +20,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.CRC32;
 
 public class KVServerHandler implements Runnable {
@@ -34,9 +32,7 @@ public class KVServerHandler implements Runnable {
     NodesCircle nodesCircle = NodesCircle.getInstance();
     HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
 
-    HintedStore hintedStore = HintedStore.getInstance();
-
-    Node hintedNode;
+    KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
@@ -46,7 +42,23 @@ public class KVServerHandler implements Runnable {
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
-        hintedNode = null;
+    }
+
+    private void manageHeartBeats(List<Long> heartbeatList) {
+        heartbeatsManager.updateHeartbeats(heartbeatList);
+        List<Node> recoveredNodes = heartbeatsManager.recoverLiveNodes();
+
+        // TODO: send data to recovered nodes
+        List<ByteBuffer> keysToRemove = new ArrayList<>();
+        for (Node node: recoveredNodes) {
+            keysToRemove.addAll(keyTransferManager.transferKeys(node));
+        }
+        // TODO: remove keys from store
+        if (!keysToRemove.isEmpty()) {
+            for (ByteBuffer key: keysToRemove) {
+                store.getStore().remove(key);
+            }
+        }
     }
 
     @Override
@@ -58,10 +70,16 @@ public class KVServerHandler implements Runnable {
 
             int command = reqPayload.getCommand();
 
+            // Receive heartbeats
             if (command == Command.HEARTBEAT.getCode()) {
-                heartbeatsManager.updateHeartbeats(reqPayload.getHeartbeatList());
-                heartbeatsManager.recoverLiveNodes();
-                // TODO: send data to recovered nodes
+                manageHeartBeats(reqPayload.getHeartbeatList());
+                return;
+            }
+
+            // Receive keys transfer
+            if  (command == Command.KEY_TRANSFER.getCode()) {
+                System.out.println(KVServer.port + " received key transfers from " + this.port);
+                addKeys(reqPayload.getPairsList());
                 return;
             }
 
@@ -76,11 +94,7 @@ public class KVServerHandler implements Runnable {
                     if (node != null) {
                         System.out.println(socket.getLocalPort() + ": remove node: " + node.getPort() + " is alive: " + heartbeatsManager.isNodeAlive(node));
                         nodesCircle.removeNode(node);
-                        // hintedNode is what the request should've been sent to if not null.
-                        // Instead, request will be sent to node.
-                        hintedNode = node;
                     }
-                    // TODO: probably should get hintedNode from allNodesList
                     node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
                 } while (!heartbeatsManager.isNodeAlive(node));
 
@@ -90,25 +104,20 @@ public class KVServerHandler implements Runnable {
                 }
             }
 
-            // 1. request comes from another node
-            // 2. request from client but belongs to my node
-            // could be im the right node or im temporarily storing the data b/c hintedNode is not null
-
-
-
-            // For GET/REMOVE requests, if I don't have the key, then forward to next node in the ring
-//            if (command == Command.GET.getCode() || command == Command.REMOVE.getCode()) {
-//                byte[] id = requestMessage.getMessageID().toByteArray();
-//                if (!store.getStore().containsKey(ByteBuffer.wrap(id))) {
-//                    // Reroute to next node
-//                    Node nextNode = nodesCircle.findNextNode(correctNodeRingHash);
-//                    reRoute(nextNode);
-//                    return;
-//                }
-//            }
+            // 1. request comes from another node who thinks I'm the right node
+            // 2. request from client, but I think im the right node
+            // could be true or im temporarily storing the data b/c the actual right node down
             getResponseFromOwnNode(reqPayload);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void addKeys(List<KeyValueRequest.KeyValueEntry> pairs) {
+        for(KeyValueRequest.KeyValueEntry pair: pairs) {
+            store.getStore().put(
+                    ByteBuffer.wrap(pair.getKey().toByteArray()),
+                    new ValueV(pair.getVersion(), pair.getValue()));
         }
     }
 
@@ -147,10 +156,6 @@ public class KVServerHandler implements Runnable {
                     .setClientPort(this.port)
                     .setClientAddress(ByteString.copyFrom(this.address.getAddress()));
 
-        if (hintedNode != null) {
-            msgBuilder.setHintedNodeId(hintedNode.getId());
-        }
-
         byte[] responseAsByteArray = msgBuilder.build().toByteArray();
         DatagramPacket responsePkt = new DatagramPacket(
                 responseAsByteArray,
@@ -185,7 +190,6 @@ public class KVServerHandler implements Runnable {
     private KeyValueResponse.KVResponse processRequest(KeyValueRequest.KVRequest requestPayload) {
         // Get command, key, and value from request
         int commandCode = requestPayload.getCommand();
-
         byte[] key = requestPayload.getKey().toByteArray();
         byte[] value = requestPayload.getValue().toByteArray();
 
@@ -217,18 +221,8 @@ public class KVServerHandler implements Runnable {
                             .build();
                 }
                 ValueV valueV = new ValueV(requestPayload.getVersion(), requestPayload.getValue());
-                if (hintedNode == null) {
-                    store.getStore().put(ByteBuffer.wrap(key), valueV);
-                } else {
-                    ConcurrentHashMap<ByteBuffer, ValueV> tempStore = hintedStore.getStore().get(hintedNode.getId());
-                    if (tempStore == null) {
-                        tempStore = new ConcurrentHashMap<>();
-                        tempStore.put(ByteBuffer.wrap(key), valueV);
-                        hintedStore.getStore().put(hintedNode.getId(), tempStore);
-                    } else {
-                        tempStore.put(ByteBuffer.wrap(key), valueV);
-                    }
-                }
+                store.getStore().put(ByteBuffer.wrap(key), valueV);
+
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
@@ -276,7 +270,7 @@ public class KVServerHandler implements Runnable {
             case GET_MEMBERSHIP_COUNT:
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
-                        .setMembershipCount(1)
+                        .setMembershipCount(nodesCircle.getAliveNodesCount())
                         .build();
         }
         return builder

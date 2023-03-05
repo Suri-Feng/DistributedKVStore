@@ -1,7 +1,5 @@
 package com.g3.CPEN431.A7.Model.Distribution;
 
-import com.google.common.hash.HashCode;
-import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
 import java.net.InetAddress;
@@ -10,13 +8,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class Node {
-    private InetAddress address;
-    private int port;
-    private int id;
-    private int sha256Hash;
-    private int sha512Hash;
+    private final InetAddress address;
+    private final int port;
+    private final int id;
+    private final int sha256Hash;
+    private final int sha512Hash;
+    private final int sha384hex;
 
-    private int sha384hex;
     public Node(String host, int port, int id) throws UnknownHostException {
         this.address = InetAddress.getByName(host);
         this.port = port;

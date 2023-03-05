@@ -2,6 +2,7 @@ package com.g3.CPEN431.A7.Model.Distribution;
 
 import com.g3.CPEN431.A7.Model.KVServer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,17 +39,20 @@ public class HeartbeatsManager {
         return System.currentTimeMillis() - heartBeats.get(node.getId()) <= metric;
     }
 
-    public void recoverLiveNodes() {
+    public List<Node> recoverLiveNodes() {
+        List<Node> recoveredNodes = new ArrayList<>();
         ConcurrentHashMap<Integer, Node> deadNodes = nodesCircle.getDeadNodesList();
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
         for (Map.Entry<Integer, Node> nodeList: deadNodes.entrySet()) {
             Node node = nodeList.getValue();
             if (isNodeAlive(node) && !aliveNodes.containsKey(node.getId())) {
                 nodesCircle.rejoinNode(node);
+                recoveredNodes.add(node);
                 System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
                         + nodesCircle.getAliveNodesCount());
             }
         }
+        return recoveredNodes;
     }
 
     public static HeartbeatsManager getInstance() {

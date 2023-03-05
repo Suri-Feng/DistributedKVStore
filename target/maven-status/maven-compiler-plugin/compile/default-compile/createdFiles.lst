@@ -1,6 +1,8 @@
 com/g3/CPEN431/A7/Model/KVServer.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse.class
 com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.class
+ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntryOrBuilder.class
+ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$1.class
 ca/NetSysLab/ProtocolBuffers/Message$MsgOrBuilder.class
 com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$1.class
@@ -19,13 +21,16 @@ com/g3/CPEN431/A7/App.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class
 com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class
 com/g3/CPEN431/A7/Model/ErrorCode.class
+ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry.class
 com/g3/CPEN431/A7/Model/KVServerHandler.class
 com/g3/CPEN431/A7/Model/Store/ValueV.class
 com/g3/CPEN431/A7/Utility/ByteOrder.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class
 com/g3/CPEN431/A7/Utility/MemoryUsage.class
+ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$Builder.class
 com/g3/CPEN431/A7/Model/Command.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequestOrBuilder.class
+com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.class
 com/g3/CPEN431/A7/Model/Store/KVStore.class
 ca/NetSysLab/ProtocolBuffers/Message.class

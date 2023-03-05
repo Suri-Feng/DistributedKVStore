@@ -1,7 +1,6 @@
 package com.g3.CPEN431.A7.Model.Distribution;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -17,12 +16,15 @@ public class NodesCircle {
     private final ConcurrentHashMap<Integer, Node> deadNodesList;
     private int startupNodesSize;
     private int thisNodeId;
+
+    private Node currentNode;
     private NodesCircle() {
         circle = new ConcurrentSkipListMap<>();
         aliveNodesList = new ConcurrentHashMap<>();
         allNodesList = new ConcurrentHashMap<>();
         deadNodesList = new ConcurrentHashMap<>();
         thisNodeId = -1;
+        currentNode = null;
     }
     public void buildHashCircle() {
         for (Node node: allNodesList.values()) {
@@ -55,15 +57,6 @@ public class NodesCircle {
         return tailMap.isEmpty() ? circle.firstEntry().getValue() : tailMap.firstEntry().getValue();
     }
 
-    public Node findNextNode(int ringHash) {
-        Map.Entry<Integer, Node> higherEntry = circle.higherEntry(ringHash);
-        return higherEntry != null ? higherEntry.getValue() : circle.firstEntry().getValue();
-    }
-
-    /**
-     * Gets hash on circle corresponding to a node hash
-     * @param hash hash of a node
-     */
     public int getCircleBucketFromHash(int hash) {
         int n = Integer.MAX_VALUE;
         return  hash % n < 0 ? hash % n + n : hash % n;
@@ -88,9 +81,33 @@ public class NodesCircle {
         deadNodesList.remove(node.getId());
     }
 
-    /**
-     * Gets Node corresponding to an address and port
-     */
+
+    // 1. check if the provided node id is a predecessor of the current node
+    // 2. if yes, return ring hash of the provided node
+    // 3. else, return null
+    public Integer getRingHashIfMyPredecessor(int id) {
+        int hash1 = getCircleBucketFromHash(currentNode.getSha256Hash());
+        int hash2 = getCircleBucketFromHash(currentNode.getSha512Hash());
+        int hash3 = getCircleBucketFromHash(currentNode.getSha384Hash());
+        int[] hashes = {hash1, hash2, hash3};
+
+        // TODO: maybe multiple hashes??
+        for (int hash: hashes) {
+            Integer lowerNodeRingHash = circle.lowerKey(hash);
+            int lowerNodeId = lowerNodeRingHash == null ?
+                    circle.lastEntry().getValue().getId() : circle.get(lowerNodeRingHash).getId();
+            if (lowerNodeId == id) {
+                return lowerNodeRingHash == null ? circle.lastKey() : lowerNodeRingHash;
+            }
+        }
+        return null;
+    }
+
+    public int findPredecessorRingHash (int ringHash) {
+        Integer lowerNodeRingHash = circle.lowerKey(ringHash);
+        return lowerNodeRingHash == null ? circle.lastKey() : lowerNodeRingHash;
+    }
+
     public Node getNodeFromIp(String address, int port) {
         for (Node node: allNodesList.values()) {
             if (node.getAddress().getHostAddress().equals(address) && node.getPort() == port) {
@@ -102,6 +119,7 @@ public class NodesCircle {
 
     public void setThisNodeId(int id) {
         this.thisNodeId = id;
+        currentNode = getNodeById(id);
     }
 
     public int getThisNodeId() {

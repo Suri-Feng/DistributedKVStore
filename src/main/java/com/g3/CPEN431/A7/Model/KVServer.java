@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.concurrent.*;
 import ca.NetSysLab.ProtocolBuffers.Message;
 import com.g3.CPEN431.A7.Model.Distribution.EpidemicServer;
+import com.g3.CPEN431.A7.Model.Distribution.KeyTransferManager;
 import com.g3.CPEN431.A7.Model.Distribution.Node;
 import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
 import com.g3.CPEN431.A7.Model.Store.StoreCache;
@@ -21,12 +22,14 @@ public class KVServer {
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
+    private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
     public static int port;
 
     public KVServer(int port) {
         this.port = port;
         try {
             socket = new DatagramSocket(port);
+            keyTransferManager.setSocket(socket);
             NodesCircle nodesCircle = NodesCircle.getInstance();
             Node node = nodesCircle.getNodeFromIp(InetAddress.getLocalHost().getHostAddress(), port);
 

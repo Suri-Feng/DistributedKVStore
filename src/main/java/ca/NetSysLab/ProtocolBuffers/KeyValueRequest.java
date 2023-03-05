@@ -73,6 +73,30 @@ public final class KeyValueRequest {
      * @return The heartbeat at the given index.
      */
     long getHeartbeat(int index);
+
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> 
+        getPairsList();
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPairs(int index);
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    int getPairsCount();
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
+        getPairsOrBuilderList();
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code KVRequest}
@@ -90,6 +114,7 @@ public final class KeyValueRequest {
       key_ = com.google.protobuf.ByteString.EMPTY;
       value_ = com.google.protobuf.ByteString.EMPTY;
       heartbeat_ = emptyLongList();
+      pairs_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -215,6 +240,47 @@ public final class KeyValueRequest {
     }
     private int heartbeatMemoizedSerializedSize = -1;
 
+    public static final int PAIRS_FIELD_NUMBER = 6;
+    @SuppressWarnings("serial")
+    private java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> pairs_;
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> getPairsList() {
+      return pairs_;
+    }
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
+        getPairsOrBuilderList() {
+      return pairs_;
+    }
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    @java.lang.Override
+    public int getPairsCount() {
+      return pairs_.size();
+    }
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPairs(int index) {
+      return pairs_.get(index);
+    }
+    /**
+     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     */
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairsOrBuilder(
+        int index) {
+      return pairs_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -248,6 +314,9 @@ public final class KeyValueRequest {
       }
       for (int i = 0; i < heartbeat_.size(); i++) {
         output.writeUInt64NoTag(heartbeat_.getLong(i));
+      }
+      for (int i = 0; i < pairs_.size(); i++) {
+        output.writeMessage(6, pairs_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -288,6 +357,10 @@ public final class KeyValueRequest {
         }
         heartbeatMemoizedSerializedSize = dataSize;
       }
+      for (int i = 0; i < pairs_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, pairs_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -322,6 +395,8 @@ public final class KeyValueRequest {
       }
       if (!getHeartbeatList()
           .equals(other.getHeartbeatList())) return false;
+      if (!getPairsList()
+          .equals(other.getPairsList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -350,6 +425,10 @@ public final class KeyValueRequest {
       if (getHeartbeatCount() > 0) {
         hash = (37 * hash) + HEARTBEAT_FIELD_NUMBER;
         hash = (53 * hash) + getHeartbeatList().hashCode();
+      }
+      if (getPairsCount() > 0) {
+        hash = (37 * hash) + PAIRS_FIELD_NUMBER;
+        hash = (53 * hash) + getPairsList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -485,6 +564,13 @@ public final class KeyValueRequest {
         value_ = com.google.protobuf.ByteString.EMPTY;
         version_ = 0;
         heartbeat_ = emptyLongList();
+        if (pairsBuilder_ == null) {
+          pairs_ = java.util.Collections.emptyList();
+        } else {
+          pairs_ = null;
+          pairsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -523,6 +609,15 @@ public final class KeyValueRequest {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.heartbeat_ = heartbeat_;
+        if (pairsBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) != 0)) {
+            pairs_ = java.util.Collections.unmodifiableList(pairs_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.pairs_ = pairs_;
+        } else {
+          result.pairs_ = pairsBuilder_.build();
+        }
       }
 
       private void buildPartial0(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest result) {
@@ -612,6 +707,32 @@ public final class KeyValueRequest {
           }
           onChanged();
         }
+        if (pairsBuilder_ == null) {
+          if (!other.pairs_.isEmpty()) {
+            if (pairs_.isEmpty()) {
+              pairs_ = other.pairs_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensurePairsIsMutable();
+              pairs_.addAll(other.pairs_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.pairs_.isEmpty()) {
+            if (pairsBuilder_.isEmpty()) {
+              pairsBuilder_.dispose();
+              pairsBuilder_ = null;
+              pairs_ = other.pairs_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              pairsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getPairsFieldBuilder() : null;
+            } else {
+              pairsBuilder_.addAllMessages(other.pairs_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -674,6 +795,19 @@ public final class KeyValueRequest {
                 input.popLimit(limit);
                 break;
               } // case 42
+              case 50: {
+                ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry m =
+                    input.readMessage(
+                        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.parser(),
+                        extensionRegistry);
+                if (pairsBuilder_ == null) {
+                  ensurePairsIsMutable();
+                  pairs_.add(m);
+                } else {
+                  pairsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 50
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -923,6 +1057,246 @@ public final class KeyValueRequest {
         onChanged();
         return this;
       }
+
+      private java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> pairs_ =
+        java.util.Collections.emptyList();
+      private void ensurePairsIsMutable() {
+        if (!((bitField0_ & 0x00000020) != 0)) {
+          pairs_ = new java.util.ArrayList<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry>(pairs_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> pairsBuilder_;
+
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> getPairsList() {
+        if (pairsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(pairs_);
+        } else {
+          return pairsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public int getPairsCount() {
+        if (pairsBuilder_ == null) {
+          return pairs_.size();
+        } else {
+          return pairsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPairs(int index) {
+        if (pairsBuilder_ == null) {
+          return pairs_.get(index);
+        } else {
+          return pairsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder setPairs(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
+        if (pairsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePairsIsMutable();
+          pairs_.set(index, value);
+          onChanged();
+        } else {
+          pairsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder setPairs(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder builderForValue) {
+        if (pairsBuilder_ == null) {
+          ensurePairsIsMutable();
+          pairs_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          pairsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder addPairs(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
+        if (pairsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePairsIsMutable();
+          pairs_.add(value);
+          onChanged();
+        } else {
+          pairsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder addPairs(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
+        if (pairsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePairsIsMutable();
+          pairs_.add(index, value);
+          onChanged();
+        } else {
+          pairsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder addPairs(
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder builderForValue) {
+        if (pairsBuilder_ == null) {
+          ensurePairsIsMutable();
+          pairs_.add(builderForValue.build());
+          onChanged();
+        } else {
+          pairsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder addPairs(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder builderForValue) {
+        if (pairsBuilder_ == null) {
+          ensurePairsIsMutable();
+          pairs_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          pairsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder addAllPairs(
+          java.lang.Iterable<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> values) {
+        if (pairsBuilder_ == null) {
+          ensurePairsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, pairs_);
+          onChanged();
+        } else {
+          pairsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder clearPairs() {
+        if (pairsBuilder_ == null) {
+          pairs_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          pairsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public Builder removePairs(int index) {
+        if (pairsBuilder_ == null) {
+          ensurePairsIsMutable();
+          pairs_.remove(index);
+          onChanged();
+        } else {
+          pairsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder getPairsBuilder(
+          int index) {
+        return getPairsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairsOrBuilder(
+          int index) {
+        if (pairsBuilder_ == null) {
+          return pairs_.get(index);  } else {
+          return pairsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
+           getPairsOrBuilderList() {
+        if (pairsBuilder_ != null) {
+          return pairsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(pairs_);
+        }
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder addPairsBuilder() {
+        return getPairsFieldBuilder().addBuilder(
+            ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder addPairsBuilder(
+          int index) {
+        return getPairsFieldBuilder().addBuilder(
+            index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       */
+      public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder> 
+           getPairsBuilderList() {
+        return getPairsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
+          getPairsFieldBuilder() {
+        if (pairsBuilder_ == null) {
+          pairsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder>(
+                  pairs_,
+                  ((bitField0_ & 0x00000020) != 0),
+                  getParentForChildren(),
+                  isClean());
+          pairs_ = null;
+        }
+        return pairsBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -987,11 +1361,641 @@ public final class KeyValueRequest {
 
   }
 
+  public interface KeyValueEntryOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:KeyValueEntry)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bytes key = 1;</code>
+     * @return The key.
+     */
+    com.google.protobuf.ByteString getKey();
+
+    /**
+     * <code>int32 version = 2;</code>
+     * @return The version.
+     */
+    int getVersion();
+
+    /**
+     * <code>bytes value = 3;</code>
+     * @return The value.
+     */
+    com.google.protobuf.ByteString getValue();
+  }
+  /**
+   * Protobuf type {@code KeyValueEntry}
+   */
+  public static final class KeyValueEntry extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:KeyValueEntry)
+      KeyValueEntryOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use KeyValueEntry.newBuilder() to construct.
+    private KeyValueEntry(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private KeyValueEntry() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      value_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new KeyValueEntry();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_KeyValueEntry_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_KeyValueEntry_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.class, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder.class);
+    }
+
+    public static final int KEY_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <code>bytes key = 1;</code>
+     * @return The key.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
+    }
+
+    public static final int VERSION_FIELD_NUMBER = 2;
+    private int version_ = 0;
+    /**
+     * <code>int32 version = 2;</code>
+     * @return The version.
+     */
+    @java.lang.Override
+    public int getVersion() {
+      return version_;
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
+    /**
+     * <code>bytes value = 3;</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getValue() {
+      return value_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!key_.isEmpty()) {
+        output.writeBytes(1, key_);
+      }
+      if (version_ != 0) {
+        output.writeInt32(2, version_);
+      }
+      if (!value_.isEmpty()) {
+        output.writeBytes(3, value_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!key_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
+      }
+      if (version_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, version_);
+      }
+      if (!value_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, value_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry)) {
+        return super.equals(obj);
+      }
+      ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry other = (ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry) obj;
+
+      if (!getKey()
+          .equals(other.getKey())) return false;
+      if (getVersion()
+          != other.getVersion()) return false;
+      if (!getValue()
+          .equals(other.getValue())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getKey().hashCode();
+      hash = (37 * hash) + VERSION_FIELD_NUMBER;
+      hash = (53 * hash) + getVersion();
+      hash = (37 * hash) + VALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getValue().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code KeyValueEntry}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:KeyValueEntry)
+        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_KeyValueEntry_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_KeyValueEntry_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.class, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder.class);
+      }
+
+      // Construct using ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        key_ = com.google.protobuf.ByteString.EMPTY;
+        version_ = 0;
+        value_ = com.google.protobuf.ByteString.EMPTY;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_KeyValueEntry_descriptor;
+      }
+
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getDefaultInstanceForType() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry build() {
+        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry buildPartial() {
+        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry result = new ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.key_ = key_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.version_ = version_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.value_ = value_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry) {
+          return mergeFrom((ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry other) {
+        if (other == ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance()) return this;
+        if (other.getKey() != com.google.protobuf.ByteString.EMPTY) {
+          setKey(other.getKey());
+        }
+        if (other.getVersion() != 0) {
+          setVersion(other.getVersion());
+        }
+        if (other.getValue() != com.google.protobuf.ByteString.EMPTY) {
+          setValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                key_ = input.readBytes();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                version_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 26: {
+                value_ = input.readBytes();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes key = 1;</code>
+       * @return The key.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
+      }
+      /**
+       * <code>bytes key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKey(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        key_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes key = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+
+      private int version_ ;
+      /**
+       * <code>int32 version = 2;</code>
+       * @return The version.
+       */
+      @java.lang.Override
+      public int getVersion() {
+        return version_;
+      }
+      /**
+       * <code>int32 version = 2;</code>
+       * @param value The version to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVersion(int value) {
+        
+        version_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 version = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVersion() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        version_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString value_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes value = 3;</code>
+       * @return The value.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getValue() {
+        return value_;
+      }
+      /**
+       * <code>bytes value = 3;</code>
+       * @param value The value to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValue(com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        value_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes value = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        value_ = getDefaultInstance().getValue();
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:KeyValueEntry)
+    }
+
+    // @@protoc_insertion_point(class_scope:KeyValueEntry)
+    private static final ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry();
+    }
+
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<KeyValueEntry>
+        PARSER = new com.google.protobuf.AbstractParser<KeyValueEntry>() {
+      @java.lang.Override
+      public KeyValueEntry parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<KeyValueEntry> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<KeyValueEntry> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_KVRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_KVRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_KeyValueEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_KeyValueEntry_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1001,12 +2005,14 @@ public final class KeyValueRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025KeyValueRequest.proto\"\211\001\n\tKVRequest\022\017\n" +
+      "\n\025KeyValueRequest.proto\"\250\001\n\tKVRequest\022\017\n" +
       "\007command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005valu" +
       "e\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\021\n\the" +
-      "artbeat\030\005 \003(\004B\006\n\004_keyB\010\n\006_valueB\n\n\010_vers" +
-      "ionB/\n\034ca.NetSysLab.ProtocolBuffersB\017Key" +
-      "ValueRequestb\006proto3"
+      "artbeat\030\005 \003(\004\022\035\n\005pairs\030\006 \003(\0132\016.KeyValueE" +
+      "ntryB\006\n\004_keyB\010\n\006_valueB\n\n\010_version\"<\n\rKe" +
+      "yValueEntry\022\013\n\003key\030\001 \001(\014\022\017\n\007version\030\002 \001(" +
+      "\005\022\r\n\005value\030\003 \001(\014B/\n\034ca.NetSysLab.Protoco" +
+      "lBuffersB\017KeyValueRequestb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1017,7 +2023,13 @@ public final class KeyValueRequest {
     internal_static_KVRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KVRequest_descriptor,
-        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Key", "Value", "Version", });
+        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pairs", "Key", "Value", "Version", });
+    internal_static_KeyValueEntry_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_KeyValueEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_KeyValueEntry_descriptor,
+        new java.lang.String[] { "Key", "Version", "Value", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
