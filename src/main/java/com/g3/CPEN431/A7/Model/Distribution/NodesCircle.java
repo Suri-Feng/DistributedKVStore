@@ -34,21 +34,25 @@ public class NodesCircle {
             circle.put(hash2, node);
             circle.put(hash3, node);
         }
+//        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
+//            System.out.println(entry.getKey());
+//            System.out.println(entry.getValue().getPort());
+//            System.out.println("==========");
+//        }
     }
 
     public void setNodeList(ArrayList<Node> list) {
         for (Node node: list) {
             this.aliveNodesList.put(node.getId(), node);
             this.allNodesList.put(node.getId(), node);
-
         }
         this.startupNodesSize = this.allNodesList.size();
     }
 
-    public int findRingKeyByHash(int hash) {
-        int keyHash = getCircleBucketFromHash(hash);
-        ConcurrentNavigableMap<Integer, Node> tailMap = circle.tailMap(keyHash);
-        return tailMap.isEmpty() ? circle.firstKey() : tailMap.firstKey();
+    public Node findCorrectNodeByHash(int hash) {
+        int ringKey = getCircleBucketFromHash(hash);
+        ConcurrentNavigableMap<Integer, Node> tailMap = circle.tailMap(ringKey);
+        return tailMap.isEmpty() ? circle.firstEntry().getValue() : tailMap.firstEntry().getValue();
     }
 
     public Node findNextNode(int ringHash) {
@@ -64,15 +68,15 @@ public class NodesCircle {
         int n = Integer.MAX_VALUE;
         return  hash % n < 0 ? hash % n + n : hash % n;
     }
-    public void removeNode(int ringKey) {
-        Node node = circle.get(ringKey);
+    public void removeNode(Node node) {
         aliveNodesList.remove(node.getId());
-        circle.remove(ringKey);
         deadNodesList.put(node.getId(), node);
+        circle.remove(getCircleBucketFromHash(node.getSha256Hash()));
+        circle.remove(getCircleBucketFromHash(node.getSha384Hash()));
+        circle.remove(getCircleBucketFromHash(node.getSha512Hash()));
     }
 
     public void rejoinNode(Node node) {
-        aliveNodesList.put(node.getId(), node);
         int hash1 = getCircleBucketFromHash(node.getSha256Hash());
         int hash2 = getCircleBucketFromHash(node.getSha512Hash());
         int hash3 = getCircleBucketFromHash(node.getSha384Hash());
@@ -80,6 +84,7 @@ public class NodesCircle {
         circle.put(hash1, node);
         circle.put(hash2, node);
         circle.put(hash3, node);
+        aliveNodesList.put(node.getId(), node);
         deadNodesList.remove(node.getId());
     }
 

@@ -5,11 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes-list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nodes-list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/Node.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/protobuf/Message.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/protobuf/Message.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.AppTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.AppTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.AppTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.AppTest.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +65,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-17&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/meganma/Desktop/2023w/CPEN 431/cpen431_2023_project_g3&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
@@ -105,8 +122,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.ok" />
       <item itemvalue="Application.App" />
+      <item itemvalue="Application.ok" />
       <item itemvalue="JUnit.AppTest" />
     </list>
     <recent_temporary>

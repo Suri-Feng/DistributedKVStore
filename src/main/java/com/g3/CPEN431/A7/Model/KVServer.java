@@ -21,7 +21,10 @@ public class KVServer {
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
+    public static int port;
+
     public KVServer(int port) {
+        this.port = port;
         try {
             socket = new DatagramSocket(port);
             NodesCircle nodesCircle = NodesCircle.getInstance();

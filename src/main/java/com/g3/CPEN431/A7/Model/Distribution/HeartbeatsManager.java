@@ -1,5 +1,7 @@
 package com.g3.CPEN431.A7.Model.Distribution;
 
+import com.g3.CPEN431.A7.Model.KVServer;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,15 +18,7 @@ public class HeartbeatsManager {
         for (int i = 0; i < nodesCircle.getStartupNodesSize(); i++) {
             heartBeats.put(i, 0L);
         }
-        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 70));
-    }
-
-    public static HeartbeatsManager getInstance() {
-        return instance;
-    }
-
-    public ConcurrentHashMap<Integer, Long> getHeartBeats() {
-        return heartBeats;
+        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 400));
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
@@ -34,15 +28,14 @@ public class HeartbeatsManager {
             if (id != myId) {
                 heartBeats.put(id, Math.max(receivedHeartbeats.get(id), heartBeats.get(id)));
             }
-//            System.out.println("node " + id + " is alive: " +  isNodeAlive(id));
         }
     }
 
-    public boolean isNodeAlive(int id) {
-        if (id == nodesCircle.getThisNodeId()) {
+    public boolean isNodeAlive(Node node) {
+        if (node.getId() == nodesCircle.getThisNodeId()) {
             return true;
         }
-        return System.currentTimeMillis() - heartBeats.get(id) <= metric;
+        return System.currentTimeMillis() - heartBeats.get(node.getId()) <= metric;
     }
 
     public void recoverLiveNodes() {
@@ -50,11 +43,19 @@ public class HeartbeatsManager {
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
         for (Map.Entry<Integer, Node> nodeList: deadNodes.entrySet()) {
             Node node = nodeList.getValue();
-            if (isNodeAlive(node.getId()) && !aliveNodes.containsKey(node.getId())) {
+            if (isNodeAlive(node) && !aliveNodes.containsKey(node.getId())) {
                 nodesCircle.rejoinNode(node);
-                System.out.println("Adding back node: " + node.getPort() + " num servers left: "
+                System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
                         + nodesCircle.getAliveNodesCount());
             }
         }
+    }
+
+    public static HeartbeatsManager getInstance() {
+        return instance;
+    }
+
+    public ConcurrentHashMap<Integer, Long> getHeartBeats() {
+        return heartBeats;
     }
 }

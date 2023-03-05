@@ -9,4 +9,5 @@ message Msg {
     fixed64 checkSum = 3;
     optional bytes clientAddress = 4;
     optional int32 clientPort = 5;
+    optional int32 hintedNodeId = 6;
 }

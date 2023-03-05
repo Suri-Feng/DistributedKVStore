@@ -33,9 +33,6 @@ public class EpidemicServer implements Runnable {
         if (nodesCircle.getAliveNodesCount() == 1) {
             return;
         }
-        heartbeatsManager.getHeartBeats().put(myNodeId, System.currentTimeMillis());
-
-        byte[] requestBytes = packMessage();
 
         for (int i = 0; i < NUM_NEIGHBOURS; i++) {
             int randomInt1;
@@ -46,7 +43,8 @@ public class EpidemicServer implements Runnable {
                 randomNode1 = nodesCircle.getNodeById(randomInt1);
             } while (randomNode1.getId() == myNodeId);
 
-//            System.out.println("Sending gossip to: " + randomNode1.getPort());
+            heartbeatsManager.getHeartBeats().put(myNodeId, System.currentTimeMillis());
+            byte[] requestBytes = packMessage();
             DatagramPacket packet = new DatagramPacket(
                     requestBytes,
                     requestBytes.length,
@@ -56,6 +54,11 @@ public class EpidemicServer implements Runnable {
             try {
                 socket.send(packet);
             } catch (IOException e) {
+                System.out.println("====================");
+                System.out.println(e.getMessage());
+                System.out.println(e.getLocalizedMessage());
+                System.out.println(socket.getLocalPort());
+                System.out.println("====================");
                 throw new RuntimeException(e);
             }
         }

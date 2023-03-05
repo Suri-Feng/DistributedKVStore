@@ -61,11 +61,11 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return port == node.port && address.equals(node.address);
+        return id == node.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(address, port);
+        return Objects.hash(id);
     }
 }
