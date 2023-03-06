@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="8ee8b0d0-a681-41e2-86c1-cba4b37f5c55" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/UDPClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/TestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/TestHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestCorrectness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestCorrectness.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestStopAndResume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestStopAndResume.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +73,7 @@
       <recent name="com.s42442146.CPEN431.A4.Utility" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestStopAndResume.StopAndResume">
+  <component name="RunManager" selected="JUnit.TestStopAndResume.StopAndResumeWithGet">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.s42442146.CPEN431.A4.App" />
       <module name="cpen431_2023_project_g3" />
@@ -97,22 +93,6 @@
       <option name="PACKAGE_NAME" value="com.g3.CPEN431.project" />
       <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.TestCorrectness" />
       <option name="METHOD_NAME" value="OneClientOneServer" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TestCrash.ShutDown" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CPEN431_2022_A4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.g3.CPEN431.project.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.g3.CPEN431.project" />
-      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.TestCrash" />
-      <option name="METHOD_NAME" value="ShutDown" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -165,21 +145,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestStopAndResume.StopAndResumeWithGet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPEN431_2022_A4" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.g3.CPEN431.project.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.g3.CPEN431.project" />
+      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.TestStopAndResume" />
+      <option name="METHOD_NAME" value="StopAndResumeWithGet" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.App" />
       <item itemvalue="JUnit.TestStopAndResume" />
+      <item itemvalue="JUnit.TestStopAndResume.StopAndResumeWithGet" />
       <item itemvalue="JUnit.TestCorrectness.OneClientOneServer" />
-      <item itemvalue="JUnit.TestCrash.ShutDown" />
       <item itemvalue="JUnit.TestCrash.StopAndResume" />
       <item itemvalue="JUnit.TestStopAndResume.StopAndResume" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TestStopAndResume.StopAndResumeWithGet" />
         <item itemvalue="JUnit.TestStopAndResume.StopAndResume" />
         <item itemvalue="JUnit.TestStopAndResume" />
         <item itemvalue="JUnit.TestCorrectness.OneClientOneServer" />
         <item itemvalue="JUnit.TestCrash.StopAndResume" />
-        <item itemvalue="JUnit.TestCrash.ShutDown" />
       </list>
     </recent_temporary>
   </component>
