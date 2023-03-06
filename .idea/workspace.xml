@@ -5,23 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ee8b0d0-a681-41e2-86c1-cba4b37f5c55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/UDPClientList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/ServerInfo/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/ServerInfo/ServerList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/TestThroughput.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestCorrectness.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestShutDown.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestStopAndResume.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/MessageBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/MessageBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/OutcomePair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/OutcomePair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/TestHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/UDPClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Utils/General.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Utils/NetUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Client/UDPClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/TestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Test/TestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestCorrectness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestCorrectness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestStopAndResume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestStopAndResume.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,26 +77,11 @@
       <recent name="com.s42442146.CPEN431.A4.Utility" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestCorrectness.OneClientOneServer">
+  <component name="RunManager" selected="JUnit.TestStopAndResume.StopAndResume">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.s42442146.CPEN431.A4.App" />
       <module name="cpen431_2023_project_g3" />
       <option name="PROGRAM_PARAMETERS" value="12347" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ClientServerManager" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="CPEN431_2022_A4" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.g3.CPEN431.project.Test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.g3.CPEN431.project.Test" />
-      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.Test.ClientServerManager" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -160,6 +134,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TestStopAndResume" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPEN431_2022_A4" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.g3.CPEN431.project.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.g3.CPEN431.project" />
+      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.TestStopAndResume" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestStopAndResume.StopAndResume" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CPEN431_2022_A4" />
       <extension name="coverage">
@@ -178,19 +167,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.App" />
+      <item itemvalue="JUnit.TestStopAndResume" />
       <item itemvalue="JUnit.TestCorrectness.OneClientOneServer" />
       <item itemvalue="JUnit.TestCrash.ShutDown" />
       <item itemvalue="JUnit.TestCrash.StopAndResume" />
       <item itemvalue="JUnit.TestStopAndResume.StopAndResume" />
-      <item itemvalue="JUnit.ClientServerManager" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TestCorrectness.OneClientOneServer" />
         <item itemvalue="JUnit.TestStopAndResume.StopAndResume" />
+        <item itemvalue="JUnit.TestStopAndResume" />
+        <item itemvalue="JUnit.TestCorrectness.OneClientOneServer" />
         <item itemvalue="JUnit.TestCrash.StopAndResume" />
         <item itemvalue="JUnit.TestCrash.ShutDown" />
-        <item itemvalue="JUnit.ClientServerManager" />
       </list>
     </recent_temporary>
   </component>

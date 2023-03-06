@@ -63,7 +63,7 @@ public class UDPClient {
                         outcome = new OutcomePair(OutcomePair.Status.SUCCESS, response.getValue().toString());
                     } else if (response.hasPid()) {
                         server.setPid(response.getPid());
-                        outcome = new OutcomePair(OutcomePair.Status.SUCCESS, "Received pid " + response.getPid() + " , and set to server " + server.getPort());
+                        outcome = new OutcomePair(OutcomePair.Status.SUCCESS, "Received pid " + response.getPid() + ", and set to server " + server.getPort());
                     } else {
                         outcome =  new OutcomePair(OutcomePair.Status.SUCCESS, "");
                     }

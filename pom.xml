@@ -52,6 +52,11 @@
       <artifactId>caffeine</artifactId>
       <version>3.1.2</version>
     </dependency>
+    <dependency>
+      <groupId>ch.codeblock.qrinvoice.documents</groupId>
+      <artifactId>qrinvoice-documents</artifactId>
+      <version>1.17</version>
+    </dependency>
   </dependencies>
 
   <build>

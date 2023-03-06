@@ -6,9 +6,12 @@ import com.g3.CPEN431.project.Client.UDPClientList;
 import com.g3.CPEN431.project.ServerInfo.Server;
 import com.g3.CPEN431.project.ServerInfo.ServerList;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.logging.Logger;
 
 import static com.g3.CPEN431.project.Client.MessageBuilder.Commands;
 import static com.g3.CPEN431.project.Client.MessageBuilder.buildKVRequest;
@@ -65,10 +68,41 @@ public class TestHandler {
         return client.run(server, request);
     }
 
+    void runCommand(String cmd) throws IOException {
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(cmd);
+        } catch (IOException ex) {
+            System.out.println("err1");
+            //Logger.getLogger(Documents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        try {
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            System.out.println("err2");
+            // Logger.getLogger(Documents.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        br.close();
+        System.out.println("[ Run command: " + cmd + " ]");
+    }
+
     public OutcomePair processControlShutDown(UDPClient client, Server server) throws IOException, InterruptedException {
         int pid = server.getPid();
-        Process proc = Runtime.getRuntime().exec("kill -STOP " + pid);
-        proc.waitFor();
+        assert (pid != 0);
+        String cmd = "kill -STOP " + pid;
+        runCommand(cmd);
+        //new ProcessBuilder().command(cmd).start();
+
+
+        //Process proc = Runtime.getRuntime().exec(cmd);
+//        BufferedReader reader =
+//                new BufferedReader(new InputStreamReader(proc.getInputStream()));
+//        while ((reader.readLine()) != null) {}
+//        proc.waitFor();
         //TODO
         //KeyValueRequest.KVRequest request = buildKVRequest(Commands.SHUTDOWN);
         //return client.run(server, request);
@@ -77,8 +111,15 @@ public class TestHandler {
 
     public OutcomePair processControlResume(UDPClient client, Server server) throws IOException, InterruptedException {
         int pid = server.getPid();
-        Process proc = Runtime.getRuntime().exec("kill -CONT" + pid);
-        proc.waitFor();
+        assert (pid != 0);
+        String cmd = "kill -CONT " + pid;
+        runCommand(cmd);
+        //new ProcessBuilder().command(cmd).start();
+        //Process proc = Runtime.getRuntime().exec(cmd);
+//        BufferedReader reader =
+//                new BufferedReader(new InputStreamReader(proc.getInputStream()));
+//        while ((reader.readLine()) != null) {}
+//        proc.waitFor();
 //        KeyValueRequest.KVRequest request = buildKVRequest(Commands.IS_ALIVE); //TODO
 //        return client.run(server, request);
         return new OutcomePair(PROCESSCONTROL, "Resume");
