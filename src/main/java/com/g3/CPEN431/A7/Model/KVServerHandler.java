@@ -223,7 +223,7 @@ public class KVServerHandler implements Runnable {
                         .build();
             case SHUTDOWN:
                 System.out.println("Before shutting down. I am node " + nodesCircle.getThisNodeId() + " , I have " + store.getStore().size() + " keys");
-//                System.exit(0);
+                System.exit(0);
             case WIPE_OUT:
                 wipeOut();
                 return builder
@@ -257,7 +257,7 @@ public class KVServerHandler implements Runnable {
     }
 
     private boolean isMemoryOverload() {
-        return MemoryUsage.getFreeMemory() < 0.035 * MemoryUsage.getMaxMemory();
+        return MemoryUsage.getFreeMemory() < 0.1 * MemoryUsage.getMaxMemory();
     }
 }
 

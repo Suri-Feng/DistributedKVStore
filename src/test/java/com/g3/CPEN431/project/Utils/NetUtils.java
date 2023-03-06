@@ -7,7 +7,7 @@ import java.net.DatagramSocket;
 import java.util.Random;
 import java.util.zip.CRC32;
 
-public class General {
+public class NetUtils {
     public static long getChecksum(byte[] A, byte[] B) {
         byte[] checksumInput = new byte[A.length + B.length];
         System.arraycopy(A, 0, checksumInput, 0, A.length);

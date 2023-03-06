@@ -1,19 +1,18 @@
-package com.g3.CPEN431.project;
+package com.g3.CPEN431.project.Client;
 
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.KeyValueResponse;
 import ca.NetSysLab.ProtocolBuffers.Message;
-import com.g3.CPEN431.project.Utils.ByteOrder;
+import com.g3.CPEN431.project.ServerInfo.Server;
+import com.g3.CPEN431.project.Test.OutcomePair;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.LinkedList;
-import java.util.Random;
 
-import static com.g3.CPEN431.project.MessageBuilder.buildKVRequest;
-import static com.g3.CPEN431.project.Utils.General.*;
+import static com.g3.CPEN431.project.Client.MessageBuilder.buildKVRequest;
+import static com.g3.CPEN431.project.Utils.NetUtils.*;
 import static java.lang.Thread.sleep;
 
 public class UDPClient {
@@ -37,15 +36,19 @@ public class UDPClient {
         }
     }
 
-    public OutcomePair run(String remote_ho, int remote_port, KeyValueRequest.KVRequest request) throws SocketTimeoutException, UnknownHostException, InterruptedException {
-        InetAddress remote_host = InetAddress.getByName(remote_ho);
+    public OutcomePair run(Server server, KeyValueRequest.KVRequest request) throws IOException, InterruptedException {
         OutcomePair outcome = null;
         int retries = 0;
         int delay = 100;
         int errCode = -1; // -1 is invalid
         for (; retries <= 3; retries++) {
             //System.out.println("======Number of retries: " + retries + "=====");
-            sendMsg(remote_host, remote_port, request, retries > 0);
+
+            if (retries == 0) {
+                messageID = generateMessageID(socket);
+                packet = pack(server, request);
+            }
+            socket.send(packet);
             changeSocketTimeout(delay);
             delay *= 2;
             KeyValueResponse.KVResponse response = receiveMsg();
@@ -58,6 +61,9 @@ public class UDPClient {
                 case 0:
                     if (response.hasValue()) {
                         outcome = new OutcomePair(OutcomePair.Status.SUCCESS, response.getValue().toString());
+                    } else if (response.hasPid()) {
+                        server.setPid(response.getPid());
+                        outcome = new OutcomePair(OutcomePair.Status.SUCCESS, "Received pid " + response.getPid() + " , and set to server " + server.getPort());
                     } else {
                         outcome =  new OutcomePair(OutcomePair.Status.SUCCESS, "");
                     }
@@ -68,12 +74,12 @@ public class UDPClient {
                 case 2: // out-of-space -> send wipe-out, resend after xxx seconds, outcome would be TIMEOUT
                     System.out.println("Out-of-space, sending shut down, sleep for 1s");
                     request = buildKVRequest(MessageBuilder.Commands.SHUTDOWN);
-                    packet = pack(remote_host, remote_port, request);
+                    packet = pack(server, request);
                     outcome = new OutcomePair(OutcomePair.Status.TIMEOUT, "");
                     break;
                 case 3: // overload -> resend after xxx seconds
                     System.out.println("Overload, client xxx sleeps for "+ response.getOverloadWaitTime() +"ms");
-                    Thread.sleep(response.getOverloadWaitTime());
+                    sleep(response.getOverloadWaitTime());
                     continue;
                 default:
                     System.out.println("Invalid errCode: " + errCode);
@@ -91,29 +97,15 @@ public class UDPClient {
         return outcome;
     }
 
-    public void sendMsg(InetAddress host, int port, KeyValueRequest.KVRequest request, boolean retry) {
-        try {
-            if (!retry) {
-                packet = pack(host, port, request);
-            }
 
-            socket.send(packet);
-            //System.out.println("Sent message to " + host + ":" + port);
-        } catch (IOException e) {
-            System.out.println("Error sending packet: " + e);
-        }
-    }
-
-    private DatagramPacket pack(InetAddress ip, int port, KeyValueRequest.KVRequest request) {
-        messageID = generateMessageID(socket);
-
+    private DatagramPacket pack(Server server, KeyValueRequest.KVRequest request) {
         Message.Msg msg = Message.Msg.newBuilder()
                 .setMessageID(messageID)
                 .setPayload(request.toByteString())
                 .setCheckSum(getChecksum(messageID.toByteArray(), request.toByteArray()))
                 .build();
 
-        return new DatagramPacket(msg.toByteArray(), msg.getSerializedSize(), ip, port);
+        return new DatagramPacket(msg.toByteArray(), msg.getSerializedSize(), server.getAddress(), server.getPort());
     }
 
 

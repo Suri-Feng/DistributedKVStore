@@ -1,12 +1,11 @@
-package com.g3.CPEN431.project;
-
-import com.google.protobuf.ByteString;
+package com.g3.CPEN431.project.Test;
 
 public class OutcomePair {
-    enum Status {
+    public enum Status {
         SUCCESS,
         KEYNOTFOUND,
-        TIMEOUT
+        TIMEOUT,
+        PROCESSCONTROL
     }
 
     private Status status;

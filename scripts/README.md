@@ -44,7 +44,7 @@
 
 ### Run Server/ Client
 - change params in info.txt
-  - server private ip, server public ip, one server private ip
+  - server private ip, server public ip
   - **number of nodes of choice**, port of choice
   - server jar file, client jar file
   - submission secret code
@@ -62,8 +62,8 @@
     - one server node will be run in background, and outputs saved in ***nodes_output.log***
   - ***bash run.sh client***
     - client will be run in foreground
-    - with optional argument, ***bash run.sh client submit*** will create a ***servers.txt*** in format of <server_public_ip, port> with n ports, if there doesn't exist one; 
-    and submit to the leaderboard
+    - It will create a ***servers.txt*** in format of <server_public_ip, port> with ***n ports***, if there doesn't exist one
+    - with optional argument, ***bash run.sh client submit*** will submit to the leaderboard
   - Remarks
     - First argument ***<server/one-server/client>*** is compulsory
     - ***nodes-list.txt*** and ***servers.txt*** will not be overwritten if there exists one
