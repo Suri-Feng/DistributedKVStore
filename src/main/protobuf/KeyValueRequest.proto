@@ -8,7 +8,7 @@ message KVRequest {
     optional bytes value = 3;
     optional int32 version = 4;
     repeated uint64 heartbeat = 5;
-    repeated KeyValueEntry pairs = 6;
+    optional KeyValueEntry pair = 6;
 }
 
 message KeyValueEntry {

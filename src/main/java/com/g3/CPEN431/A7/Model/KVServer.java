@@ -1,6 +1,7 @@
 package com.g3.CPEN431.A7.Model;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.net.*;
 import java.util.Arrays;
 import java.util.concurrent.*;
@@ -14,7 +15,7 @@ import com.g3.CPEN431.A7.Model.Store.StoreCache;
 public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
     public static final int MAX_VALUE_LENGTH = 10000; // bytes
-    public static final int PROCESS_ID = (int) ProcessHandle.current().pid();
+    public static final int PROCESS_ID = (int) ManagementFactory.getRuntimeMXBean().getPid();
     private static final int DEFAULT_CACHE_SIZE = StoreCache.DEFAULT_CACHE_SIZE;
     private long currentCacheSize = DEFAULT_CACHE_SIZE;
     private static final int THREAD_POOL_SIZE = 5;

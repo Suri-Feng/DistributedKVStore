@@ -75,28 +75,19 @@ public final class KeyValueRequest {
     long getHeartbeat(int index);
 
     /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     * <code>optional .KeyValueEntry pair = 6;</code>
+     * @return Whether the pair field is set.
      */
-    java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> 
-        getPairsList();
+    boolean hasPair();
     /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     * <code>optional .KeyValueEntry pair = 6;</code>
+     * @return The pair.
      */
-    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPairs(int index);
+    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPair();
     /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     * <code>optional .KeyValueEntry pair = 6;</code>
      */
-    int getPairsCount();
-    /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
-     */
-    java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
-        getPairsOrBuilderList();
-    /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
-     */
-    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairsOrBuilder(
-        int index);
+    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairOrBuilder();
   }
   /**
    * Protobuf type {@code KVRequest}
@@ -114,7 +105,6 @@ public final class KeyValueRequest {
       key_ = com.google.protobuf.ByteString.EMPTY;
       value_ = com.google.protobuf.ByteString.EMPTY;
       heartbeat_ = emptyLongList();
-      pairs_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -240,45 +230,30 @@ public final class KeyValueRequest {
     }
     private int heartbeatMemoizedSerializedSize = -1;
 
-    public static final int PAIRS_FIELD_NUMBER = 6;
-    @SuppressWarnings("serial")
-    private java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> pairs_;
+    public static final int PAIR_FIELD_NUMBER = 6;
+    private ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry pair_;
     /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     * <code>optional .KeyValueEntry pair = 6;</code>
+     * @return Whether the pair field is set.
      */
     @java.lang.Override
-    public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> getPairsList() {
-      return pairs_;
+    public boolean hasPair() {
+      return ((bitField0_ & 0x00000008) != 0);
     }
     /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     * <code>optional .KeyValueEntry pair = 6;</code>
+     * @return The pair.
      */
     @java.lang.Override
-    public java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
-        getPairsOrBuilderList() {
-      return pairs_;
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPair() {
+      return pair_ == null ? ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance() : pair_;
     }
     /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
+     * <code>optional .KeyValueEntry pair = 6;</code>
      */
     @java.lang.Override
-    public int getPairsCount() {
-      return pairs_.size();
-    }
-    /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
-     */
-    @java.lang.Override
-    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPairs(int index) {
-      return pairs_.get(index);
-    }
-    /**
-     * <code>repeated .KeyValueEntry pairs = 6;</code>
-     */
-    @java.lang.Override
-    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairsOrBuilder(
-        int index) {
-      return pairs_.get(index);
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairOrBuilder() {
+      return pair_ == null ? ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance() : pair_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -315,8 +290,8 @@ public final class KeyValueRequest {
       for (int i = 0; i < heartbeat_.size(); i++) {
         output.writeUInt64NoTag(heartbeat_.getLong(i));
       }
-      for (int i = 0; i < pairs_.size(); i++) {
-        output.writeMessage(6, pairs_.get(i));
+      if (((bitField0_ & 0x00000008) != 0)) {
+        output.writeMessage(6, getPair());
       }
       getUnknownFields().writeTo(output);
     }
@@ -357,9 +332,9 @@ public final class KeyValueRequest {
         }
         heartbeatMemoizedSerializedSize = dataSize;
       }
-      for (int i = 0; i < pairs_.size(); i++) {
+      if (((bitField0_ & 0x00000008) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, pairs_.get(i));
+          .computeMessageSize(6, getPair());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -395,8 +370,11 @@ public final class KeyValueRequest {
       }
       if (!getHeartbeatList()
           .equals(other.getHeartbeatList())) return false;
-      if (!getPairsList()
-          .equals(other.getPairsList())) return false;
+      if (hasPair() != other.hasPair()) return false;
+      if (hasPair()) {
+        if (!getPair()
+            .equals(other.getPair())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -426,9 +404,9 @@ public final class KeyValueRequest {
         hash = (37 * hash) + HEARTBEAT_FIELD_NUMBER;
         hash = (53 * hash) + getHeartbeatList().hashCode();
       }
-      if (getPairsCount() > 0) {
-        hash = (37 * hash) + PAIRS_FIELD_NUMBER;
-        hash = (53 * hash) + getPairsList().hashCode();
+      if (hasPair()) {
+        hash = (37 * hash) + PAIR_FIELD_NUMBER;
+        hash = (53 * hash) + getPair().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -547,13 +525,19 @@ public final class KeyValueRequest {
 
       // Construct using ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getPairFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -564,13 +548,11 @@ public final class KeyValueRequest {
         value_ = com.google.protobuf.ByteString.EMPTY;
         version_ = 0;
         heartbeat_ = emptyLongList();
-        if (pairsBuilder_ == null) {
-          pairs_ = java.util.Collections.emptyList();
-        } else {
-          pairs_ = null;
-          pairsBuilder_.clear();
+        pair_ = null;
+        if (pairBuilder_ != null) {
+          pairBuilder_.dispose();
+          pairBuilder_ = null;
         }
-        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -609,15 +591,6 @@ public final class KeyValueRequest {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.heartbeat_ = heartbeat_;
-        if (pairsBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) != 0)) {
-            pairs_ = java.util.Collections.unmodifiableList(pairs_);
-            bitField0_ = (bitField0_ & ~0x00000020);
-          }
-          result.pairs_ = pairs_;
-        } else {
-          result.pairs_ = pairsBuilder_.build();
-        }
       }
 
       private void buildPartial0(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest result) {
@@ -637,6 +610,12 @@ public final class KeyValueRequest {
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.version_ = version_;
           to_bitField0_ |= 0x00000004;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.pair_ = pairBuilder_ == null
+              ? pair_
+              : pairBuilder_.build();
+          to_bitField0_ |= 0x00000008;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -707,31 +686,8 @@ public final class KeyValueRequest {
           }
           onChanged();
         }
-        if (pairsBuilder_ == null) {
-          if (!other.pairs_.isEmpty()) {
-            if (pairs_.isEmpty()) {
-              pairs_ = other.pairs_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-            } else {
-              ensurePairsIsMutable();
-              pairs_.addAll(other.pairs_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.pairs_.isEmpty()) {
-            if (pairsBuilder_.isEmpty()) {
-              pairsBuilder_.dispose();
-              pairsBuilder_ = null;
-              pairs_ = other.pairs_;
-              bitField0_ = (bitField0_ & ~0x00000020);
-              pairsBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getPairsFieldBuilder() : null;
-            } else {
-              pairsBuilder_.addAllMessages(other.pairs_);
-            }
-          }
+        if (other.hasPair()) {
+          mergePair(other.getPair());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -796,16 +752,10 @@ public final class KeyValueRequest {
                 break;
               } // case 42
               case 50: {
-                ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry m =
-                    input.readMessage(
-                        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.parser(),
-                        extensionRegistry);
-                if (pairsBuilder_ == null) {
-                  ensurePairsIsMutable();
-                  pairs_.add(m);
-                } else {
-                  pairsBuilder_.addMessage(m);
-                }
+                input.readMessage(
+                    getPairFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000020;
                 break;
               } // case 50
               default: {
@@ -1058,244 +1008,123 @@ public final class KeyValueRequest {
         return this;
       }
 
-      private java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> pairs_ =
-        java.util.Collections.emptyList();
-      private void ensurePairsIsMutable() {
-        if (!((bitField0_ & 0x00000020) != 0)) {
-          pairs_ = new java.util.ArrayList<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry>(pairs_);
-          bitField0_ |= 0x00000020;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> pairsBuilder_;
-
+      private ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry pair_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> pairBuilder_;
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
+       * @return Whether the pair field is set.
        */
-      public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> getPairsList() {
-        if (pairsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(pairs_);
+      public boolean hasPair() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>optional .KeyValueEntry pair = 6;</code>
+       * @return The pair.
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPair() {
+        if (pairBuilder_ == null) {
+          return pair_ == null ? ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance() : pair_;
         } else {
-          return pairsBuilder_.getMessageList();
+          return pairBuilder_.getMessage();
         }
       }
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
        */
-      public int getPairsCount() {
-        if (pairsBuilder_ == null) {
-          return pairs_.size();
-        } else {
-          return pairsBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry getPairs(int index) {
-        if (pairsBuilder_ == null) {
-          return pairs_.get(index);
-        } else {
-          return pairsBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public Builder setPairs(
-          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
-        if (pairsBuilder_ == null) {
+      public Builder setPair(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
+        if (pairBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensurePairsIsMutable();
-          pairs_.set(index, value);
-          onChanged();
+          pair_ = value;
         } else {
-          pairsBuilder_.setMessage(index, value);
+          pairBuilder_.setMessage(value);
         }
+        bitField0_ |= 0x00000020;
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
        */
-      public Builder setPairs(
-          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder builderForValue) {
-        if (pairsBuilder_ == null) {
-          ensurePairsIsMutable();
-          pairs_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          pairsBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public Builder addPairs(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
-        if (pairsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensurePairsIsMutable();
-          pairs_.add(value);
-          onChanged();
-        } else {
-          pairsBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public Builder addPairs(
-          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
-        if (pairsBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensurePairsIsMutable();
-          pairs_.add(index, value);
-          onChanged();
-        } else {
-          pairsBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public Builder addPairs(
+      public Builder setPair(
           ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder builderForValue) {
-        if (pairsBuilder_ == null) {
-          ensurePairsIsMutable();
-          pairs_.add(builderForValue.build());
-          onChanged();
+        if (pairBuilder_ == null) {
+          pair_ = builderForValue.build();
         } else {
-          pairsBuilder_.addMessage(builderForValue.build());
+          pairBuilder_.setMessage(builderForValue.build());
         }
+        bitField0_ |= 0x00000020;
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
        */
-      public Builder addPairs(
-          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder builderForValue) {
-        if (pairsBuilder_ == null) {
-          ensurePairsIsMutable();
-          pairs_.add(index, builderForValue.build());
-          onChanged();
+      public Builder mergePair(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry value) {
+        if (pairBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) != 0) &&
+            pair_ != null &&
+            pair_ != ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance()) {
+            getPairBuilder().mergeFrom(value);
+          } else {
+            pair_ = value;
+          }
         } else {
-          pairsBuilder_.addMessage(index, builderForValue.build());
+          pairBuilder_.mergeFrom(value);
         }
+        bitField0_ |= 0x00000020;
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
        */
-      public Builder addAllPairs(
-          java.lang.Iterable<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry> values) {
-        if (pairsBuilder_ == null) {
-          ensurePairsIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, pairs_);
-          onChanged();
-        } else {
-          pairsBuilder_.addAllMessages(values);
+      public Builder clearPair() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        pair_ = null;
+        if (pairBuilder_ != null) {
+          pairBuilder_.dispose();
+          pairBuilder_ = null;
         }
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
        */
-      public Builder clearPairs() {
-        if (pairsBuilder_ == null) {
-          pairs_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
-          onChanged();
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder getPairBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getPairFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .KeyValueEntry pair = 6;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairOrBuilder() {
+        if (pairBuilder_ != null) {
+          return pairBuilder_.getMessageOrBuilder();
         } else {
-          pairsBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public Builder removePairs(int index) {
-        if (pairsBuilder_ == null) {
-          ensurePairsIsMutable();
-          pairs_.remove(index);
-          onChanged();
-        } else {
-          pairsBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder getPairsBuilder(
-          int index) {
-        return getPairsFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairsOrBuilder(
-          int index) {
-        if (pairsBuilder_ == null) {
-          return pairs_.get(index);  } else {
-          return pairsBuilder_.getMessageOrBuilder(index);
+          return pair_ == null ?
+              ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance() : pair_;
         }
       }
       /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
+       * <code>optional .KeyValueEntry pair = 6;</code>
        */
-      public java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
-           getPairsOrBuilderList() {
-        if (pairsBuilder_ != null) {
-          return pairsBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(pairs_);
-        }
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder addPairsBuilder() {
-        return getPairsFieldBuilder().addBuilder(
-            ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder addPairsBuilder(
-          int index) {
-        return getPairsFieldBuilder().addBuilder(
-            index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .KeyValueEntry pairs = 6;</code>
-       */
-      public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder> 
-           getPairsBuilderList() {
-        return getPairsFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
+      private com.google.protobuf.SingleFieldBuilderV3<
           ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder> 
-          getPairsFieldBuilder() {
-        if (pairsBuilder_ == null) {
-          pairsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+          getPairFieldBuilder() {
+        if (pairBuilder_ == null) {
+          pairBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder>(
-                  pairs_,
-                  ((bitField0_ & 0x00000020) != 0),
+                  getPair(),
                   getParentForChildren(),
                   isClean());
-          pairs_ = null;
+          pair_ = null;
         }
-        return pairsBuilder_;
+        return pairBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -2005,14 +1834,15 @@ public final class KeyValueRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025KeyValueRequest.proto\"\250\001\n\tKVRequest\022\017\n" +
+      "\n\025KeyValueRequest.proto\"\265\001\n\tKVRequest\022\017\n" +
       "\007command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005valu" +
       "e\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\021\n\the" +
-      "artbeat\030\005 \003(\004\022\035\n\005pairs\030\006 \003(\0132\016.KeyValueE" +
-      "ntryB\006\n\004_keyB\010\n\006_valueB\n\n\010_version\"<\n\rKe" +
-      "yValueEntry\022\013\n\003key\030\001 \001(\014\022\017\n\007version\030\002 \001(" +
-      "\005\022\r\n\005value\030\003 \001(\014B/\n\034ca.NetSysLab.Protoco" +
-      "lBuffersB\017KeyValueRequestb\006proto3"
+      "artbeat\030\005 \003(\004\022!\n\004pair\030\006 \001(\0132\016.KeyValueEn" +
+      "tryH\003\210\001\001B\006\n\004_keyB\010\n\006_valueB\n\n\010_versionB\007" +
+      "\n\005_pair\"<\n\rKeyValueEntry\022\013\n\003key\030\001 \001(\014\022\017\n" +
+      "\007version\030\002 \001(\005\022\r\n\005value\030\003 \001(\014B/\n\034ca.NetS" +
+      "ysLab.ProtocolBuffersB\017KeyValueRequestb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2023,7 +1853,7 @@ public final class KeyValueRequest {
     internal_static_KVRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KVRequest_descriptor,
-        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pairs", "Key", "Value", "Version", });
+        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "Key", "Value", "Version", "Pair", });
     internal_static_KeyValueEntry_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_KeyValueEntry_fieldAccessorTable = new

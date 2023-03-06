@@ -9,9 +9,7 @@ public enum ErrorCode {
     UNKNOWN_COMMAND(0x05),
     INVALID_KEY (0x06),
     INVALID_VALUE (0x07);
-
     private final int code;
-
     public int getCode() {
         return code;
     }

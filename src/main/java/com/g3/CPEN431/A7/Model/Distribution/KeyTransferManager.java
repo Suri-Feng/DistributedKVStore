@@ -15,6 +15,7 @@ import java.net.DatagramSocket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.CRC32;
 
 public class KeyTransferManager {
@@ -43,19 +44,19 @@ public class KeyTransferManager {
         Integer maxHash = nodesCircle.getRingHashIfMyPredecessor(recoveredNode.getId());
 
         if (maxHash != null) {
-            System.out.println("recovered port " + recoveredNode.getPort() + " is a predecessor of port " + KVServer.port);
+            System.out.println("Recovered port " + recoveredNode.getPort() + " is a predecessor of port " + KVServer.port);
             int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;
-            for (ByteBuffer key: store.getStore().keySet()) {
+            for (Map.Entry<ByteBuffer, ValueV> entry: store.getStore().entrySet()) {
                 String sha256 = Hashing.sha256()
-                        .hashBytes(key).toString();
-                int keyToRingHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
-                if (keyToRingHash <= maxHash && keyToRingHash >= minHash) {
-                    keysToTransfer.add(key);
-                    ValueV value = store.getStore().get(key);
+                        .hashBytes(entry.getKey()).toString();
+                int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+                if (ringHash <= maxHash && ringHash >= minHash) {
+                    keysToTransfer.add(entry.getKey());
+
                     allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
-                            .setVersion(value.getVersion())
-                            .setValue(value.getValue())
-                            .setKey(ByteString.copyFrom(key.array()))
+                            .setVersion(entry.getValue().getVersion())
+                            .setValue(entry.getValue().getValue())
+                            .setKey(ByteString.copyFrom(entry.getKey().array()))
                             .build());
                 }
             }
@@ -67,40 +68,42 @@ public class KeyTransferManager {
     }
 
     private void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
-        // messageID
-        byte[] msg_id = new byte[16];
+        byte[] msg_id = new byte[0];
 
-        KeyValueRequest.KVRequest pairs = KeyValueRequest.KVRequest.newBuilder()
-                .setCommand(Command.KEY_TRANSFER.getCode())
-                .addAllPairs(allPairs)
-                .build();
+        System.out.println(KVServer.port + " sending key transfers to port "
+                + recoveredNode.getPort()
+                + " with # pairs: " + allPairs.size());
 
-        // Checksum
-        CRC32 checksum = new CRC32();
-        checksum.update(msg_id);
-        checksum.update(pairs.toByteArray());
+        for (KeyValueRequest.KeyValueEntry entry: allPairs) {
+            KeyValueRequest.KVRequest pairs = KeyValueRequest.KVRequest.newBuilder()
+                    .setCommand(Command.KEY_TRANSFER.getCode())
+                    .setPair(entry)
+                    .build();
 
-        // Create the message
-        Message.Msg requestMessage = Message.Msg.newBuilder()
-                .setMessageID(ByteString.copyFrom(msg_id))
-                .setPayload(pairs.toByteString())
-                .setCheckSum(checksum.getValue())
-                .build();
+            // Create the message
+            Message.Msg requestMessage = Message.Msg.newBuilder()
+                    .setMessageID(ByteString.copyFrom(msg_id))
+                    .setPayload(pairs.toByteString())
+                    .setCheckSum(0)
+                    .build();
 
-        byte[] requestBytes = requestMessage.toByteArray();
-        DatagramPacket packet = new DatagramPacket(
-                requestBytes,
-                requestBytes.length,
-                recoveredNode.getAddress(),
-                recoveredNode.getPort());
-        System.out.println(KVServer.port + " sending key transfers to port " + recoveredNode.getPort());
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            System.out.println("====================");
-            System.out.println(e.getMessage());
-            System.out.println("====================");
-            throw new RuntimeException(e);
+            byte[] requestBytes = requestMessage.toByteArray();
+            DatagramPacket packet = new DatagramPacket(
+                    requestBytes,
+                    requestBytes.length,
+                    recoveredNode.getAddress(),
+                    recoveredNode.getPort());
+
+            try {
+                socket.send(packet);
+            } catch (IOException e) {
+                System.out.println("====================");
+                System.out.println(e.getMessage());
+                System.out.println("====================");
+                throw new RuntimeException(e);
+            }
         }
+
+
     }
 }

@@ -79,7 +79,7 @@ public class KVServerHandler implements Runnable {
             // Receive keys transfer
             if  (command == Command.KEY_TRANSFER.getCode()) {
                 System.out.println(KVServer.port + " received key transfers from " + this.port);
-                addKeys(reqPayload.getPairsList());
+                addKey(reqPayload.getPair());
                 return;
             }
 
@@ -106,19 +106,17 @@ public class KVServerHandler implements Runnable {
 
             // 1. request comes from another node who thinks I'm the right node
             // 2. request from client, but I think im the right node
-            // could be true or im temporarily storing the data b/c the actual right node down
+            // could be true or im temporarily storing the data b/c the actual right node is down
             getResponseFromOwnNode(reqPayload);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void addKeys(List<KeyValueRequest.KeyValueEntry> pairs) {
-        for(KeyValueRequest.KeyValueEntry pair: pairs) {
-            store.getStore().put(
-                    ByteBuffer.wrap(pair.getKey().toByteArray()),
-                    new ValueV(pair.getVersion(), pair.getValue()));
-        }
+    private void addKey(KeyValueRequest.KeyValueEntry pair) {
+        store.getStore().put(
+                ByteBuffer.wrap(pair.getKey().toByteArray()),
+                new ValueV(pair.getVersion(), pair.getValue()));
     }
 
     private void getResponseFromOwnNode(KeyValueRequest.KVRequest reqPayload) throws IOException {

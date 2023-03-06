@@ -19,7 +19,7 @@ public class HeartbeatsManager {
         for (int i = 0; i < nodesCircle.getStartupNodesSize(); i++) {
             heartBeats.put(i, 0L);
         }
-        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 400));
+        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 100));
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
