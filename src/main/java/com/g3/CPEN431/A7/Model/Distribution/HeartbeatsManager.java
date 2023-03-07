@@ -23,12 +23,8 @@ public class HeartbeatsManager {
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
-        int myId = nodesCircle.getThisNodeId();
-
         for (int id = 0; id < receivedHeartbeats.size(); id++) {
-            if (id != myId) {
-                heartBeats.put(id, Math.max(receivedHeartbeats.get(id), heartBeats.get(id)));
-            }
+            heartBeats.put(id, Math.max(receivedHeartbeats.get(id), heartBeats.get(id)));
         }
     }
 
@@ -50,6 +46,7 @@ public class HeartbeatsManager {
                 recoveredNodes.add(node);
                 System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
                         + nodesCircle.getAliveNodesCount());
+                nodesCircle.printCircle();
             }
         }
         return recoveredNodes;

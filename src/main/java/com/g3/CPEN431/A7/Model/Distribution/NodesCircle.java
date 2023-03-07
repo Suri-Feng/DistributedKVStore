@@ -1,5 +1,7 @@
 package com.g3.CPEN431.A7.Model.Distribution;
 
+import com.g3.CPEN431.A7.Model.KVServer;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,11 +39,13 @@ public class NodesCircle {
             circle.put(hash2, node);
             circle.put(hash3, node);
         }
+//        System.out.println("==========");
+//
 //        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-////            System.out.println(entry.getKey());
+//            System.out.println(entry.getKey());
 //            System.out.println(entry.getValue().getPort());
-//            System.out.println("==========");
 //        }
+//        System.out.println("==========");
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -116,6 +120,22 @@ public class NodesCircle {
             }
         }
         return null;
+    }
+
+    public void printAlive() {
+        System.out.println(KVServer.port + " Alive nodes：");
+        for(Node node: allNodesList.values()) {
+            System.out.print(node.getPort() + " ");
+        }
+        System.out.println();
+    }
+
+    public void printCircle() {
+        System.out.println(KVServer.port + "Circle nodes：");
+        for(Node node: circle.values()) {
+            System.out.print(node.getPort() + " ");
+        }
+        System.out.println();
     }
 
     public void setThisNodeId(int id) {

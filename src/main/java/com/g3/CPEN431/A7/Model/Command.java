@@ -12,8 +12,8 @@ public enum Command {
     IS_ALIVE (0x06),
     GET_PID (0x07),
     GET_MEMBERSHIP_COUNT (0x08),
-    HEARTBEAT(10),
-    KEY_TRANSFER(11);
+    HEARTBEAT(20),
+    KEY_TRANSFER(21);
 
     private final int code;
 

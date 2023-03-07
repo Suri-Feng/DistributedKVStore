@@ -95,9 +95,9 @@ public class KVServerHandler implements Runnable {
                 Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
                 if (node.getId() != nodesCircle.getThisNodeId()) {
-//                    System.out.println(socket.getLocalPort() + " rerouting to port : " + node.getPort() + " " +
-//                            StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
-
+                    System.out.println(socket.getLocalPort() + " rerouting to : " + node.getPort() + " " +
+                            StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
+                    nodesCircle.printCircle();
                     reRoute(node);
                     return;
                 }
@@ -108,6 +108,9 @@ public class KVServerHandler implements Runnable {
             // could be true or im temporarily storing the data b/c the actual right node is down
             getResponseFromOwnNode(reqPayload);
         } catch (IOException e) {
+            System.out.println("===================");
+            System.out.println(e.getLocalizedMessage());
+            System.out.println("===================");
             throw new RuntimeException(e);
         }
     }
@@ -124,7 +127,7 @@ public class KVServerHandler implements Runnable {
         String sha256 = Hashing.sha256()
                 .hashBytes(key).toString();
 
-        if (nodesCircle.findCorrectNodeByHash(sha256.hashCode()).getId() != nodesCircle.getThisNodeId()) {
+        if (reqPayload.getCommand() <= 3 && reqPayload.getCommand() >= 1 && nodesCircle.findCorrectNodeByHash(sha256.hashCode()).getId() != nodesCircle.getThisNodeId()) {
             System.out.println(socket.getLocalPort()
                     + " routed to me by mistake: " + StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
         }
@@ -229,7 +232,7 @@ public class KVServerHandler implements Runnable {
                 ValueV valueV = new ValueV(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(ByteBuffer.wrap(key), valueV);
 
-                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+//                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -237,8 +240,8 @@ public class KVServerHandler implements Runnable {
             case GET:
                     ValueV valueInStore = store.getStore().get(ByteBuffer.wrap(key));
                     if (valueInStore == null) {
-                        System.out.println(socket.getLocalPort() + " report no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-
+                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                        nodesCircle.printCircle();
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
