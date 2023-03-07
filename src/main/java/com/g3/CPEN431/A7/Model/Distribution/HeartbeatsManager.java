@@ -19,7 +19,7 @@ public class HeartbeatsManager {
         for (int i = 0; i < nodesCircle.getStartupNodesSize(); i++) {
             heartBeats.put(i, 0L);
         }
-        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 100));
+        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 60));
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
@@ -43,8 +43,8 @@ public class HeartbeatsManager {
         List<Node> recoveredNodes = new ArrayList<>();
         ConcurrentHashMap<Integer, Node> deadNodes = nodesCircle.getDeadNodesList();
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
-        for (Map.Entry<Integer, Node> nodeList: deadNodes.entrySet()) {
-            Node node = nodeList.getValue();
+
+        for (Node node: deadNodes.values()) {
             if (isNodeAlive(node) && !aliveNodes.containsKey(node.getId())) {
                 nodesCircle.rejoinNode(node);
                 recoveredNodes.add(node);
@@ -53,6 +53,14 @@ public class HeartbeatsManager {
             }
         }
         return recoveredNodes;
+    }
+
+    public void removeDeadNodes() {
+        for (Node node: nodesCircle.getAllNodesList().values()) {
+            if (!isNodeAlive(node)) {
+                nodesCircle.removeNode(node);
+            }
+        }
     }
 
     public static HeartbeatsManager getInstance() {

@@ -11,6 +11,7 @@ import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
 import com.g3.CPEN431.A7.Model.Store.KVStore;
 import com.g3.CPEN431.A7.Model.Store.StoreCache;
 import com.g3.CPEN431.A7.Model.Store.ValueV;
+import com.g3.CPEN431.A7.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -85,20 +86,18 @@ public class KVServerHandler implements Runnable {
 
             // reroute PUT/GET/REMOVE requests if come directly from client and don't belong to current node
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
-                Node node = null;
                 // Find correct node and Reroute
                 byte[] key = reqPayload.getKey().toByteArray();
                 String sha256 = Hashing.sha256()
                         .hashBytes(key).toString();
-                do {
-                    if (node != null) {
-                        System.out.println(socket.getLocalPort() + ": remove node: " + node.getPort() + " is alive: " + heartbeatsManager.isNodeAlive(node));
-                        nodesCircle.removeNode(node);
-                    }
-                    node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
-                } while (!heartbeatsManager.isNodeAlive(node));
+
+                heartbeatsManager.removeDeadNodes();
+                Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
                 if (node.getId() != nodesCircle.getThisNodeId()) {
+//                    System.out.println(socket.getLocalPort() + " rerouting to port : " + node.getPort() + " " +
+//                            StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
+
                     reRoute(node);
                     return;
                 }
@@ -121,6 +120,15 @@ public class KVServerHandler implements Runnable {
 
     private void getResponseFromOwnNode(KeyValueRequest.KVRequest reqPayload) throws IOException {
         // If cached request, get response msg from cache and send it
+        byte[] key = reqPayload.getKey().toByteArray();
+        String sha256 = Hashing.sha256()
+                .hashBytes(key).toString();
+
+        if (nodesCircle.findCorrectNodeByHash(sha256.hashCode()).getId() != nodesCircle.getThisNodeId()) {
+            System.out.println(socket.getLocalPort()
+                    + " routed to me by mistake: " + StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
+        }
+
         byte[] id = requestMessage.getMessageID().toByteArray();
             Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
         if (cachedResponse != null) {
@@ -221,12 +229,16 @@ public class KVServerHandler implements Runnable {
                 ValueV valueV = new ValueV(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(ByteBuffer.wrap(key), valueV);
 
+                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case GET:
                     ValueV valueInStore = store.getStore().get(ByteBuffer.wrap(key));
                     if (valueInStore == null) {
+                        System.out.println(socket.getLocalPort() + " report no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
@@ -266,6 +278,7 @@ public class KVServerHandler implements Runnable {
                         .setPid(KVServer.PROCESS_ID)
                         .build();
             case GET_MEMBERSHIP_COUNT:
+                heartbeatsManager.removeDeadNodes();
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .setMembershipCount(nodesCircle.getAliveNodesCount())
@@ -284,7 +297,7 @@ public class KVServerHandler implements Runnable {
     }
 
     private boolean isMemoryOverload() {
-        return MemoryUsage.getFreeMemory() < 0.1 * MemoryUsage.getMaxMemory();
+        return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
     }
 }
 

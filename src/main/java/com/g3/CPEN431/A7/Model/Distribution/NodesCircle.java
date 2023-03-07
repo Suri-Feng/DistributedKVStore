@@ -38,7 +38,7 @@ public class NodesCircle {
             circle.put(hash3, node);
         }
 //        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-//            System.out.println(entry.getKey());
+////            System.out.println(entry.getKey());
 //            System.out.println(entry.getValue().getPort());
 //            System.out.println("==========");
 //        }
@@ -63,18 +63,17 @@ public class NodesCircle {
         return  hash % n < 0 ? hash % n + n : hash % n;
     }
     public void removeNode(Node node) {
-        aliveNodesList.remove(node.getId());
-        deadNodesList.put(node.getId(), node);
         circle.remove(getCircleBucketFromHash(node.getSha256Hash()));
         circle.remove(getCircleBucketFromHash(node.getSha384Hash()));
         circle.remove(getCircleBucketFromHash(node.getSha512Hash()));
+        aliveNodesList.remove(node.getId());
+        deadNodesList.put(node.getId(), node);
     }
 
     public void rejoinNode(Node node) {
         int hash1 = getCircleBucketFromHash(node.getSha256Hash());
         int hash2 = getCircleBucketFromHash(node.getSha512Hash());
         int hash3 = getCircleBucketFromHash(node.getSha384Hash());
-
         circle.put(hash1, node);
         circle.put(hash2, node);
         circle.put(hash3, node);
@@ -103,6 +102,7 @@ public class NodesCircle {
         }
         return null;
     }
+
 
     public int findPredecessorRingHash (int ringHash) {
         Integer lowerNodeRingHash = circle.lowerKey(ringHash);
@@ -133,6 +133,10 @@ public class NodesCircle {
 
     public int getAliveNodesCount() {
         return this.aliveNodesList.size();
+    }
+
+    public int getDeadNodesCount() {
+        return this.deadNodesList.size();
     }
 
     public Node getNodeById(int id) {

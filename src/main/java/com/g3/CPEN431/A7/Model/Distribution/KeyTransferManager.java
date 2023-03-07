@@ -16,7 +16,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.CRC32;
 
 public class KeyTransferManager {
     private DatagramSocket socket;
@@ -44,12 +43,14 @@ public class KeyTransferManager {
         Integer maxHash = nodesCircle.getRingHashIfMyPredecessor(recoveredNode.getId());
 
         if (maxHash != null) {
-            System.out.println("Recovered port " + recoveredNode.getPort() + " is a predecessor of port " + KVServer.port);
+//            System.out.println("Recovered port " + recoveredNode.getPort() + " is a predecessor of port " + KVServer.port);
             int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;
             for (Map.Entry<ByteBuffer, ValueV> entry: store.getStore().entrySet()) {
                 String sha256 = Hashing.sha256()
                         .hashBytes(entry.getKey()).toString();
                 int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+
+                // key within affected range
                 if (ringHash <= maxHash && ringHash >= minHash) {
                     keysToTransfer.add(entry.getKey());
 
@@ -103,7 +104,5 @@ public class KeyTransferManager {
                 throw new RuntimeException(e);
             }
         }
-
-
     }
 }

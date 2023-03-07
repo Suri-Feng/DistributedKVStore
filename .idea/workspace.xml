@@ -5,28 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/NodesCircleTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/A7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nodes-list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nodes-list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/ErrorCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/protobuf/KeyValueRequest.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/protobuf/KeyValueRequest.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/NetSysLab/ProtocolBuffers/KeyValueResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/NetSysLab/ProtocolBuffers/Message.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/MessageBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/NodesCircleTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/OutcomePair.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/TestHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/UDPClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Utils/ByteOrder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Utils/General.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/Utils/StringUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/Node.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/ErrorCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/ErrorCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.AppTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.AppTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.AppTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.AppTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.NodesCircleTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.NodesCircleTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.NodesCircleTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.NodesCircleTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/AppTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/MessageBuilder$Commands.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/MessageBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/NodesCircleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/NodesCircleTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/OutcomePair$Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/OutcomePair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/TestHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/UDPClient.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,8 +97,9 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/s42442146/CPEN431/A4" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers" />
       <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/test" />
+      <recent name="$PROJECT_DIR$/src/main/java/ca/NetSysLab/ProtocolBuffers" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -93,19 +110,11 @@
       <recent name="com.s42442146.CPEN431.A4.Utility" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.NodesCircleTest">
+  <component name="RunManager" selected="JUnit.NodesCircleTest.testReroute">
     <configuration name="App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.A7.App" />
       <module name="CPEN431_2022_A4" />
       <option name="PROGRAM_PARAMETERS" value="12347" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ok" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.A7.App" />
-      <module name="CPEN431_2022_A4" />
-      <option name="PROGRAM_PARAMETERS" value="12346" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -157,16 +166,51 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NodesCircleTest.testReroute" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPEN431_2022_A4" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.g3.CPEN431.project.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.g3.CPEN431.project" />
+      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.NodesCircleTest" />
+      <option name="METHOD_NAME" value="testReroute" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestStopAndResume" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPEN431_2022_A4" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.g3.CPEN431.project.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.g3.CPEN431.project" />
+      <option name="MAIN_CLASS_NAME" value="com.g3.CPEN431.project.TestStopAndResume" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.App" />
-      <item itemvalue="Application.ok" />
+      <item itemvalue="JUnit.NodesCircleTest.testReroute" />
       <item itemvalue="JUnit.NodesCircleTest" />
       <item itemvalue="JUnit.NodesCircleTest.testCircleBuild" />
+      <item itemvalue="JUnit.TestStopAndResume" />
       <item itemvalue="JUnit.AppTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.NodesCircleTest.testReroute" />
         <item itemvalue="JUnit.NodesCircleTest" />
+        <item itemvalue="JUnit.TestStopAndResume" />
         <item itemvalue="JUnit.NodesCircleTest.testCircleBuild" />
         <item itemvalue="JUnit.AppTest" />
       </list>

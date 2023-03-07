@@ -22,7 +22,6 @@ public class KVServer {
     private final StoreCache storeCache = StoreCache.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-
     private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
     public static int port;
 
