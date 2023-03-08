@@ -5,7 +5,7 @@ import ca.NetSysLab.ProtocolBuffers.Message;
 import com.g3.CPEN431.A7.Model.Command;
 import com.g3.CPEN431.A7.Model.KVServer;
 import com.g3.CPEN431.A7.Model.Store.KVStore;
-import com.g3.CPEN431.A7.Model.Store.ValueV;
+import com.g3.CPEN431.A7.Model.Store.Value;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -32,11 +32,11 @@ public class KeyTransferManager {
         this.socket = null;
     }
 
-    public List<ByteBuffer> transferKeys(Node recoveredNode) {
+    public List<ByteString> transferKeys(Node recoveredNode) {
         if (socket == null) {
             return null;
         }
-        List<ByteBuffer> keysToTransfer = new ArrayList<>();
+        List<ByteString> keysToTransfer = new ArrayList<>();
         List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
 
         // RecoveredNode Ring hash (only one rn which is the one before me)
@@ -45,19 +45,18 @@ public class KeyTransferManager {
         if (maxHash != null) {
 //            System.out.println("Recovered port " + recoveredNode.getPort() + " is a predecessor of port " + KVServer.port);
             int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;
-            for (Map.Entry<ByteBuffer, ValueV> entry: store.getStore().entrySet()) {
-                String sha256 = Hashing.sha256()
-                        .hashBytes(entry.getKey()).toString();
+            for (Map.Entry<ByteString, Value> entry: store.getStore().entrySet()) {
+                String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
                 int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
-                // key within affected range
+                // keys within affected range
                 if (ringHash <= maxHash && ringHash >= minHash) {
                     keysToTransfer.add(entry.getKey());
 
                     allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                             .setVersion(entry.getValue().getVersion())
                             .setValue(entry.getValue().getValue())
-                            .setKey(ByteString.copyFrom(entry.getKey().array()))
+                            .setKey(entry.getKey())
                             .build());
                 }
             }

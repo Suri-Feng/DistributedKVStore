@@ -10,7 +10,7 @@ import com.g3.CPEN431.A7.Model.Distribution.Node;
 import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
 import com.g3.CPEN431.A7.Model.Store.KVStore;
 import com.g3.CPEN431.A7.Model.Store.StoreCache;
-import com.g3.CPEN431.A7.Model.Store.ValueV;
+import com.g3.CPEN431.A7.Model.Store.Value;
 import com.g3.CPEN431.A7.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
@@ -32,7 +32,6 @@ public class KVServerHandler implements Runnable {
     StoreCache storeCache = StoreCache.getInstance();
     NodesCircle nodesCircle = NodesCircle.getInstance();
     HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
-
     KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
 
     KVServerHandler(Message.Msg requestMessage,
@@ -50,13 +49,14 @@ public class KVServerHandler implements Runnable {
         List<Node> recoveredNodes = heartbeatsManager.recoverLiveNodes();
 
         // TODO: send data to recovered nodes
-        List<ByteBuffer> keysToRemove = new ArrayList<>();
+        List<ByteString> keysToRemove = new ArrayList<>();
         for (Node node: recoveredNodes) {
             keysToRemove.addAll(keyTransferManager.transferKeys(node));
         }
         // TODO: remove keys from store
         if (!keysToRemove.isEmpty()) {
-            for (ByteBuffer key: keysToRemove) {
+            System.out.println("Remove duplicates!!!");
+            for (ByteString key: keysToRemove) {
                 store.getStore().remove(key);
             }
         }
@@ -95,9 +95,9 @@ public class KVServerHandler implements Runnable {
                 Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
                 if (node.getId() != nodesCircle.getThisNodeId()) {
-                    System.out.println(socket.getLocalPort() + " rerouting to : " + node.getPort() + " " +
-                            StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
-                    nodesCircle.printCircle();
+//                    System.out.println(socket.getLocalPort() + " rerouting to : " + node.getPort() + " " +
+//                            StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
+//                    nodesCircle.printCircle();
                     reRoute(node);
                     return;
                 }
@@ -117,23 +117,14 @@ public class KVServerHandler implements Runnable {
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
         store.getStore().put(
-                ByteBuffer.wrap(pair.getKey().toByteArray()),
-                new ValueV(pair.getVersion(), pair.getValue()));
+                pair.getKey(),
+                new Value(pair.getVersion(), pair.getValue()));
     }
 
     private void getResponseFromOwnNode(KeyValueRequest.KVRequest reqPayload) throws IOException {
         // If cached request, get response msg from cache and send it
-        byte[] key = reqPayload.getKey().toByteArray();
-        String sha256 = Hashing.sha256()
-                .hashBytes(key).toString();
-
-        if (reqPayload.getCommand() <= 3 && reqPayload.getCommand() >= 1 && nodesCircle.findCorrectNodeByHash(sha256.hashCode()).getId() != nodesCircle.getThisNodeId()) {
-            System.out.println(socket.getLocalPort()
-                    + " routed to me by mistake: " + StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
-        }
-
         byte[] id = requestMessage.getMessageID().toByteArray();
-            Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
+        Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
         if (cachedResponse != null) {
             sendResponse(cachedResponse, requestMessage);
             return;
@@ -199,7 +190,7 @@ public class KVServerHandler implements Runnable {
     private KeyValueResponse.KVResponse processRequest(KeyValueRequest.KVRequest requestPayload) {
         // Get command, key, and value from request
         int commandCode = requestPayload.getCommand();
-        byte[] key = requestPayload.getKey().toByteArray();
+        ByteString key = requestPayload.getKey();
         byte[] value = requestPayload.getValue().toByteArray();
 
         // Find corresponding Command
@@ -211,7 +202,7 @@ public class KVServerHandler implements Runnable {
                     .setErrCode(ErrorCode.UNKNOWN_COMMAND.getCode()).build();
         }
 
-        if (key.length > KVServer.MAX_KEY_LENGTH) {
+        if (key.size() > KVServer.MAX_KEY_LENGTH) {
             return builder
                     .setErrCode(ErrorCode.INVALID_KEY.getCode())
                     .build();
@@ -229,37 +220,35 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.OUT_OF_SPACE.getCode())
                             .build();
                 }
-                ValueV valueV = new ValueV(requestPayload.getVersion(), requestPayload.getValue());
-                store.getStore().put(ByteBuffer.wrap(key), valueV);
-
+                Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
+                store.getStore().put(key, valueV);
 //                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case GET:
-                    ValueV valueInStore = store.getStore().get(ByteBuffer.wrap(key));
+                    Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
-                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-                        nodesCircle.printCircle();
+//                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+//                        nodesCircle.printCircle();
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
                     }
-//                System.out.println(socket.getLocalPort()  + " number of keys: "
-//                        + store.getStore().size());
+
                     return builder
                             .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                             .setValue(valueInStore.getValue())
                             .setVersion(valueInStore.getVersion())
                             .build();
             case REMOVE:
-                if (store.getStore().get(ByteBuffer.wrap(key)) == null) {
+                if (store.getStore().get(key) == null) {
                     return builder
                             .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                             .build();
                 }
-                store.getStore().remove(ByteBuffer.wrap(key));
+                store.getStore().remove(key);
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();

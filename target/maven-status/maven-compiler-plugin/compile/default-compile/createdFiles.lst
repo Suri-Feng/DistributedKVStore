@@ -23,9 +23,9 @@ com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class
 com/g3/CPEN431/A7/Model/ErrorCode.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry.class
 com/g3/CPEN431/A7/Model/KVServerHandler.class
-com/g3/CPEN431/A7/Model/Store/ValueV.class
 com/g3/CPEN431/A7/Utility/ByteOrder.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class
+com/g3/CPEN431/A7/Model/Store/Value.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class
 com/g3/CPEN431/A7/Utility/MemoryUsage.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$Builder.class

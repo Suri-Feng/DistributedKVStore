@@ -46,7 +46,7 @@ public class HeartbeatsManager {
                 recoveredNodes.add(node);
                 System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
                         + nodesCircle.getAliveNodesCount());
-                nodesCircle.printCircle();
+//                nodesCircle.printCircle();
             }
         }
         return recoveredNodes;

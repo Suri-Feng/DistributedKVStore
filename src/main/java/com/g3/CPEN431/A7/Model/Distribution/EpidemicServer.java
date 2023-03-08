@@ -66,7 +66,7 @@ public class EpidemicServer implements Runnable {
 
     private byte[] packMessage() {
         // messageID
-        byte[] msg_id = new byte[0];
+        byte[] msg_id = new byte[1];
         Collection<Long> heartbeats = heartbeatsManager.getHeartBeats().values();
         KeyValueRequest.KVRequest gossip = KeyValueRequest.KVRequest.newBuilder()
                 .setCommand(Command.HEARTBEAT.getCode())
