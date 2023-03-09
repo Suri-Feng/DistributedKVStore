@@ -15,6 +15,7 @@ import com.g3.CPEN431.A7.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
+import javax.swing.text.Utilities;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -55,7 +56,6 @@ public class KVServerHandler implements Runnable {
         }
         // TODO: remove keys from store
         if (!keysToRemove.isEmpty()) {
-            System.out.println("Remove duplicates!!!");
             for (ByteString key: keysToRemove) {
                 store.getStore().remove(key);
             }
@@ -79,7 +79,6 @@ public class KVServerHandler implements Runnable {
 
             // Receive keys transfer
             if  (command == Command.KEY_TRANSFER.getCode()) {
-                System.out.println(KVServer.port + " received key transfers from " + this.port);
                 addKey(reqPayload.getPair());
                 return;
             }
@@ -116,6 +115,7 @@ public class KVServerHandler implements Runnable {
     }
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
+        System.out.println(KVServer.port + " received key transfer: " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
@@ -230,8 +230,8 @@ public class KVServerHandler implements Runnable {
             case GET:
                     Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
-//                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-//                        nodesCircle.printCircle();
+                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                        nodesCircle.printCircle();
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
