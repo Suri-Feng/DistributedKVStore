@@ -3,7 +3,9 @@ package com.g3.CPEN431.A7.Model.Distribution;
 import com.g3.CPEN431.A7.Model.KVServer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -39,13 +41,13 @@ public class NodesCircle {
             circle.put(hash2, node);
             circle.put(hash3, node);
         }
-//        System.out.println("==========");
-//
-//        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-//            System.out.println(entry.getKey());
-//            System.out.println(entry.getValue().getPort());
-//        }
-//        System.out.println("==========");
+        System.out.println("==========");
+
+        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().getPort());
+        }
+        System.out.println("==========");
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -105,6 +107,39 @@ public class NodesCircle {
             }
         }
         return null;
+    }
+
+    public int[][] getRecoveredNodeRange(Node recoveredNode) {
+        int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
+        int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
+        int hash3 = getCircleBucketFromHash(recoveredNode.getSha384Hash());
+        int[] hashes = {hash1, hash2, hash3};
+        int[][] array = new int[3][2];
+        int i = 0;
+        for (int hash: hashes) {
+            Integer lowerNodeRingHash = circle.lowerKey(hash);
+            int lowerHash = lowerNodeRingHash == null ?
+                    circle.lastKey() + 1 : lowerNodeRingHash + 1;
+            array[i][0] = lowerHash;
+            array[i++][1] = hash;
+        }
+        return array;
+    }
+
+    public Set<Node> findSuccessorNodes(Node recoveredNode) {
+        int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
+        int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
+        int hash3 = getCircleBucketFromHash(recoveredNode.getSha384Hash());
+        int[] hashes = {hash1, hash2, hash3};
+        Set<Node> nodes = new HashSet<>();
+
+        for (int hash: hashes) {
+            Integer higherKey = circle.higherKey(hash);
+            Node node = higherKey == null ?
+                    circle.firstEntry().getValue() : circle.get(higherKey);
+            nodes.add(node);
+        }
+        return nodes;
     }
 
 

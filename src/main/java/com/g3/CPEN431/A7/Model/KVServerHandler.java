@@ -15,7 +15,6 @@ import com.g3.CPEN431.A7.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
-import javax.swing.text.Utilities;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -47,7 +46,7 @@ public class KVServerHandler implements Runnable {
 
     private void manageHeartBeats(List<Long> heartbeatList) {
         heartbeatsManager.updateHeartbeats(heartbeatList);
-        List<Node> recoveredNodes = heartbeatsManager.recoverLiveNodes();
+        List<Node> recoveredNodes = heartbeatsManager.updateNodesStatus();
 
         // TODO: send data to recovered nodes
         List<ByteString> keysToRemove = new ArrayList<>();
@@ -61,6 +60,7 @@ public class KVServerHandler implements Runnable {
             }
         }
     }
+
 
     @Override
     public void run() {
@@ -80,6 +80,17 @@ public class KVServerHandler implements Runnable {
             // Receive keys transfer
             if  (command == Command.KEY_TRANSFER.getCode()) {
                 addKey(reqPayload.getPair());
+                return;
+            }
+
+            if  (command == Command.SUCCESSOR_NOTIFY.getCode()) {
+                List<ByteString> keysToRemove = new ArrayList<>();
+                keysToRemove.addAll(keyTransferManager.transferKeys(nodesCircle.getNodeById(reqPayload.getRecoveredNodeId())));
+                if (!keysToRemove.isEmpty()) {
+                    for (ByteString key: keysToRemove) {
+                        store.getStore().remove(key);
+                    }
+                }
                 return;
             }
 
@@ -143,7 +154,6 @@ public class KVServerHandler implements Runnable {
                 .setPayload(responsePayload.toByteString())
                 .setCheckSum(checksum.getValue())
                 .build();
-
         sendResponse(responseMsg, requestMessage);
         storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
     }
@@ -222,7 +232,7 @@ public class KVServerHandler implements Runnable {
                 }
                 Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(key, valueV);
-//                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -231,7 +241,6 @@ public class KVServerHandler implements Runnable {
                     Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
                         System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-                        nodesCircle.printCircle();
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();

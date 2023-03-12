@@ -13,7 +13,8 @@ public enum Command {
     GET_PID (0x07),
     GET_MEMBERSHIP_COUNT (0x08),
     HEARTBEAT(20),
-    KEY_TRANSFER(21);
+    KEY_TRANSFER(21),
+    SUCCESSOR_NOTIFY(22);
 
     private final int code;
 

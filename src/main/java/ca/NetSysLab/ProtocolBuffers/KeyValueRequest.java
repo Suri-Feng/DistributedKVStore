@@ -88,6 +88,17 @@ public final class KeyValueRequest {
      * <code>optional .KeyValueEntry pair = 6;</code>
      */
     ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairOrBuilder();
+
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return Whether the recoveredNodeId field is set.
+     */
+    boolean hasRecoveredNodeId();
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return The recoveredNodeId.
+     */
+    int getRecoveredNodeId();
   }
   /**
    * Protobuf type {@code KVRequest}
@@ -256,6 +267,25 @@ public final class KeyValueRequest {
       return pair_ == null ? ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance() : pair_;
     }
 
+    public static final int RECOVEREDNODEID_FIELD_NUMBER = 7;
+    private int recoveredNodeId_ = 0;
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return Whether the recoveredNodeId field is set.
+     */
+    @java.lang.Override
+    public boolean hasRecoveredNodeId() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return The recoveredNodeId.
+     */
+    @java.lang.Override
+    public int getRecoveredNodeId() {
+      return recoveredNodeId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -292,6 +322,9 @@ public final class KeyValueRequest {
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(6, getPair());
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeUInt32(7, recoveredNodeId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -336,6 +369,10 @@ public final class KeyValueRequest {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getPair());
       }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, recoveredNodeId_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -375,6 +412,11 @@ public final class KeyValueRequest {
         if (!getPair()
             .equals(other.getPair())) return false;
       }
+      if (hasRecoveredNodeId() != other.hasRecoveredNodeId()) return false;
+      if (hasRecoveredNodeId()) {
+        if (getRecoveredNodeId()
+            != other.getRecoveredNodeId()) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -407,6 +449,10 @@ public final class KeyValueRequest {
       if (hasPair()) {
         hash = (37 * hash) + PAIR_FIELD_NUMBER;
         hash = (53 * hash) + getPair().hashCode();
+      }
+      if (hasRecoveredNodeId()) {
+        hash = (37 * hash) + RECOVEREDNODEID_FIELD_NUMBER;
+        hash = (53 * hash) + getRecoveredNodeId();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -553,6 +599,7 @@ public final class KeyValueRequest {
           pairBuilder_.dispose();
           pairBuilder_ = null;
         }
+        recoveredNodeId_ = 0;
         return this;
       }
 
@@ -616,6 +663,10 @@ public final class KeyValueRequest {
               ? pair_
               : pairBuilder_.build();
           to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.recoveredNodeId_ = recoveredNodeId_;
+          to_bitField0_ |= 0x00000010;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -689,6 +740,9 @@ public final class KeyValueRequest {
         if (other.hasPair()) {
           mergePair(other.getPair());
         }
+        if (other.hasRecoveredNodeId()) {
+          setRecoveredNodeId(other.getRecoveredNodeId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -758,6 +812,11 @@ public final class KeyValueRequest {
                 bitField0_ |= 0x00000020;
                 break;
               } // case 50
+              case 56: {
+                recoveredNodeId_ = input.readUInt32();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1125,6 +1184,46 @@ public final class KeyValueRequest {
           pair_ = null;
         }
         return pairBuilder_;
+      }
+
+      private int recoveredNodeId_ ;
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @return Whether the recoveredNodeId field is set.
+       */
+      @java.lang.Override
+      public boolean hasRecoveredNodeId() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @return The recoveredNodeId.
+       */
+      @java.lang.Override
+      public int getRecoveredNodeId() {
+        return recoveredNodeId_;
+      }
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @param value The recoveredNodeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecoveredNodeId(int value) {
+        
+        recoveredNodeId_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecoveredNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        recoveredNodeId_ = 0;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -1834,15 +1933,16 @@ public final class KeyValueRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025KeyValueRequest.proto\"\265\001\n\tKVRequest\022\017\n" +
+      "\n\025KeyValueRequest.proto\"\347\001\n\tKVRequest\022\017\n" +
       "\007command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005valu" +
       "e\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\021\n\the" +
       "artbeat\030\005 \003(\004\022!\n\004pair\030\006 \001(\0132\016.KeyValueEn" +
-      "tryH\003\210\001\001B\006\n\004_keyB\010\n\006_valueB\n\n\010_versionB\007" +
-      "\n\005_pair\"<\n\rKeyValueEntry\022\013\n\003key\030\001 \001(\014\022\017\n" +
-      "\007version\030\002 \001(\005\022\r\n\005value\030\003 \001(\014B/\n\034ca.NetS" +
-      "ysLab.ProtocolBuffersB\017KeyValueRequestb\006" +
-      "proto3"
+      "tryH\003\210\001\001\022\034\n\017recoveredNodeId\030\007 \001(\rH\004\210\001\001B\006" +
+      "\n\004_keyB\010\n\006_valueB\n\n\010_versionB\007\n\005_pairB\022\n" +
+      "\020_recoveredNodeId\"<\n\rKeyValueEntry\022\013\n\003ke" +
+      "y\030\001 \001(\014\022\017\n\007version\030\002 \001(\005\022\r\n\005value\030\003 \001(\014B" +
+      "/\n\034ca.NetSysLab.ProtocolBuffersB\017KeyValu" +
+      "eRequestb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1853,7 +1953,7 @@ public final class KeyValueRequest {
     internal_static_KVRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KVRequest_descriptor,
-        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "Key", "Value", "Version", "Pair", });
+        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "RecoveredNodeId", "Key", "Value", "Version", "Pair", "RecoveredNodeId", });
     internal_static_KeyValueEntry_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_KeyValueEntry_fieldAccessorTable = new

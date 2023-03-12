@@ -4,7 +4,6 @@ import com.g3.CPEN431.A7.Model.KVServer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HeartbeatsManager {
@@ -35,18 +34,19 @@ public class HeartbeatsManager {
         return System.currentTimeMillis() - heartBeats.get(node.getId()) <= metric;
     }
 
-    public List<Node> recoverLiveNodes() {
+    public List<Node> updateNodesStatus() {
         List<Node> recoveredNodes = new ArrayList<>();
         ConcurrentHashMap<Integer, Node> deadNodes = nodesCircle.getDeadNodesList();
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
-
         for (Node node: deadNodes.values()) {
-            if (isNodeAlive(node) && !aliveNodes.containsKey(node.getId())) {
+            if (!isNodeAlive(node) && nodesCircle.getAliveNodesList().contains(node)) {
+                nodesCircle.removeNode(node);
+                System.out.println(KVServer.port + " remove node: " + node.getPort());
+            } else if (isNodeAlive(node) && !aliveNodes.containsKey(node.getId())) {
                 nodesCircle.rejoinNode(node);
                 recoveredNodes.add(node);
                 System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
                         + nodesCircle.getAliveNodesCount());
-//                nodesCircle.printCircle();
             }
         }
         return recoveredNodes;
@@ -54,8 +54,9 @@ public class HeartbeatsManager {
 
     public void removeDeadNodes() {
         for (Node node: nodesCircle.getAllNodesList().values()) {
-            if (!isNodeAlive(node)) {
+            if (!isNodeAlive(node) && nodesCircle.getAliveNodesList().contains(node)) {
                 nodesCircle.removeNode(node);
+                System.out.println(KVServer.port + " remove node: " + node.getPort());
             }
         }
     }

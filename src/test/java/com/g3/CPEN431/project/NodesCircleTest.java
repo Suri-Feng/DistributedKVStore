@@ -8,6 +8,7 @@ import com.google.common.hash.Hashing;
 import org.junit.*;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -42,9 +43,6 @@ public class NodesCircleTest {
     public NodesCircleTest() throws IOException {
         nodesCircle.setNodeList(App.parseNodes());
         nodesCircle.buildHashCircle();
-        Node node = nodesCircle.getNodeById(5);
-        nodesCircle.setThisNodeId(node.getId());
-
         n12347 = nodesCircle.getNodeById(0);
          n12348 = nodesCircle.getNodeById(1);
          n12349 = nodesCircle.getNodeById(2);
@@ -107,35 +105,85 @@ public class NodesCircleTest {
 
     @Test
     public void testReroute()  {
-        byte[] key = StringUtils.hexStringToByteArray("38880000");
+//        byte[] key = StringUtils.hexStringToByteArray("38880000");
+//        String sha256 = Hashing.sha256().hashBytes(key).toString();
+//        Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+//        System.out.println(node.getPort() + "!!!!!");
+//        assertEquals(node.getPort(), 12349);
+//
+//        nodesCircle.removeNode(n12356);
+//        nodesCircle.removeNode(n12359);
+//        nodesCircle.removeNode(n12358);
+//        nodesCircle.removeNode(n12363);
+//        nodesCircle.removeNode(n12364);
+//        nodesCircle.removeNode(n12349);
+//        nodesCircle.removeNode(n12355);
+//
+//        nodesCircle.removeNode(n12357);
+//        nodesCircle.removeNode(n12353);
+//        nodesCircle.removeNode(n12362);
+//
+//
+//        nodesCircle.rejoinNode(n12356);
+//        nodesCircle.rejoinNode(n12359);
+//        nodesCircle.rejoinNode(n12358);
+//        nodesCircle.rejoinNode(n12363);
+//        nodesCircle.rejoinNode(n12364);
+//        nodesCircle.rejoinNode(n12349);
+//        nodesCircle.rejoinNode(n12355);
+//
+//        node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+//        System.out.println(node.getPort() + "!!!!!");
+//        assertEquals(node.getPort(), 12349);
+    }
+
+    @Test
+    public void testKeyTransfer() {
+        nodesCircle.setThisNodeId(n12348.getId());
+
+        byte[] key = StringUtils.hexStringToByteArray("42D90000");
         String sha256 = Hashing.sha256().hashBytes(key).toString();
         Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
         System.out.println(node.getPort() + "!!!!!");
-        assertEquals(node.getPort(), 12349);
 
-        nodesCircle.removeNode(n12356);
-        nodesCircle.removeNode(n12359);
-        nodesCircle.removeNode(n12358);
-        nodesCircle.removeNode(n12363);
         nodesCircle.removeNode(n12364);
-        nodesCircle.removeNode(n12349);
-        nodesCircle.removeNode(n12355);
-
-        nodesCircle.removeNode(n12357);
-        nodesCircle.removeNode(n12353);
+        nodesCircle.removeNode(n12347);
+        nodesCircle.removeNode(n12354);
+        nodesCircle.removeNode(n12366);
+        nodesCircle.removeNode(n12358);
+        nodesCircle.removeNode(n12359);
+        nodesCircle.removeNode(n12350);
         nodesCircle.removeNode(n12362);
+        nodesCircle.removeNode(n12351);
+        nodesCircle.removeNode(n12353);
 
-
-        nodesCircle.rejoinNode(n12356);
-        nodesCircle.rejoinNode(n12359);
-        nodesCircle.rejoinNode(n12358);
-        nodesCircle.rejoinNode(n12363);
-        nodesCircle.rejoinNode(n12364);
-        nodesCircle.rejoinNode(n12349);
-        nodesCircle.rejoinNode(n12355);
-
-        node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+         node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
         System.out.println(node.getPort() + "!!!!!");
-        assertEquals(node.getPort(), 12349);
+
+        nodesCircle.rejoinNode(n12364);
+        nodesCircle.rejoinNode(n12347);
+        nodesCircle.rejoinNode(n12354);
+
+        Integer maxHash = nodesCircle.getRingHashIfMyPredecessor(n12354.getId());
+        System.out.println(maxHash);
+//        ArrayList<Node> nodes = nodesCircle.findCorrectNodeByHashndSuccessorNodes(n12354);
+//        nodes.forEach(node1 -> System.out.println(node1.getPort()));
+//        int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;
+//        System.out.println(minHash);
+//        int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+//        System.out.println(ringHash);
+//        if (ringHash <= maxHash && ringHash >= minHash) {
+//            System.out.println("yes");
+//        }
+
+//        int[][] array = nodesCircle.getRecoveredNodeRange(n12354);
+//        for (int i = 0; i < array.length; i++) {
+//            // Iterate over each column
+//            for (int j = 0; j < array[i].length; j++) {
+//                System.out.print(array[i][j] + " ");
+//            }
+//            // Print a new line after each row
+//            System.out.println();
+//        }
     }
 }

@@ -9,6 +9,7 @@ message KVRequest {
     optional int32 version = 4;
     repeated uint64 heartbeat = 5;
     optional KeyValueEntry pair = 6;
+    optional uint32 recoveredNodeId = 7;
 }
 
 message KeyValueEntry {
