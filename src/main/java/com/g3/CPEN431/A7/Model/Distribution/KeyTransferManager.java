@@ -39,24 +39,26 @@ public class KeyTransferManager {
         List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
 
         // RecoveredNode Ring hash (only one rn which is the one before me)
-        Integer maxHash = nodesCircle.getRingHashIfMyPredecessor(recoveredNode.getId());
+        ArrayList<Integer> maxHashes = nodesCircle.getRingHashIfMyPredecessor(recoveredNode.getId());
 
-        if (maxHash != null) {
+        if (!maxHashes.isEmpty()) {
             System.out.println("Recovered port " + recoveredNode.getPort() + " is a predecessor of port " + KVServer.port);
-            int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;
-            for (Map.Entry<ByteString, Value> entry: store.getStore().entrySet()) {
-                String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
-                int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+            for (Integer maxHash: maxHashes) {
+                int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;
+                for (Map.Entry<ByteString, Value> entry: store.getStore().entrySet()) {
+                    String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
+                    int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
-                // keys within affected range
-                if (ringHash <= maxHash && ringHash >= minHash) {
-                    keysToTransfer.add(entry.getKey());
+                    // keys within affected range
+                    if (ringHash <= maxHash && ringHash >= minHash) {
+                        keysToTransfer.add(entry.getKey());
 
-                    allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
-                            .setVersion(entry.getValue().getVersion())
-                            .setValue(entry.getValue().getValue())
-                            .setKey(entry.getKey())
-                            .build());
+                        allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
+                                .setVersion(entry.getValue().getVersion())
+                                .setValue(entry.getValue().getValue())
+                                .setKey(entry.getKey())
+                                .build());
+                    }
                 }
             }
         } else {
@@ -64,7 +66,7 @@ public class KeyTransferManager {
             sendMessageToSuccessor(successorNodes, recoveredNode);
         }
 
-
+//
 //
 //        int[][] minMax = nodesCircle.getRecoveredNodeRange(recoveredNode);
 //
@@ -127,8 +129,6 @@ public class KeyTransferManager {
 
     private void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
         byte[] msg_id = new byte[0];
-
-
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
             System.out.println(KVServer.port + " sending key transfers to port "

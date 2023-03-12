@@ -41,13 +41,13 @@ public class NodesCircle {
             circle.put(hash2, node);
             circle.put(hash3, node);
         }
-        System.out.println("==========");
-
-        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue().getPort());
-        }
-        System.out.println("==========");
+//        System.out.println("==========");
+//
+//        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
+//            System.out.println(entry.getKey());
+//            System.out.println(entry.getValue().getPort());
+//        }
+//        System.out.println("==========");
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -91,22 +91,23 @@ public class NodesCircle {
     // 1. check if the provided node id is a predecessor of the current node
     // 2. if yes, return ring hash of the provided node
     // 3. else, return null
-    public Integer getRingHashIfMyPredecessor(int id) {
+    public ArrayList<Integer> getRingHashIfMyPredecessor(int id) {
         int hash1 = getCircleBucketFromHash(currentNode.getSha256Hash());
         int hash2 = getCircleBucketFromHash(currentNode.getSha512Hash());
         int hash3 = getCircleBucketFromHash(currentNode.getSha384Hash());
         int[] hashes = {hash1, hash2, hash3};
 
-        // TODO: maybe multiple hashes??
+        ArrayList<Integer> maxHashes = new ArrayList<>();
         for (int hash: hashes) {
             Integer lowerNodeRingHash = circle.lowerKey(hash);
             int lowerNodeId = lowerNodeRingHash == null ?
                     circle.lastEntry().getValue().getId() : circle.get(lowerNodeRingHash).getId();
             if (lowerNodeId == id) {
-                return lowerNodeRingHash == null ? circle.lastKey() : lowerNodeRingHash;
+                int maxHash = lowerNodeRingHash == null ? circle.lastKey() : lowerNodeRingHash;
+                maxHashes.add(maxHash);
             }
         }
-        return null;
+        return maxHashes;
     }
 
     public int[][] getRecoveredNodeRange(Node recoveredNode) {

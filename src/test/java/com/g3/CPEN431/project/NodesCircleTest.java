@@ -139,33 +139,31 @@ public class NodesCircleTest {
 
     @Test
     public void testKeyTransfer() {
-        nodesCircle.setThisNodeId(n12348.getId());
+        nodesCircle.setThisNodeId(n12362.getId());
 
-        byte[] key = StringUtils.hexStringToByteArray("42D90000");
+        byte[] key = StringUtils.hexStringToByteArray("F6E90000");
         String sha256 = Hashing.sha256().hashBytes(key).toString();
         Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
         System.out.println(node.getPort() + "!!!!!");
 
-        nodesCircle.removeNode(n12364);
-        nodesCircle.removeNode(n12347);
-        nodesCircle.removeNode(n12354);
-        nodesCircle.removeNode(n12366);
+        nodesCircle.removeNode(n12365);
+        nodesCircle.removeNode(n12352);
+        nodesCircle.removeNode(n12360);
+        nodesCircle.removeNode(n12357);
         nodesCircle.removeNode(n12358);
-        nodesCircle.removeNode(n12359);
-        nodesCircle.removeNode(n12350);
-        nodesCircle.removeNode(n12362);
-        nodesCircle.removeNode(n12351);
-        nodesCircle.removeNode(n12353);
+
 
          node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
         System.out.println(node.getPort() + "!!!!!");
 
-        nodesCircle.rejoinNode(n12364);
-        nodesCircle.rejoinNode(n12347);
-        nodesCircle.rejoinNode(n12354);
+        nodesCircle.rejoinNode(n12365);
+        nodesCircle.rejoinNode(n12352);
+        nodesCircle.rejoinNode(n12360);
+        nodesCircle.rejoinNode(n12357);
+        nodesCircle.rejoinNode(n12358);
 
-        Integer maxHash = nodesCircle.getRingHashIfMyPredecessor(n12354.getId());
-        System.out.println(maxHash);
+//        Integer maxHash = nodesCircle.getRingHashIfMyPredecessor(n12352.getId());
+//        System.out.println(maxHash);
 //        ArrayList<Node> nodes = nodesCircle.findCorrectNodeByHashndSuccessorNodes(n12354);
 //        nodes.forEach(node1 -> System.out.println(node1.getPort()));
 //        int minHash = nodesCircle.findPredecessorRingHash(maxHash) + 1;

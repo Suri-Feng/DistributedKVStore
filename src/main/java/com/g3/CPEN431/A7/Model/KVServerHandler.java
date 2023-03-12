@@ -84,8 +84,10 @@ public class KVServerHandler implements Runnable {
             }
 
             if  (command == Command.SUCCESSOR_NOTIFY.getCode()) {
+                Node node = nodesCircle.getNodeById(reqPayload.getRecoveredNodeId());
+                System.out.println(KVServer.port + "received notify for " + node.getPort());
                 List<ByteString> keysToRemove = new ArrayList<>();
-                keysToRemove.addAll(keyTransferManager.transferKeys(nodesCircle.getNodeById(reqPayload.getRecoveredNodeId())));
+                keysToRemove.addAll(keyTransferManager.transferKeys(node));
                 if (!keysToRemove.isEmpty()) {
                     for (ByteString key: keysToRemove) {
                         store.getStore().remove(key);
@@ -101,7 +103,7 @@ public class KVServerHandler implements Runnable {
                 String sha256 = Hashing.sha256()
                         .hashBytes(key).toString();
 
-                heartbeatsManager.removeDeadNodes();
+//                heartbeatsManager.removeDeadNodes();
                 Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
                 if (node.getId() != nodesCircle.getThisNodeId()) {
