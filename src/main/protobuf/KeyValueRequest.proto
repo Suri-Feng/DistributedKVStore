@@ -10,10 +10,16 @@ message KVRequest {
     repeated uint64 heartbeat = 5;
     optional KeyValueEntry pair = 6;
     optional uint32 recoveredNodeId = 7;
+    repeated HashRange hashRanges = 8;
 }
 
 message KeyValueEntry {
     bytes key = 1;
     int32 version = 2;
     bytes value = 3;
+}
+
+message HashRange {
+    int32 minRange = 1;
+    int32 maxRange = 2;
 }

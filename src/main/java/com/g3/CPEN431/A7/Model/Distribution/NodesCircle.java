@@ -1,11 +1,8 @@
 package com.g3.CPEN431.A7.Model.Distribution;
 
-import com.g3.CPEN431.A7.Model.KVServer;
+import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -42,9 +39,8 @@ public class NodesCircle {
             circle.put(hash3, node);
         }
 //        System.out.println("==========");
-//
 //        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-//            System.out.println(entry.getKey());
+////            System.out.println(entry.getKey());
 //            System.out.println(entry.getValue().getPort());
 //        }
 //        System.out.println("==========");
@@ -87,44 +83,30 @@ public class NodesCircle {
         deadNodesList.remove(node.getId());
     }
 
-
-    // 1. check if the provided node id is a predecessor of the current node
-    // 2. if yes, return ring hash of the provided node
-    // 3. else, return null
-    public ArrayList<Integer> getRingHashIfMyPredecessor(int id) {
-        int hash1 = getCircleBucketFromHash(currentNode.getSha256Hash());
-        int hash2 = getCircleBucketFromHash(currentNode.getSha512Hash());
-        int hash3 = getCircleBucketFromHash(currentNode.getSha384Hash());
-        int[] hashes = {hash1, hash2, hash3};
-
-        ArrayList<Integer> maxHashes = new ArrayList<>();
-        for (int hash: hashes) {
-            Integer lowerNodeRingHash = circle.lowerKey(hash);
-            int lowerNodeId = lowerNodeRingHash == null ?
-                    circle.lastEntry().getValue().getId() : circle.get(lowerNodeRingHash).getId();
-            if (lowerNodeId == id) {
-                int maxHash = lowerNodeRingHash == null ? circle.lastKey() : lowerNodeRingHash;
-                maxHashes.add(maxHash);
-            }
-        }
-        return maxHashes;
-    }
-
-    public int[][] getRecoveredNodeRange(Node recoveredNode) {
+    public List<KeyValueRequest.HashRange> getRecoveredNodeRange(Node recoveredNode) {
         int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
         int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
         int hash3 = getCircleBucketFromHash(recoveredNode.getSha384Hash());
         int[] hashes = {hash1, hash2, hash3};
-        int[][] array = new int[3][2];
-        int i = 0;
+
+        List<KeyValueRequest.HashRange> hashRangeList = new ArrayList<>();
+
         for (int hash: hashes) {
-            Integer lowerNodeRingHash = circle.lowerKey(hash);
-            int lowerHash = lowerNodeRingHash == null ?
-                    circle.lastKey() + 1 : lowerNodeRingHash + 1;
-            array[i][0] = lowerHash;
-            array[i++][1] = hash;
+            Integer lowerKey = hash;
+            Node node = null;
+            do {
+                lowerKey = circle.lowerKey(lowerKey);
+                lowerKey = lowerKey == null ? circle.lastKey() : lowerKey;
+                node = circle.get(lowerKey);
+            } while (node == recoveredNode);
+
+            hashRangeList.add(
+                    KeyValueRequest.HashRange.newBuilder()
+                            .setMinRange(lowerKey + 1)
+                            .setMaxRange(hash)
+                            .build());
         }
-        return array;
+        return hashRangeList;
     }
 
     public Set<Node> findSuccessorNodes(Node recoveredNode) {
@@ -135,18 +117,16 @@ public class NodesCircle {
         Set<Node> nodes = new HashSet<>();
 
         for (int hash: hashes) {
-            Integer higherKey = circle.higherKey(hash);
-            Node node = higherKey == null ?
-                    circle.firstEntry().getValue() : circle.get(higherKey);
+            Node node = null;
+            Integer higherKey = hash;
+            do {
+                higherKey = circle.higherKey(higherKey);
+                higherKey = higherKey == null ? circle.firstKey() : higherKey;
+                node = circle.get(higherKey);
+            } while (node == recoveredNode);
             nodes.add(node);
         }
         return nodes;
-    }
-
-
-    public int findPredecessorRingHash (int ringHash) {
-        Integer lowerNodeRingHash = circle.lowerKey(ringHash);
-        return lowerNodeRingHash == null ? circle.lastKey() : lowerNodeRingHash;
     }
 
     public Node getNodeFromIp(String address, int port) {
@@ -156,22 +136,6 @@ public class NodesCircle {
             }
         }
         return null;
-    }
-
-    public void printAlive() {
-        System.out.println(KVServer.port + " Alive nodes：");
-        for(Node node: allNodesList.values()) {
-            System.out.print(node.getPort() + " ");
-        }
-        System.out.println();
-    }
-
-    public void printCircle() {
-        System.out.println(KVServer.port + "Circle nodes：");
-        for(Node node: circle.values()) {
-            System.out.print(node.getPort() + " ");
-        }
-        System.out.println();
     }
 
     public void setThisNodeId(int id) {
@@ -212,5 +176,9 @@ public class NodesCircle {
     }
     public ConcurrentHashMap<Integer, Node> getDeadNodesList() {
         return deadNodesList;
+    }
+
+    public Node getCurrentNode() {
+        return currentNode;
     }
 }

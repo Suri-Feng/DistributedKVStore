@@ -3,11 +3,8 @@ package com.g3.CPEN431.A7.Model;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.KeyValueResponse;
 import ca.NetSysLab.ProtocolBuffers.Message;
-import com.g3.CPEN431.A7.Model.Distribution.KeyTransferManager;
+import com.g3.CPEN431.A7.Model.Distribution.*;
 import com.g3.CPEN431.A7.Utility.MemoryUsage;
-import com.g3.CPEN431.A7.Model.Distribution.HeartbeatsManager;
-import com.g3.CPEN431.A7.Model.Distribution.Node;
-import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
 import com.g3.CPEN431.A7.Model.Store.KVStore;
 import com.g3.CPEN431.A7.Model.Store.StoreCache;
 import com.g3.CPEN431.A7.Model.Store.Value;
@@ -48,19 +45,11 @@ public class KVServerHandler implements Runnable {
         heartbeatsManager.updateHeartbeats(heartbeatList);
         List<Node> recoveredNodes = heartbeatsManager.updateNodesStatus();
 
-        // TODO: send data to recovered nodes
-        List<ByteString> keysToRemove = new ArrayList<>();
         for (Node node: recoveredNodes) {
-            keysToRemove.addAll(keyTransferManager.transferKeys(node));
-        }
-        // TODO: remove keys from store
-        if (!keysToRemove.isEmpty()) {
-            for (ByteString key: keysToRemove) {
-                store.getStore().remove(key);
-            }
+            Set<Node> successorNodes = nodesCircle.findSuccessorNodes(node);
+            keyTransferManager.sendMessageToSuccessor(successorNodes, node);
         }
     }
-
 
     @Override
     public void run() {
@@ -83,16 +72,18 @@ public class KVServerHandler implements Runnable {
                 return;
             }
 
+            // Receive notify to transfer keys to recovered node as its successor
             if  (command == Command.SUCCESSOR_NOTIFY.getCode()) {
                 Node node = nodesCircle.getNodeById(reqPayload.getRecoveredNodeId());
-                System.out.println(KVServer.port + "received notify for " + node.getPort());
+                List<KeyValueRequest.HashRange> hashRanges = reqPayload.getHashRangesList();
                 List<ByteString> keysToRemove = new ArrayList<>();
-                keysToRemove.addAll(keyTransferManager.transferKeys(node));
+                keysToRemove.addAll(keyTransferManager.transferKeysWithinRange(node, hashRanges));
                 if (!keysToRemove.isEmpty()) {
                     for (ByteString key: keysToRemove) {
                         store.getStore().remove(key);
                     }
                 }
+//                System.out.println(KVServer.port + " is a successor of " + node.getPort());
                 return;
             }
 
@@ -103,13 +94,10 @@ public class KVServerHandler implements Runnable {
                 String sha256 = Hashing.sha256()
                         .hashBytes(key).toString();
 
-//                heartbeatsManager.removeDeadNodes();
+                heartbeatsManager.removeDeadNodes();
                 Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
                 if (node.getId() != nodesCircle.getThisNodeId()) {
-//                    System.out.println(socket.getLocalPort() + " rerouting to : " + node.getPort() + " " +
-//                            StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
-//                    nodesCircle.printCircle();
                     reRoute(node);
                     return;
                 }
@@ -128,7 +116,7 @@ public class KVServerHandler implements Runnable {
     }
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
-        System.out.println(KVServer.port + " received key transfer: " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+//        System.out.println(KVServer.port + " received key transfer: " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
@@ -234,7 +222,7 @@ public class KVServerHandler implements Runnable {
                 }
                 Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(key, valueV);
-                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+//                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -242,7 +230,7 @@ public class KVServerHandler implements Runnable {
             case GET:
                     Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
-                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+//                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
@@ -264,7 +252,6 @@ public class KVServerHandler implements Runnable {
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
             case SHUTDOWN:
-                System.out.println(socket.getLocalPort() + " has " + store.getStore().size() + " keys");
                 System.exit(0);
             case WIPE_OUT:
                 wipeOut();

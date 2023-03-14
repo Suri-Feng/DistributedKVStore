@@ -18,7 +18,7 @@ public class HeartbeatsManager {
         for (int i = 0; i < nodesCircle.getStartupNodesSize(); i++) {
             heartBeats.put(i, 0L);
         }
-        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 60));
+        metric = (long) (10 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 90));
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
@@ -41,12 +41,12 @@ public class HeartbeatsManager {
         for (Node node: deadNodes.values()) {
             if (!isNodeAlive(node) && nodesCircle.getAliveNodesList().contains(node)) {
                 nodesCircle.removeNode(node);
-                System.out.println(KVServer.port + " remove node: " + node.getPort());
+//                System.out.println(KVServer.port + " remove node: " + node.getPort());
             } else if (isNodeAlive(node) && !aliveNodes.containsKey(node.getId())) {
                 nodesCircle.rejoinNode(node);
                 recoveredNodes.add(node);
-                System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
-                        + nodesCircle.getAliveNodesCount());
+//                System.out.println(KVServer.port + " Adding back node: " + node.getPort() + " num servers left: "
+//                        + nodesCircle.getAliveNodesCount());
             }
         }
         return recoveredNodes;
@@ -56,7 +56,7 @@ public class HeartbeatsManager {
         for (Node node: nodesCircle.getAllNodesList().values()) {
             if (!isNodeAlive(node) && nodesCircle.getAliveNodesList().contains(node)) {
                 nodesCircle.removeNode(node);
-                System.out.println(KVServer.port + " remove node: " + node.getPort());
+//                System.out.println(KVServer.port + " remove node: " + node.getPort());
             }
         }
     }
