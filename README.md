@@ -1,4 +1,4 @@
-## CPEN 431 2022W2 Assignment 7
+## CPEN 431 2022W2 Assignment 9
 
 Group ID: g3
 
@@ -7,17 +7,17 @@ Verification code: 7A9F932D0DE506BC62B29EF5E5B0550F
 ### Usage
 To run the compiled jar file located in the root directory, run the following command:
 
-`java -Xmx64m -jar A7.jar <port number>`
+`java -Xmx512m -jar A9.jar <port number>`
 
 The server will start on the specified port number.
 
 ### Brief Description
-
-- The SHUTDOWN command is handled in [KVServerHandler.java]() on lines 223-224.
-  ```
-  case SHUTDOWN:
-       System.exit(0);
-  ```
+#### A9
+- To recover nodes that have been resumed from a temporary failure, alive nodes upon receiving new heartbeats check if
+  any previously dead nodes have become alive and add them back to the circle. To remap the keys, nodes that have
+  discovered the resumed nodes will send a message to the resumed nodes' successors with the affected key hash ranges. The 
+  successors will then look for keys within these ranges and transfer them to the recovered node.
+#### A7
 - Consistent hashing is used to determine the interested node for PUT/GET/REMOVE commands. 
   If another node other than self should handle the request, the request is first appended with the client
   address and port before forwarding to the correct node. The correct node will then process the request and send the

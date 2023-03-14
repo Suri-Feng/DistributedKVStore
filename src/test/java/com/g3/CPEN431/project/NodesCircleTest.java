@@ -1,17 +1,12 @@
 package com.g3.CPEN431.project;
 
-import com.g3.CPEN431.A7.App;
-import com.g3.CPEN431.A7.Model.Distribution.Node;
-import com.g3.CPEN431.A7.Model.Distribution.NodesCircle;
-import com.g3.CPEN431.A7.Utility.StringUtils;
+import com.g3.CPEN431.A9.App;
+import com.g3.CPEN431.A9.Model.Distribution.Node;
+import com.g3.CPEN431.A9.Model.Distribution.NodesCircle;
+import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import org.junit.*;
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 public class NodesCircleTest {
     NodesCircle nodesCircle = NodesCircle.getInstance();
