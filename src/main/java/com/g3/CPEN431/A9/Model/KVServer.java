@@ -18,7 +18,7 @@ public class KVServer {
     public static final int PROCESS_ID = (int) ManagementFactory.getRuntimeMXBean().getPid();
     private static final int DEFAULT_CACHE_SIZE = StoreCache.DEFAULT_CACHE_SIZE;
     private long currentCacheSize = DEFAULT_CACHE_SIZE;
-    private static final int THREAD_POOL_SIZE = 10;
+    private static final int THREAD_POOL_SIZE = 4;
     private final StoreCache storeCache = StoreCache.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
