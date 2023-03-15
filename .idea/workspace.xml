@@ -6,26 +6,74 @@
   <component name="ChangeListManager">
     <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/EpidemicServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/HeartbeatsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/KeyTransferManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/NodesCircle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Distribution/PredecessorCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/PredecessorCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/KVStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Store/KVStore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/StoreCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Store/StoreCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Model/Store/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Store/Value.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/ByteOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Utility/ByteOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/MemoryUsage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Utility/MemoryUsage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A7/Utility/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Utility/StringUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/NodesCircleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/g3/CPEN431/project/NodesCircleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/KeyTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/Distribution/KeyTransferManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequestOrBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequestOrBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntryOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponseOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/Message$Msg$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/Message$Msg$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/Message$Msg.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/Message$MsgOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ca/NetSysLab/ProtocolBuffers/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Command.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/EpidemicServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/HeartbeatsManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/KeyTransferManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Distribution/NodesCircle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/ErrorCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/KVServerHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Store/KVStore.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Model/Store/StoreCache.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Utility/ByteOrder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Utility/MemoryUsage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A7/Utility/StringUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.AppTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.NodesCircleTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.NodesCircleTest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.TestStopAndResume.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.AppTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.NodesCircleTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.NodesCircleTest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.TestStopAndResume.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequestOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponseOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/Message$Msg$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/Message$Msg$Builder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/Message$Msg.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/Message$MsgOrBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ca/NetSysLab/ProtocolBuffers/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/NodesCircleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/NodesCircleTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/Utils/ByteOrder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/Utils/General.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/g3/CPEN431/project/Utils/StringUtils.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +105,9 @@
     <option name="jreName" value="corretto-17" />
   </component>
   <component name="ProjectId" id="2KmpScUHvr1aN5XC9Yyg9QtOKTN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

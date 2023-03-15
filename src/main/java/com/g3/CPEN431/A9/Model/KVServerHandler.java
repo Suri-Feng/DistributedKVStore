@@ -8,6 +8,7 @@ import com.g3.CPEN431.A9.Utility.MemoryUsage;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.StoreCache;
 import com.g3.CPEN431.A9.Model.Store.Value;
+import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -18,6 +19,8 @@ import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.zip.CRC32;
+
+import com.g3.CPEN431.A9.Model.Distribution.KeyTransferManager;
 
 public class KVServerHandler implements Runnable {
     DatagramSocket socket;
@@ -115,10 +118,24 @@ public class KVServerHandler implements Runnable {
     }
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
-//        System.out.println(KVServer.port + " received key transfer: " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+        //System.out.println(KVServer.port + " received key transfer: " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
+
+        byte[] key = pair.getKey().toByteArray();
+        String sha256 = Hashing.sha256()
+                .hashBytes(key).toString();
+        Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+
+        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
+        {
+            //System.out.println("send to " + nodeMatch.getPort());
+            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+            allPairs.add(pair);
+            KeyTransferManager.getInstance().sendMessage(allPairs, nodeMatch);
+        }
+
     }
 
     private void getResponseFromOwnNode(KeyValueRequest.KVRequest reqPayload) throws IOException {
@@ -221,7 +238,7 @@ public class KVServerHandler implements Runnable {
                 }
                 Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(key, valueV);
-//                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                //System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -229,7 +246,7 @@ public class KVServerHandler implements Runnable {
             case GET:
                     Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
-//                        System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                       //System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();

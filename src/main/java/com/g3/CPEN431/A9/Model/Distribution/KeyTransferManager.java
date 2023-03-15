@@ -3,8 +3,10 @@ package com.g3.CPEN431.A9.Model.Distribution;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.Message;
 import com.g3.CPEN431.A9.Model.Command;
+import com.g3.CPEN431.A9.Model.KVServer;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.Value;
+import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -37,8 +39,13 @@ public class KeyTransferManager {
 
         for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
             String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
+
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
             // keys within affected range
+//            System.out.println("Key hash" + StringUtils.byteArrayToHexString(entry.getKey().toByteArray()) + ", key range" + ringHash);
+//            System.out.println("range 0 " + hashRanges.get(0).getMinRange() + " ," + hashRanges.get(0).getMaxRange());
+//            System.out.println("range 1 " + hashRanges.get(1).getMinRange() + " ," + hashRanges.get(1).getMaxRange());
+//            System.out.println("range 2 " + hashRanges.get(2).getMinRange() + " ," + hashRanges.get(2).getMaxRange());
             if ((ringHash <= hashRanges.get(0).getMaxRange() && ringHash >= hashRanges.get(0).getMinRange()) ||
                     (ringHash <= hashRanges.get(1).getMaxRange() && ringHash >= hashRanges.get(1).getMinRange()) ||
                     (ringHash <= hashRanges.get(2).getMaxRange() && ringHash >= hashRanges.get(2).getMinRange())) {
@@ -96,7 +103,7 @@ public class KeyTransferManager {
         }
     }
 
-    private void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
+    public void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
         byte[] msg_id = new byte[0];
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
