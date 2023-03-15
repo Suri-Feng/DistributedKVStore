@@ -1,0 +1,3410 @@
+CPEN 431 EVALUATION test Client
+Time: Wed Mar 15 03:42:18 UTC 2023
+Build Date: Wed Mar 15 03:41:01 UTC 2023
+Java process ID: 12008
+Assignment ID: 9
+Client Version: 1
+
+[Info] A9 client running in SUBMIT mode.
+
+[Info] Starting A9 Tests
+
+[Info] Correct submission information.
+[Info] Checking if the test client is running on AWS
+[Info] Detected instance type: c6a.8xlarge
+
+[Info] Done building nodes' list.
+[Info] The deployment has 80 server nodes.
+
+[Info] Checking SSH connectivity to deployed servers ...
+[Info] SSH check passed!
+
+[Info] Checking server deployment.
+Deployment information:
+c6a.8xlarge 
+ Ubuntu 20.04.5 LTS 
+ qdisc netem 8003: root refcnt 2 limit 1000 delay 5.0ms loss 0.25% 
+ qdisc netem 8005: root refcnt 33 limit 1000 delay 5.0ms loss 0.25% 
+ net-tools 1.60+git20180626.aebd88e-1ubuntu1
+[Test isAlive] for 127.0.0.1:43100
+Sending GETPID to all servers... 
+[Info] Server node 127.0.0.143100 has process ID 11975.
+[ ... Completed in 0.006 seconds ]
+[OK]
+Sending GetMembershipCount to all servers... 
+[Info] Server 127.0.0.1:43100 replied with membership count = 1 (expected count = 1)
+[ ... Completed in 0.001 seconds ]
+[Ok] All servers returned the expected membership count (1)
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.011 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 8 Bytes ]
+TEST_PASSED
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 32 Bytes ]
+TEST_PASSED
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 2048 Bytes ]
+TEST_PASSED
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 10000 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 8 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 32 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 2048 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 10000 Bytes ]
+TEST_PASSED
+
+[ TEST Basic REMOVE (PUT -> GET -> REM -> GET). Value Length = 32 Bytes. ]
+TEST_PASSED
+
+[ TEST Double remove (PUT -> REM -> REM). Value Length = 32 Bytes. ]
+TEST_PASSED
+
+[ TEST Invalid Command. ]
+TEST_PASSED
+
+[ TEST At-Most-Once Client Policy (PUT -> REM -> REM). Value length =  32 Bytes ]
+TEST_PASSED
+
+[ TEST At-Most-Once Client Policy Empty REMs (EMPTY -> REM -> REM) ]
+TEST_PASSED
+
+[ TEST At-Most-Once Client Policy Error Return Code (REM -> PUT -> REM) ]
+TEST_PASSED
+
+[ TEST At-Most-Once Client Policy (PUT -> REM -> many PUT -> REM). Value length =  32 Bytes ]
+Pausing for 10 seconds to wait for the cache to be cleared!
+TEST_PASSED
+
+[ TEST At-Most-Once Client Policy For PUTs (PUT1 -> PUT2 -> PUT1 -> GET2) ]
+TEST_PASSED
+
+[TEST Invalid Key ]
+TEST_PASSED
+
+[TEST Invalid Value ]
+TEST_PASSED
+
+[ TEST Single Front-End Performance (1 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+Test time limit reached: 60.0s.
+Test completed after 471753 closed loops.
+[Test isAlive] for 127.0.0.1:43100
+[ ... Completed in 0.001 seconds ]
+Local Single node: Test Status: TEST_PASSED
+Clients: 1
+Total Requests (without replies): 943506
+Total Requests (including replies): 943511
+Successful Responses: 943506
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 985ms, [min] 0ms
+[avg] 0.05160115568952397 ms, [stdev] 1.04485069708411ms
+Throughput: 15724.575847471751 requests per second
+Goodput: 15724.575847471751 requests per second
+Retry Rate (Successful requests): 1.0000052993833637
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.03 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.785 seconds ]
+
+[ TEST Single Front-End Performance (16 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 57357 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 57398 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 57423 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 57369 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 57306 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 57412 closed loops.
+Test completed after 57400 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 57345 closed loops.
+Test completed after 57383 closed loops.
+Test completed after 57381 closed loops.
+Test completed after 57422 closed loops.
+Test completed after 57420 closed loops.
+Test completed after 57423 closed loops.
+Test completed after 57406 closed loops.
+Test completed after 57379 closed loops.
+Test completed after 57426 closed loops.
+Warning: PUT failed!
+Status: ERROR_KVS
+Error Code: ERROR_OUT_OF_SPACE
+Warning: PUT failed!
+Status: ERROR_KVS
+Error Code: ERROR_OUT_OF_SPACE
+Warning: PUT failed!
+Status: ERROR_KVS
+Error Code: ERROR_OUT_OF_SPACE
+[Test isAlive] for 127.0.0.1:43100
+[ ... Completed in 0.001 seconds ]
+Local Single node: Test Status: TEST_PASSED
+Clients: 16
+Total Requests (without replies): 1836489
+Total Requests (including replies): 1836553
+Successful Responses: 1836486
+Timeout Responses: 0
+Total Failed Responses: 3
+% Success: 99.99983664481519
+% Timeout: 0.0
+% Failed: 1.6335518481188832E-4
+Response Time (Successful requests):
+[max] 608ms, [min] 0ms
+[avg] 0.5036079774090301 ms, [stdev] 2.0202121513559343ms
+Throughput: 30606.61966901655 requests per second
+Goodput: 30606.569671516423 requests per second
+Retry Rate (Successful requests): 1.0000348491060933
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.014 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.182 seconds ]
+
+[ TEST Single Front-End Performance (64 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13752 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13753 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test completed after 13754 closed loops.
+Test completed after 13755 closed loops.
+Test completed after 13755 closed loops.
+Test completed after 13764 closed loops.
+Test completed after 13755 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13754 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13754 closed loops.
+Test completed after 13752 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13752 closed loops.
+Test completed after 13751 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13755 closed loops.
+Test completed after 13760 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13750 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13756 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13753 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13763 closed loops.
+Test completed after 13754 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13749 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13745 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13754 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13768 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13759 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13754 closed loops.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13759 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13755 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13758 closed loops.
+Test completed after 13752 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13759 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13758 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13750 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13756 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13756 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13755 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13756 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13755 closed loops.
+Test completed after 13749 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13752 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13760 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13754 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13752 closed loops.
+Test completed after 13758 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13757 closed loops.
+Test completed after 13764 closed loops.
+Test completed after 13762 closed loops.
+Test completed after 13759 closed loops.
+Test completed after 13752 closed loops.
+Test completed after 13753 closed loops.
+Test completed after 13756 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13760 closed loops.
+Test completed after 13757 closed loops.
+Test time limit reached: 60.0s.
+Test time limit reached: 60.0s.
+Test completed after 13761 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13754 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13761 closed loops.
+Test time limit reached: 60.0s.
+Test completed after 13759 closed loops.
+Test completed after 13750 closed loops.
+[Test isAlive] for 127.0.0.1:43100
+[ ... Completed in 0.001 seconds ]
+Local Single node: Test Status: TEST_PASSED
+Clients: 64
+Total Requests (without replies): 1760539
+Total Requests (including replies): 1761564
+Successful Responses: 1760347
+Timeout Responses: 192
+Total Failed Responses: 0
+% Success: 99.98909424897715
+% Timeout: 0.010905751022840164
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 749ms, [min] 0ms
+[avg] 2.052083481268182 ms, [stdev] 4.752810010512111ms
+Throughput: 29338.89379572383 requests per second
+Goodput: 29335.694169013615 requests per second
+Retry Rate (Successful requests): 1.0005822080624172
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.01 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.192 seconds ]
+
+[ TEST Single Client Capacity (Value Size = 500 bytes, Limit = 146800 PUTs, ~69.99969482421875 MiB) : PUT -> GET (closed loop) ]
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.007 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+ERROR_OUT_OF_SPACE
+Received error code after 82998 closed loops (~39.57653045654297 MiB).
+PUTs sent = 82998(~39.57653045654297 MiB) , Limit = 146800
+[Test isAlive]
+Test Passed. Server is ok.
+TEST_PASSED
+[Info] Shutting down local server(s)!
+[Test isAlive] for 127.0.0.1:43100
+[ ... Completed in 10.003 seconds ]
+[Info] Local tests completed in 254.242 seconds
+[Info] Finished tests for the local deployment!
+
+[Info] The deployment has 80 server nodes.
+Sending GET PID to all servers (v2) ... 
+>>> Server node 34.212.231.192:12345 has process ID 172569.
+>>> Server node 34.212.231.192:12346 has process ID 172573.
+>>> Server node 34.212.231.192:12347 has process ID 172578.
+>>> Server node 34.212.231.192:12348 has process ID 172583.
+>>> Server node 34.212.231.192:12349 has process ID 172588.
+>>> Server node 34.212.231.192:12350 has process ID 172594.
+>>> Server node 34.212.231.192:12351 has process ID 172601.
+>>> Server node 34.212.231.192:12352 has process ID 172608.
+>>> Server node 34.212.231.192:12353 has process ID 172616.
+>>> Server node 34.212.231.192:12354 has process ID 172622.
+>>> Server node 34.212.231.192:12355 has process ID 172629.
+>>> Server node 34.212.231.192:12356 has process ID 172639.
+>>> Server node 34.212.231.192:12357 has process ID 172649.
+>>> Server node 34.212.231.192:12358 has process ID 172664.
+>>> Server node 34.212.231.192:12359 has process ID 172678.
+>>> Server node 34.212.231.192:12360 has process ID 172693.
+>>> Server node 34.212.231.192:12361 has process ID 172706.
+>>> Server node 34.212.231.192:12362 has process ID 172722.
+>>> Server node 34.212.231.192:12363 has process ID 172736.
+>>> Server node 34.212.231.192:12364 has process ID 172754.
+>>> Server node 34.212.231.192:12365 has process ID 172772.
+>>> Server node 34.212.231.192:12366 has process ID 172788.
+>>> Server node 34.212.231.192:12367 has process ID 172807.
+>>> Server node 34.212.231.192:12368 has process ID 172829.
+>>> Server node 34.212.231.192:12369 has process ID 172836.
+>>> Server node 34.212.231.192:12370 has process ID 172863.
+>>> Server node 34.212.231.192:12371 has process ID 172880.
+>>> Server node 34.212.231.192:12372 has process ID 172897.
+>>> Server node 34.212.231.192:12373 has process ID 172920.
+>>> Server node 34.212.231.192:12374 has process ID 173044.
+>>> Server node 34.212.231.192:12375 has process ID 173059.
+>>> Server node 34.212.231.192:12376 has process ID 173146.
+>>> Server node 34.212.231.192:12377 has process ID 173158.
+>>> Server node 34.212.231.192:12378 has process ID 173296.
+>>> Server node 34.212.231.192:12379 has process ID 173316.
+>>> Server node 34.212.231.192:12380 has process ID 173358.
+>>> Server node 34.212.231.192:12381 has process ID 173395.
+>>> Server node 34.212.231.192:12382 has process ID 173413.
+>>> Server node 34.212.231.192:12383 has process ID 173443.
+>>> Server node 34.212.231.192:12384 has process ID 173462.
+>>> Server node 34.212.231.192:12385 has process ID 173466.
+>>> Server node 34.212.231.192:12386 has process ID 173514.
+>>> Server node 34.212.231.192:12387 has process ID 173533.
+>>> Server node 34.212.231.192:12388 has process ID 173586.
+>>> Server node 34.212.231.192:12389 has process ID 173640.
+>>> Server node 34.212.231.192:12390 has process ID 173673.
+>>> Server node 34.212.231.192:12391 has process ID 173686.
+>>> Server node 34.212.231.192:12392 has process ID 173729.
+>>> Server node 34.212.231.192:12393 has process ID 173766.
+>>> Server node 34.212.231.192:12394 has process ID 173775.
+>>> Server node 34.212.231.192:12395 has process ID 173780.
+>>> Server node 34.212.231.192:12396 has process ID 173923.
+>>> Server node 34.212.231.192:12397 has process ID 173941.
+>>> Server node 34.212.231.192:12398 has process ID 173974.
+>>> Server node 34.212.231.192:12399 has process ID 173981.
+>>> Server node 34.212.231.192:12400 has process ID 174004.
+>>> Server node 34.212.231.192:12401 has process ID 174115.
+>>> Server node 34.212.231.192:12402 has process ID 174192.
+>>> Server node 34.212.231.192:12403 has process ID 174252.
+>>> Server node 34.212.231.192:12404 has process ID 174357.
+>>> Server node 34.212.231.192:12405 has process ID 174362.
+>>> Server node 34.212.231.192:12406 has process ID 174381.
+>>> Server node 34.212.231.192:12407 has process ID 174443.
+>>> Server node 34.212.231.192:12408 has process ID 174447.
+>>> Server node 34.212.231.192:12409 has process ID 174455.
+>>> Server node 34.212.231.192:12410 has process ID 174495.
+>>> Server node 34.212.231.192:12411 has process ID 174517.
+>>> Server node 34.212.231.192:12412 has process ID 174566.
+>>> Server node 34.212.231.192:12413 has process ID 174608.
+>>> Server node 34.212.231.192:12414 has process ID 174615.
+>>> Server node 34.212.231.192:12415 has process ID 174620.
+>>> Server node 34.212.231.192:12416 has process ID 174631.
+>>> Server node 34.212.231.192:12417 has process ID 174645.
+>>> Server node 34.212.231.192:12418 has process ID 174677.
+>>> Server node 34.212.231.192:12419 has process ID 174707.
+>>> Server node 34.212.231.192:12420 has process ID 174778.
+>>> Server node 34.212.231.192:12421 has process ID 174857.
+>>> Server node 34.212.231.192:12422 has process ID 174968.
+>>> Server node 34.212.231.192:12423 has process ID 174997.
+>>> Server node 34.212.231.192:12424 has process ID 175006.
+[ ... Completed in 57.278 seconds ]
+[OK]
+Testing memory usage 
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12345 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12346 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12347 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12348 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12349 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12350 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12351 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12352 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12353 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12354 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12355 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12356 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12357 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12358 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12359 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12360 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12361 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12362 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12363 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12364 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12365 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12366 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12367 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12368 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12369 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12370 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12371 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12372 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12373 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12374 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12375 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12376 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12377 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12378 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12379 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12380 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12381 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12382 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12383 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12384 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12385 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12386 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12387 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12388 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12389 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12390 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12391 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12392 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12393 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12394 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12395 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12396 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12397 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12398 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12399 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12400 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12401 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12402 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12403 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12404 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12405 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12406 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12407 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12408 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12409 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12410 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12411 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12412 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12413 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12414 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12415 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12416 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12417 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12418 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12419 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12420 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12421 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12422 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12423 has memory limit of 512M.
+Command information:
+c6a.8xlarge 
+ Xmx512m
+>>> Server node 34.212.231.192:12424 has memory limit of 512M.
+[ ... Completed in 49.187 seconds ]
+[OK]
+
+Sending GetMembershipCount to all servers... 
+[Info] Server 34.212.231.192:12347 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12345 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12346 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12349 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12348 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12350 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12351 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12352 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12353 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12355 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12354 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12356 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12357 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12358 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12361 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12360 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12359 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12362 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12363 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12364 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12365 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12368 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12366 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12369 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12370 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12371 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12367 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12372 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12374 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12375 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12373 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12376 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12379 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12377 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12380 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12382 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12378 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12383 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12381 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12384 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12386 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12385 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12387 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12390 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12389 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12388 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12392 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12391 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12395 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12393 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12398 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12394 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12396 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12399 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12400 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12401 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12402 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12403 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12404 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12407 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12406 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12405 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12410 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12409 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12411 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12408 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12412 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12413 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12414 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12415 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12397 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12416 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12417 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12418 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12419 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12420 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12423 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12421 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12424 replied with membership count = 80 (expected count = 80)
+[Info] Server 34.212.231.192:12422 replied with membership count = 80 (expected count = 80)
+[ ... Completed in 0.016 seconds ]
+[Ok] All servers returned the expected membership count (80)
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.047 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[Test isAlive] for 34.212.231.192:12345
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 8 Bytes ]
+TEST_PASSED
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 32 Bytes ]
+TEST_PASSED
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 512 Bytes ]
+TEST_PASSED
+
+[ TEST Basic PUT/GET (PUT -> GET). Value Length = 1024 Bytes ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.043 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 8 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 32 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 512 Bytes ]
+TEST_PASSED
+
+
+[ TEST Basic KVS with message version (PUT Version 1 -> GET -> PUT Version 2 -> GET). Value Length = 1024 Bytes ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.039 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST Basic REMOVE (PUT -> GET -> REM -> GET). Value Length = 32 Bytes. ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.04 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST Double remove (PUT -> REM -> REM). Value Length = 32 Bytes. ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.049 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST Invalid Command. ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.05 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST At-Most-Once Client Policy (PUT -> REM -> REM). Value length =  32 Bytes ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.041 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST At-Most-Once Client Policy Empty REMs (EMPTY -> REM -> REM) ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.042 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST At-Most-Once Client Policy (PUT -> REM -> many PUT -> REM). Value length =  32 Bytes ]
+Pausing for 10 seconds to wait for the cache to be cleared!
+TEST_PASSED
+
+[ TEST At-Most-Once Client Policy Error Return Code (REM -> PUT -> REM) ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.042 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST At-Most-Once Client Policy For PUTs (PUT1 -> PUT2 -> PUT1 -> GET2) ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.05 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[TEST Invalid Key ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.04 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[TEST Invalid Value ]
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.043 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST Single Front-End Performance (1 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12345
+[ ... Completed in 0.006 seconds ]
+Stage 1 Single Front-End: Test Status: TEST_PASSED
+Clients: 1
+Total Requests (without replies): 5490
+Total Requests (including replies): 5520
+Successful Responses: 5490
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 51ms, [min] 5ms
+[avg] 10.894535519125682 ms, [stdev] 3.0871947778918924ms
+Throughput: 91.49695010166327 requests per second
+Goodput: 91.49695010166327 requests per second
+Retry Rate (Successful requests): 1.005464480874317
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.047 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.072 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Single Front-End Performance (64 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12345
+[ ... Completed in 0.007 seconds ]
+Stage 1 Single Front-End: Test Status: TEST_PASSED
+Clients: 64
+Total Requests (without replies): 353448
+Total Requests (including replies): 355192
+Successful Responses: 353448
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 291ms, [min] 5ms
+[avg] 10.840109436182974 ms, [stdev] 3.0119116788978775ms
+Throughput: 5889.720217960041 requests per second
+Goodput: 5889.720217960041 requests per second
+Retry Rate (Successful requests): 1.0049342477535592
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.055 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.364 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Single Front-End Performance (256 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12345
+[ ... Completed in 0.008 seconds ]
+Stage 1 Single Front-End: Test Status: TEST_PASSED
+Clients: 256
+Total Requests (without replies): 1403186
+Total Requests (including replies): 1410621
+Successful Responses: 1403186
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 137ms, [min] 5ms
+[avg] 10.926783049431792 ms, [stdev] 3.117195264852862ms
+Throughput: 23375.52475511428 requests per second
+Goodput: 23375.52475511428 requests per second
+Retry Rate (Successful requests): 1.005298656058427
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.103 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.077 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Single Front-End Performance (512 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12345
+[ ... Completed in 0.008 seconds ]
+Stage 1 Single Front-End: Test Status: TEST_PASSED
+Clients: 512
+Total Requests (without replies): 2624076
+Total Requests (including replies): 2641488
+Successful Responses: 2624076
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 136ms, [min] 5ms
+[avg] 11.682390296622506 ms, [stdev] 3.5637349535509175ms
+Throughput: 43683.635758282006 requests per second
+Goodput: 43683.635758282006 requests per second
+Retry Rate (Successful requests): 1.0066354785455909
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.106 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.93 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Multi Client Crash: PUT -> GET (closed loop) + REM -> WIPEOUT (closed loop) ]
+[Test isAlive]
+Test Passed. Server is ok.
+TEST_PASSED
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.044 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 84.231 seconds ]
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 8 Bytes ]
+TEST_PASSED
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 32 Bytes ]
+TEST_PASSED
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 512 Bytes ]
+TEST_PASSED
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 1024 Bytes ]
+TEST_PASSED
+[ ... TEST Completed in 0.234 seconds ]
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.045 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (1 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12410
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12424
+[ ... Completed in 0.012 seconds ]
+TEST_PASSED
+Stage 1 Random Front-End Performance: Test Status: TEST_PASSED
+Clients: 1
+Total Requests (without replies): 5403
+Total Requests (including replies): 5431
+Successful Responses: 5403
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 51ms, [min] 5ms
+[avg] 11.083472145104572 ms, [stdev] 2.9889473138989366ms
+Throughput: 90.03949539220424 requests per second
+Goodput: 90.03949539220424 requests per second
+Retry Rate (Successful requests): 1.0051823061262262
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.045 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.069 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (64 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12410
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12424
+[ ... Completed in 0.011 seconds ]
+TEST_PASSED
+[ CPU load (loadavg, last one minute) 0.21 ]
+Stage 1 Random Front-End Performance: Test Status: TEST_PASSED
+Clients: 64
+Total Requests (without replies): 346500
+Total Requests (including replies): 348217
+Successful Responses: 346500
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 841ms, [min] 5ms
+[avg] 11.064594516594516 ms, [stdev] 11.077743927397806ms
+Throughput: 5773.075641452849 requests per second
+Goodput: 5773.075641452849 requests per second
+Retry Rate (Successful requests): 1.004955266955267
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.057 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.328 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (256 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12410
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12424
+[ ... Completed in 0.013 seconds ]
+TEST_PASSED
+[ CPU load (loadavg, last one minute) 0.87 ]
+Stage 1 Random Front-End Performance: Test Status: TEST_PASSED
+Clients: 256
+Total Requests (without replies): 1399869
+Total Requests (including replies): 1406854
+Successful Responses: 1399869
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 134ms, [min] 5ms
+[avg] 10.949563852046156 ms, [stdev] 2.996633988095466ms
+Throughput: 23317.159704177495 requests per second
+Goodput: 23317.159704177495 requests per second
+Retry Rate (Successful requests): 1.004989752612566
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.076 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.908 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (512 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12410
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12423
+[ ... Completed in 0.015 seconds ]
+TEST_PASSED
+[ CPU load (loadavg, last one minute) 1.78 ]
+Stage 1 Random Front-End Performance: Test Status: TEST_PASSED
+Clients: 512
+Total Requests (without replies): 2774844
+Total Requests (including replies): 2788935
+Successful Responses: 2774844
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 136ms, [min] 5ms
+[avg] 11.040994376620812 ms, [stdev] 3.076023513858696ms
+Throughput: 46208.12309536894 requests per second
+Goodput: 46208.12309536894 requests per second
+Retry Rate (Successful requests): 1.0050781233107158
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.089 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.703 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Concurrent Store/Load v2; Stage 0; (Clients = 32, Limit = 40000 PUTs) ]
+Issuing PUTS ... 
+[DONE in 13.992s]
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; Of 40000 stored keys: 40000 SUCCESS, 0 TIMEOUT, 0 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; Expected Key Loss: 0.0%. Actual Key Loss: 0.0%
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; Total Value Size (MiB): 19.14913272857666 MiB.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; SUCCESS Response Count: 40000.0.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % SUCCESS: 100.0%.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % FAILED (Not SUCCESS): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % TIMEOUT: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % KEY-NOT-FOUND: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % ERROR-UID: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; PUT Phase; % ERROR-OTHER: 0.0%.
+[Info] PUTs % SUCCESS Ok: 100.0% Success.(90.0% minimum required).
+Confirming keys were stored correctly.
+Issuing GETs ... 
+[DONE in 13.953s]
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; Of 40000 stored keys: 40000 SUCCESS, 0 TIMEOUT, 0 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; Expected Key Loss: 0.0%. Actual Key Loss: 0.0%
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; Total Value Size (MiB): 19.14913272857666 MiB.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; SUCCESS Response Count: 40000.0.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % SUCCESS: 100.0%.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % FAILED (Not SUCCESS): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % TIMEOUT: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % KEY-NOT-FOUND: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % ERROR-UID: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 0; GET Phase; % ERROR-OTHER: 0.0%.
+[Info] GETs % SUCCESS Ok: 100.0% Success.(90.0% minimum required).
+Checking that 80 nodes are alive
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12410
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12424
+[ ... Completed in 0.011 seconds ]
+TEST_PASSED
+[ ... TEST Completed in 27.967 seconds ]
+
+[Info] Preparing for Stage 1 of the Suspend Test
+[Info] To suspend 5 node(s) in Stage 1.
+[Info] Will suspend 34.212.231.192:12347
+[Info] Will suspend 34.212.231.192:12389
+[Info] Will suspend 34.212.231.192:12410
+[Info] Will suspend 34.212.231.192:12411
+[Info] Will suspend 34.212.231.192:12353
+[Info] Will keep alive 34.212.231.192:12397
+[Info] Will keep alive 34.212.231.192:12356
+[Info] Will keep alive 34.212.231.192:12362
+[Info] Will keep alive 34.212.231.192:12424
+[Info] Will keep alive 34.212.231.192:12373
+[Info] Will keep alive 34.212.231.192:12372
+[Info] Will keep alive 34.212.231.192:12395
+[Info] Will keep alive 34.212.231.192:12422
+[Info] Will keep alive 34.212.231.192:12421
+[Info] Will keep alive 34.212.231.192:12377
+[Info] Will keep alive 34.212.231.192:12400
+[Info] Will keep alive 34.212.231.192:12407
+[Info] Will keep alive 34.212.231.192:12384
+[Info] Will keep alive 34.212.231.192:12398
+[Info] Will keep alive 34.212.231.192:12355
+[Info] Will keep alive 34.212.231.192:12359
+[Info] Will keep alive 34.212.231.192:12399
+[Info] Will keep alive 34.212.231.192:12379
+[Info] Will keep alive 34.212.231.192:12378
+[Info] Will keep alive 34.212.231.192:12371
+[Info] Will keep alive 34.212.231.192:12391
+[Info] Will keep alive 34.212.231.192:12360
+[Info] Will keep alive 34.212.231.192:12408
+[Info] Will keep alive 34.212.231.192:12350
+[Info] Will keep alive 34.212.231.192:12364
+[Info] Will keep alive 34.212.231.192:12383
+[Info] Will keep alive 34.212.231.192:12351
+[Info] Will keep alive 34.212.231.192:12363
+[Info] Will keep alive 34.212.231.192:12401
+[Info] Will keep alive 34.212.231.192:12368
+[Info] Will keep alive 34.212.231.192:12365
+[Info] Will keep alive 34.212.231.192:12370
+[Info] Will keep alive 34.212.231.192:12382
+[Info] Will keep alive 34.212.231.192:12396
+[Info] Will keep alive 34.212.231.192:12423
+[Info] Will keep alive 34.212.231.192:12394
+[Info] Will keep alive 34.212.231.192:12409
+[Info] Will keep alive 34.212.231.192:12349
+[Info] Will keep alive 34.212.231.192:12417
+[Info] Will keep alive 34.212.231.192:12346
+[Info] Will keep alive 34.212.231.192:12357
+[Info] Will keep alive 34.212.231.192:12392
+[Info] Will keep alive 34.212.231.192:12376
+[Info] Will keep alive 34.212.231.192:12385
+[Info] Will keep alive 34.212.231.192:12380
+[Info] Will keep alive 34.212.231.192:12354
+[Info] Will keep alive 34.212.231.192:12404
+[Info] Will keep alive 34.212.231.192:12366
+[Info] Will keep alive 34.212.231.192:12420
+[Info] Will keep alive 34.212.231.192:12412
+[Info] Will keep alive 34.212.231.192:12369
+[Info] Will keep alive 34.212.231.192:12403
+[Info] Will keep alive 34.212.231.192:12375
+[Info] Will keep alive 34.212.231.192:12406
+[Info] Will keep alive 34.212.231.192:12390
+[Info] Will keep alive 34.212.231.192:12413
+[Info] Will keep alive 34.212.231.192:12352
+[Info] Will keep alive 34.212.231.192:12358
+[Info] Will keep alive 34.212.231.192:12388
+[Info] Will keep alive 34.212.231.192:12419
+[Info] Will keep alive 34.212.231.192:12415
+[Info] Will keep alive 34.212.231.192:12345
+[Info] Will keep alive 34.212.231.192:12381
+[Info] Will keep alive 34.212.231.192:12405
+[Info] Will keep alive 34.212.231.192:12387
+[Info] Will keep alive 34.212.231.192:12367
+[Info] Will keep alive 34.212.231.192:12361
+[Info] Will keep alive 34.212.231.192:12416
+[Info] Will keep alive 34.212.231.192:12393
+[Info] Will keep alive 34.212.231.192:12402
+[Info] Will keep alive 34.212.231.192:12418
+[Info] Will keep alive 34.212.231.192:12348
+[Info] Will keep alive 34.212.231.192:12374
+[Info] Will keep alive 34.212.231.192:12386
+[Info] Will keep alive 34.212.231.192:12414
+Waiting 10 seconds before suspending nodes
+[Info] Suspending 5 servers.
+Server 34.212.231.192:12411 suspended
+Server 34.212.231.192:12410 suspended
+Server 34.212.231.192:12353 suspended
+Server 34.212.231.192:12347 suspended
+Server 34.212.231.192:12389 suspended
+[ ... Completed in 2.902 seconds ]
+Waiting 60 seconds after suspending nodes
+[Info] Stage 1 Scenario: Alive Nodes: 75. Dead Nodes: 5
+
+
+[ TEST Suspend Verify v2; Stage 1; Key Recovery; ]
+Checking that 5 nodes are suspended
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12410
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12353
+[ ... Completed in 10.002 seconds ]
+Checking that 75 nodes are alive
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12414
+[ ... Completed in 0.015 seconds ]
+Sending GetMembershipCount to all servers... 
+[Info] Server 34.212.231.192:12397 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12356 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12373 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12362 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12424 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12422 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12421 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12407 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12377 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12400 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12359 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12398 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12355 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12379 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12391 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12384 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12371 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12399 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12370 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12360 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12368 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12382 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12363 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12351 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12409 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12372 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12346 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12378 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12364 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12350 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12417 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12357 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12385 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12395 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12406 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12392 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12396 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12345 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12390 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12352 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12365 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12394 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12386 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12405 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12413 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12369 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12402 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12403 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12375 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12383 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12414 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12380 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12376 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12354 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12358 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12415 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12381 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12366 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12416 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12404 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12412 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12418 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12387 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12388 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12348 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12367 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12349 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12423 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12419 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12420 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12361 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12374 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12393 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12408 replied with membership count = 75 (expected count = 75)
+[Info] Server 34.212.231.192:12401 replied with membership count = 75 (expected count = 75)
+[ ... Completed in 0.047 seconds ]
+[Ok] All servers returned the expected membership count (75)
+Attempting retrieval of keys... 
+Issuing GETs ... 
+[DONE in 13.8s]
+[Info] Suspend Verify v2; Stage 1; Key Recovery; Of 40000 stored keys: 37163 SUCCESS, 0 TIMEOUT, 2837 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; Expected Key Loss: 6.25%. Actual Key Loss: 7.0925%
+[Info] Suspend Verify v2; Stage 1; Key Recovery; Total Value Size (MiB): 17.788426399230957 MiB.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; SUCCESS Response Count: 37163.0.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % SUCCESS: 92.9075%.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % FAILED (Not SUCCESS): 7.0925%.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % TIMEOUT: 0.0%.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % KEY-NOT-FOUND: 7.0925%.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % ERROR-UID: 0.0%.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Suspend Verify v2; Stage 1; Key Recovery; % ERROR-OTHER: 0.0%.
+[Info] Minimum GET SUCCESS % Ok: 92.9075% Success.(93.75% SUCCESS expected, 46.875% minimum required).
+TEST_PASSED
+[ ... TEST Completed in 23.867 seconds ]
+
+[Info] Preparing for Stage 2a of the Suspend/Resume Test
+[Info] Stage 2a Scenario: Alive Nodes: 75. Dead Nodes: 5
+
+[ TEST Concurrent Store/Load v2; Stage 2a; (Clients = 32, Limit = 20000 PUTs) ]
+Issuing PUTS ... 
+[DONE in 7.035s]
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; Of 20000 stored keys: 20000 SUCCESS, 0 TIMEOUT, 0 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; Expected Key Loss: 0.0%. Actual Key Loss: 0.0%
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; Total Value Size (MiB): 9.51506519317627 MiB.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; SUCCESS Response Count: 20000.0.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % SUCCESS: 100.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % FAILED (Not SUCCESS): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % TIMEOUT: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % KEY-NOT-FOUND: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % ERROR-UID: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; PUT Phase; % ERROR-OTHER: 0.0%.
+[Info] PUTs % SUCCESS Ok: 100.0% Success.(90.0% minimum required).
+Confirming keys were stored correctly.
+Issuing GETs ... 
+[DONE in 7.021s]
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; Of 20000 stored keys: 20000 SUCCESS, 0 TIMEOUT, 0 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; Expected Key Loss: 0.0%. Actual Key Loss: 0.0%
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; Total Value Size (MiB): 9.51506519317627 MiB.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; SUCCESS Response Count: 20000.0.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % SUCCESS: 100.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % FAILED (Not SUCCESS): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % TIMEOUT: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % KEY-NOT-FOUND: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % ERROR-UID: 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Concurrent Store/Load v2; Stage 2a; GET Phase; % ERROR-OTHER: 0.0%.
+[Info] GETs % SUCCESS Ok: 100.0% Success.(90.0% minimum required).
+Checking that 75 nodes are alive
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12404
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12414
+[ ... Completed in 0.017 seconds ]
+TEST_PASSED
+[ ... TEST Completed in 14.073 seconds ]
+
+[Info] Preparing for Stage 2b of the Suspend/Resume Test
+[Info] To resume 1 node(s) in Stage 2a.
+[Info] Will resume 34.212.231.192:12411
+[Info] Will keep suspended 34.212.231.192:12353
+[Info] Will keep suspended 34.212.231.192:12347
+[Info] Will keep suspended 34.212.231.192:12389
+[Info] Will keep suspended 34.212.231.192:12410
+Waiting 10 seconds before resuming nodes
+[Info] Resuming 1 servers.
+Server 34.212.231.192:12411 resumed
+[ ... Completed in 0.548 seconds ]
+Waiting 60 seconds after resuming nodes
+[Info] Stage 2b Scenario: Alive Nodes: 76. Dead Nodes: 4
+
+
+[ TEST Suspend Verify v2; Stage 2b; Key Recovery; ]
+Checking that 4 nodes are suspended
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12410
+[ ... Completed in 10.002 seconds ]
+Checking that 76 nodes are alive
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12404
+[ ... Completed in 0.011 seconds ]
+Sending GetMembershipCount to all servers... 
+[Info] Server 34.212.231.192:12356 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12354 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12346 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12379 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12413 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12398 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12364 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12372 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12348 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12352 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12421 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12380 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12411 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12363 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12386 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12351 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12362 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12387 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12355 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12369 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12406 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12376 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12374 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12395 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12383 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12420 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12403 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12418 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12422 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12345 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12402 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12407 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12360 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12397 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12384 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12409 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12391 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12377 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12368 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12417 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12390 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12394 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12400 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12393 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12349 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12415 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12358 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12357 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12396 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12371 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12361 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12373 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12401 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12382 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12366 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12408 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12350 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12367 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12375 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12424 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12388 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12385 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12370 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12378 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12416 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12412 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12405 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12414 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12359 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12392 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12423 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12381 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12365 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12399 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12404 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12419 replied with membership count = 76 (expected count = 76)
+[ ... Completed in 0.047 seconds ]
+[Ok] All servers returned the expected membership count (76)
+Attempting retrieval of keys... 
+Issuing GETs ... 
+[DONE in 13.839s]
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; Of 40000 stored keys: 37542 SUCCESS, 0 TIMEOUT, 2458 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; Expected Key Loss: 5.0%. Actual Key Loss: 6.145%
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; Total Value Size (MiB): 17.97443962097168 MiB.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; SUCCESS Response Count: 37542.0.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % SUCCESS: 93.855%.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % FAILED (Not SUCCESS): 6.145%.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % TIMEOUT: 0.0%.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % KEY-NOT-FOUND: 6.145%.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % ERROR-UID: 0.0%.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Suspend Verify v2; Stage 2b; Key Recovery; % ERROR-OTHER: 0.0%.
+[Info] Minimum GET SUCCESS % Ok: 93.855% Success.(95.0% SUCCESS expected, 47.5% minimum required).
+TEST_PASSED
+[ ... TEST Completed in 23.901 seconds ]
+
+[Info] Preparing for Stage 2c of the Suspend/Resume Test
+[Info] Stage 2c Scenario: Alive Nodes: 76. Dead Nodes: 4
+
+
+[ TEST Suspend Verify v2; Stage 2c; Key Recovery; ]
+Checking that 4 nodes are suspended
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12410
+[ ... Completed in 10.002 seconds ]
+Checking that 76 nodes are alive
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12404
+[ ... Completed in 0.011 seconds ]
+Sending GetMembershipCount to all servers... 
+[Info] Server 34.212.231.192:12411 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12356 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12379 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12413 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12346 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12354 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12364 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12398 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12372 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12352 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12348 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12380 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12421 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12363 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12419 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12386 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12351 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12355 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12369 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12362 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12406 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12395 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12387 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12374 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12383 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12376 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12403 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12420 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12422 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12418 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12402 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12345 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12397 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12407 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12360 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12409 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12384 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12368 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12391 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12377 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12390 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12417 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12400 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12394 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12393 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12415 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12349 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12358 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12423 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12357 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12396 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12371 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12373 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12361 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12401 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12382 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12366 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12408 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12350 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12367 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12375 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12424 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12388 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12385 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12370 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12378 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12412 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12416 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12405 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12414 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12392 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12359 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12381 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12365 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12399 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12404 replied with membership count = 76 (expected count = 76)
+[ ... Completed in 0.011 seconds ]
+[Ok] All servers returned the expected membership count (76)
+Attempting retrieval of keys... 
+Issuing GETs ... 
+[DONE in 6.932s]
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; Of 20000 stored keys: 20000 SUCCESS, 0 TIMEOUT, 0 KEY-NOT-FOUND, 0 ERROR-UID, 0 ERROR-INVALID-GET (value or version), 0 ERROR-OTHER.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; Expected Key Loss: 0.0%. Actual Key Loss: 0.0%
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; Total Value Size (MiB): 9.51506519317627 MiB.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; SUCCESS Response Count: 20000.0.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % SUCCESS: 100.0%.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % FAILED (Not SUCCESS): 0.0%.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % TIMEOUT: 0.0%.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % KEY-NOT-FOUND: 0.0%.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % ERROR-UID: 0.0%.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % ERROR-INVALID-GET (value or version): 0.0%.
+[Info] Suspend Verify v2; Stage 2c; Key Recovery; % ERROR-OTHER: 0.0%.
+[Info] Minimum GET SUCCESS % Ok: 100.0% Success.(100.0% SUCCESS expected, 90.0% minimum required).
+TEST_PASSED
+[ ... TEST Completed in 16.957 seconds ]
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.063 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 5.063 seconds ]
+Pausing for 6 seconds to wait for the cache to be cleared!
+
+Sending GetMembershipCount to all servers... 
+[Info] Server 34.212.231.192:12356 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12411 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12346 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12413 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12398 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12379 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12354 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12352 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12348 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12372 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12364 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12421 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12363 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12419 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12380 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12351 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12386 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12362 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12355 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12387 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12369 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12395 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12406 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12374 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12376 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12383 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12420 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12418 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12402 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12403 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12422 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12345 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12360 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12397 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12407 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12409 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12391 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12368 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12384 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12377 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12417 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12390 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12400 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12394 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12393 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12349 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12358 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12415 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12423 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12396 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12357 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12371 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12373 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12361 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12401 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12382 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12366 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12350 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12408 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12367 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12375 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12424 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12388 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12385 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12370 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12412 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12378 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12416 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12405 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12414 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12359 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12392 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12381 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12399 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12365 replied with membership count = 76 (expected count = 76)
+[Info] Server 34.212.231.192:12404 replied with membership count = 76 (expected count = 76)
+[ ... Completed in 0.015 seconds ]
+[Ok] All servers returned the expected membership count (76)
+[ ... TEST Completed in 0.015 seconds ]
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 8 Bytes ]
+TEST_PASSED
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 32 Bytes ]
+TEST_PASSED
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 512 Bytes ]
+TEST_PASSED
+
+[ TEST Random Front-End Basic (PUT -> GET -> REM -> REM -> GET). Value Length = 1024 Bytes ]
+TEST_PASSED
+[ ... TEST Completed in 0.254 seconds ]
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.047 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+
+[ TEST Single Front-End Performance (1 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[ ... Completed in 0.007 seconds ]
+Stage 2 Single Front-End: Test Status: TEST_PASSED
+Clients: 1
+Total Requests (without replies): 5510
+Total Requests (including replies): 5532
+Successful Responses: 5510
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 51ms, [min] 5ms
+[avg] 10.870961887477314 ms, [stdev] 2.6496328513940766ms
+Throughput: 91.82874189623853 requests per second
+Goodput: 91.82874189623853 requests per second
+Retry Rate (Successful requests): 1.0039927404718694
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.044 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.057 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Single Front-End Performance (64 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[ ... Completed in 0.006 seconds ]
+Stage 2 Single Front-End: Test Status: TEST_PASSED
+Clients: 64
+Total Requests (without replies): 352115
+Total Requests (including replies): 353924
+Successful Responses: 352115
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 131ms, [min] 5ms
+[avg] 10.888925493091746 ms, [stdev] 2.9841992219886553ms
+Throughput: 5867.50762360234 requests per second
+Goodput: 5867.50762360234 requests per second
+Retry Rate (Successful requests): 1.0051375260923279
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.049 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.221 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Single Front-End Performance (256 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[ ... Completed in 0.007 seconds ]
+Stage 2 Single Front-End: Test Status: TEST_PASSED
+Clients: 256
+Total Requests (without replies): 1396454
+Total Requests (including replies): 1403558
+Successful Responses: 1396454
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 134ms, [min] 5ms
+[avg] 10.976768300280568 ms, [stdev] 3.0098736012587994ms
+Throughput: 23256.016120705448 requests per second
+Goodput: 23256.016120705448 requests per second
+Retry Rate (Successful requests): 1.005087170791161
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.068 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.965 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Single Front-End Performance (512 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[ ... Completed in 0.006 seconds ]
+Stage 2 Single Front-End: Test Status: TEST_PASSED
+Clients: 512
+Total Requests (without replies): 2639498
+Total Requests (including replies): 2655123
+Successful Responses: 2639498
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 136ms, [min] 5ms
+[avg] 11.613525374900833 ms, [stdev] 3.313066233976699ms
+Throughput: 43955.736148811804 requests per second
+Goodput: 43955.736148811804 requests per second
+Retry Rate (Successful requests): 1.005919686243369
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.078 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.692 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (1 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12404
+[ ... Completed in 0.011 seconds ]
+TEST_PASSED
+Stage 2 Random Front-End: Test Status: TEST_PASSED
+Clients: 1
+Total Requests (without replies): 5480
+Total Requests (including replies): 5505
+Successful Responses: 5480
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 51ms, [min] 5ms
+[avg] 10.918065693430657 ms, [stdev] 2.795467247951545ms
+Throughput: 91.32876689498859 requests per second
+Goodput: 91.32876689498859 requests per second
+Retry Rate (Successful requests): 1.0045620437956204
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.046 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.064 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (64 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12404
+[ ... Completed in 0.05 seconds ]
+TEST_PASSED
+[ CPU load (loadavg, last one minute) 0.37 ]
+Stage 2 Random Front-End: Test Status: TEST_PASSED
+Clients: 64
+Total Requests (without replies): 351478
+Total Requests (including replies): 353247
+Successful Responses: 351478
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 131ms, [min] 5ms
+[avg] 10.90357860235918 ms, [stdev] 2.9661244512523837ms
+Throughput: 5853.868958395789 requests per second
+Goodput: 5853.868958395789 requests per second
+Retry Rate (Successful requests): 1.00503303193941
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.05 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.287 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (256 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12404
+[ ... Completed in 0.011 seconds ]
+TEST_PASSED
+[ CPU load (loadavg, last one minute) 0.38 ]
+Stage 2 Random Front-End: Test Status: TEST_PASSED
+Clients: 256
+Total Requests (without replies): 1402238
+Total Requests (including replies): 1409254
+Successful Responses: 1402238
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 133ms, [min] 5ms
+[avg] 10.934447647261022 ms, [stdev] 3.0187650812688323ms
+Throughput: 23357.78655073043 requests per second
+Goodput: 23357.78655073043 requests per second
+Retry Rate (Successful requests): 1.0050034302308168
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.075 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 65.834 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[ TEST Random Front-End Performance (512 clients, 60.0 seconds): PUT -> GET (closed loop) ]
+[Test isAlive] for 34.212.231.192:12356
+[Test isAlive] for 34.212.231.192:12354
+[Test isAlive] for 34.212.231.192:12411
+[Test isAlive] for 34.212.231.192:12379
+[Test isAlive] for 34.212.231.192:12346
+[Test isAlive] for 34.212.231.192:12413
+[Test isAlive] for 34.212.231.192:12398
+[Test isAlive] for 34.212.231.192:12364
+[Test isAlive] for 34.212.231.192:12352
+[Test isAlive] for 34.212.231.192:12372
+[Test isAlive] for 34.212.231.192:12348
+[Test isAlive] for 34.212.231.192:12380
+[Test isAlive] for 34.212.231.192:12421
+[Test isAlive] for 34.212.231.192:12363
+[Test isAlive] for 34.212.231.192:12419
+[Test isAlive] for 34.212.231.192:12351
+[Test isAlive] for 34.212.231.192:12386
+[Test isAlive] for 34.212.231.192:12362
+[Test isAlive] for 34.212.231.192:12355
+[Test isAlive] for 34.212.231.192:12387
+[Test isAlive] for 34.212.231.192:12369
+[Test isAlive] for 34.212.231.192:12395
+[Test isAlive] for 34.212.231.192:12406
+[Test isAlive] for 34.212.231.192:12374
+[Test isAlive] for 34.212.231.192:12376
+[Test isAlive] for 34.212.231.192:12383
+[Test isAlive] for 34.212.231.192:12420
+[Test isAlive] for 34.212.231.192:12403
+[Test isAlive] for 34.212.231.192:12418
+[Test isAlive] for 34.212.231.192:12402
+[Test isAlive] for 34.212.231.192:12422
+[Test isAlive] for 34.212.231.192:12345
+[Test isAlive] for 34.212.231.192:12397
+[Test isAlive] for 34.212.231.192:12407
+[Test isAlive] for 34.212.231.192:12360
+[Test isAlive] for 34.212.231.192:12409
+[Test isAlive] for 34.212.231.192:12384
+[Test isAlive] for 34.212.231.192:12391
+[Test isAlive] for 34.212.231.192:12368
+[Test isAlive] for 34.212.231.192:12377
+[Test isAlive] for 34.212.231.192:12417
+[Test isAlive] for 34.212.231.192:12390
+[Test isAlive] for 34.212.231.192:12400
+[Test isAlive] for 34.212.231.192:12394
+[Test isAlive] for 34.212.231.192:12393
+[Test isAlive] for 34.212.231.192:12349
+[Test isAlive] for 34.212.231.192:12415
+[Test isAlive] for 34.212.231.192:12358
+[Test isAlive] for 34.212.231.192:12423
+[Test isAlive] for 34.212.231.192:12357
+[Test isAlive] for 34.212.231.192:12396
+[Test isAlive] for 34.212.231.192:12371
+[Test isAlive] for 34.212.231.192:12373
+[Test isAlive] for 34.212.231.192:12361
+[Test isAlive] for 34.212.231.192:12401
+[Test isAlive] for 34.212.231.192:12382
+[Test isAlive] for 34.212.231.192:12366
+[Test isAlive] for 34.212.231.192:12408
+[Test isAlive] for 34.212.231.192:12350
+[Test isAlive] for 34.212.231.192:12367
+[Test isAlive] for 34.212.231.192:12375
+[Test isAlive] for 34.212.231.192:12424
+[Test isAlive] for 34.212.231.192:12388
+[Test isAlive] for 34.212.231.192:12385
+[Test isAlive] for 34.212.231.192:12370
+[Test isAlive] for 34.212.231.192:12412
+[Test isAlive] for 34.212.231.192:12378
+[Test isAlive] for 34.212.231.192:12416
+[Test isAlive] for 34.212.231.192:12405
+[Test isAlive] for 34.212.231.192:12414
+[Test isAlive] for 34.212.231.192:12359
+[Test isAlive] for 34.212.231.192:12392
+[Test isAlive] for 34.212.231.192:12381
+[Test isAlive] for 34.212.231.192:12365
+[Test isAlive] for 34.212.231.192:12399
+[Test isAlive] for 34.212.231.192:12404
+[ ... Completed in 0.016 seconds ]
+TEST_PASSED
+[ CPU load (loadavg, last one minute) 2.10 ]
+Stage 2 Random Front-End: Test Status: TEST_PASSED
+Clients: 512
+Total Requests (without replies): 2776691
+Total Requests (including replies): 2790782
+Successful Responses: 2776691
+Timeout Responses: 0
+Total Failed Responses: 0
+% Success: 100.0
+% Timeout: 0.0
+% Failed: 0.0
+Response Time (Successful requests):
+[max] 291ms, [min] 5ms
+[avg] 11.03525635369582 ms, [stdev] 3.1276371640770697ms
+Throughput: 46238.88028509101 requests per second
+Goodput: 46238.88028509101 requests per second
+Retry Rate (Successful requests): 1.0050747454434072
+Sending WIPE-OUT to all servers...
+[ ... Completed in 0.069 seconds ]
+[OK]
+Waiting for 5 seconds for the cache to be cleared!
+[ ... TEST Completed in 66.969 seconds ]
+[Info] Pausing for 6 seconds to wait for the cache to be cleared!
+
+[Test isAlive] for 34.212.231.192:12353
+[Test isAlive] for 34.212.231.192:12347
+[Test isAlive] for 34.212.231.192:12389
+[Test isAlive] for 34.212.231.192:12410
+[ ... Completed in 10.003 seconds ]
+
+Results Summary:
+Client AWS Instance Type : c6a.8xlarge
+Client Local Hostname : ip-172-31-55-36
+Client Local IP : ip-172-31-55-36/172.31.55.36
+Concurrent Store/Load v2; Stage 0; : 2.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % ERROR-INVALID-GET (value or version) : 0.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % ERROR-OTHER : 0.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % ERROR-UID : 0.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % FAILED (Not SUCCESS) : 0.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % KEY-NOT-FOUND : 0.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % SUCCESS : 100.0
+Concurrent Store/Load v2; Stage 0; GET Phase; % TIMEOUT : 0.0
+Concurrent Store/Load v2; Stage 0; GET Phase; SUCCESS Response Count : 40000.0
+Concurrent Store/Load v2; Stage 0; GET Phase; Total Value Size (MiB) : 19.14913272857666
+Concurrent Store/Load v2; Stage 0; PUT Phase; % ERROR-INVALID-GET (value or version) : 0.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; % ERROR-OTHER : 0.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; % ERROR-UID : 0.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; % FAILED (Not SUCCESS) : 0.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; % KEY-NOT-FOUND : 0.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; % SUCCESS : 100.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; % TIMEOUT : 0.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; SUCCESS Response Count : 40000.0
+Concurrent Store/Load v2; Stage 0; PUT Phase; Total Value Size (MiB) : 19.14913272857666
+Concurrent Store/Load v2; Stage 2a; : 2.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % ERROR-INVALID-GET (value or version) : 0.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % ERROR-OTHER : 0.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % ERROR-UID : 0.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % FAILED (Not SUCCESS) : 0.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % KEY-NOT-FOUND : 0.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % SUCCESS : 100.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; % TIMEOUT : 0.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; SUCCESS Response Count : 20000.0
+Concurrent Store/Load v2; Stage 2a; GET Phase; Total Value Size (MiB) : 9.51506519317627
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % ERROR-INVALID-GET (value or version) : 0.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % ERROR-OTHER : 0.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % ERROR-UID : 0.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % FAILED (Not SUCCESS) : 0.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % KEY-NOT-FOUND : 0.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % SUCCESS : 100.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; % TIMEOUT : 0.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; SUCCESS Response Count : 20000.0
+Concurrent Store/Load v2; Stage 2a; PUT Phase; Total Value Size (MiB) : 9.51506519317627
+Local At-Most-Once Policy : 2.0
+Local At-Most-Once Policy Empty REMs : 2.0
+Local At-Most-Once Policy Error Return Code : 2.0
+Local At-Most-Once Policy Full Test : 2.0
+Local Basic PUT GET  : 2.0
+Local Client Capacity Test : 2.0
+Local Double PUT with version : 2.0
+Local Double Remove : 2.0
+Local Invalid Command : 2.0
+Local Invalid Key Test : 2.0
+Local Invalid Value Test : 2.0
+Local Remove Operation : 2.0
+Local Shutdown Test : 2.0
+Local Single node: 1 Client(s) % Failed : 0.0
+Local Single node: 1 Client(s) % Success : 100.0
+Local Single node: 1 Client(s) % Timeout : 0.0
+Local Single node: 1 Client(s) Average Response Time (ms) : 1.0
+Local Single node: 1 Client(s) Goodput (Requests per Second) : 15725.0
+Local Single node: 1 Client(s) Maximum Response Time (ms) : 985.0
+Local Single node: 1 Client(s) STDEV Response Time (ms) : 2.0
+Local Single node: 1 Client(s) Successful Responses : 943506
+Local Single node: 1 Client(s) Throughput (Requests per Second) : 15725.0
+Local Single node: 1 Client(s) Timeout Responses : 0
+Local Single node: 1 Client(s) Total Failed Responses : 0
+Local Single node: 1 Client(s) Total Requests (including retries) : 943511
+Local Single node: 1 Client(s) Total Requests (without retries) : 943506
+Local Single node: 16 Client(s) % Failed : 1.6335518481188832E-4
+Local Single node: 16 Client(s) % Success : 99.99983664481519
+Local Single node: 16 Client(s) % Timeout : 0.0
+Local Single node: 16 Client(s) Average Response Time (ms) : 1.0
+Local Single node: 16 Client(s) Goodput (Requests per Second) : 30607.0
+Local Single node: 16 Client(s) Maximum Response Time (ms) : 608.0
+Local Single node: 16 Client(s) STDEV Response Time (ms) : 3.0
+Local Single node: 16 Client(s) Successful Responses : 1836486
+Local Single node: 16 Client(s) Throughput (Requests per Second) : 30607.0
+Local Single node: 16 Client(s) Timeout Responses : 0
+Local Single node: 16 Client(s) Total Failed Responses : 3
+Local Single node: 16 Client(s) Total Requests (including retries) : 1836553
+Local Single node: 16 Client(s) Total Requests (without retries) : 1836489
+Local Single node: 64 Client(s) % Failed : 0.0
+Local Single node: 64 Client(s) % Success : 99.98909424897715
+Local Single node: 64 Client(s) % Timeout : 0.010905751022840164
+Local Single node: 64 Client(s) Average Response Time (ms) : 3.0
+Local Single node: 64 Client(s) Goodput (Requests per Second) : 29336.0
+Local Single node: 64 Client(s) Maximum Response Time (ms) : 749.0
+Local Single node: 64 Client(s) STDEV Response Time (ms) : 5.0
+Local Single node: 64 Client(s) Successful Responses : 1760347
+Local Single node: 64 Client(s) Throughput (Requests per Second) : 29339.0
+Local Single node: 64 Client(s) Timeout Responses : 192
+Local Single node: 64 Client(s) Total Failed Responses : 0
+Local Single node: 64 Client(s) Total Requests (including retries) : 1761564
+Local Single node: 64 Client(s) Total Requests (without retries) : 1760539
+Server Count : 80
+Server List : 34.212.231.192_12345_34.212.231.192_12346_34.212.231.192_12347_34.212.231.192_12348_34.212.231.192_12349_34.212.231.192_12350_34.212.231.192_12351_34.212.231.192_12352_34.212.231.192_12353_34.212.231.192_12354_34.212.231.192_12355_34.212.231.192_12356_34.212.231.192_12357_34.212.231.192_12358_34.212.231.192_12359_34.212.231.192_12360_34.212.231.192_12361_34.212.231.192_12362_34.212.231.192_12363_34.212.231.192_12364_34.212.231.192_12365_34.212.231.192_12366_34.212.231.192_12367_34.212.231.192_12368_34.212.231.192_12369_34.212.231.192_12370_34.212.231.192_12371_34.212.231.192_12372_34.212.231.192_12373_34.212.231.192_12374_34.212.231.192_12375_34.212.231.192_12376_34.212.231.192_12377_34.212.231.192_12378_34.212.231.192_12379_34.212.231.192_12380_34.212.231.192_12381_34.212.231.192_12382_34.212.231.192_12383_34.212.231.192_12384_34.212.231.192_12385_34.212.231.192_12386_34.212.231.192_12387_34.212.231.192_12388_34.212.231.192_12389_34.212.231.192_12390_34.212.231.192_12391_34.212.231.192_12392_34.212.231.192_12393_34.212.231.192_12394_34.212.231.192_12395_34.212.231.192_12396_34.212.231.192_12397_34.212.231.192_12398_34.212.231.192_12399_34.212.231.192_12400_34.212.231.192_12401_34.212.231.192_12402_34.212.231.192_12403_34.212.231.192_12404_34.212.231.192_12405_34.212.231.192_12406_34.212.231.192_12407_34.212.231.192_12408_34.212.231.192_12409_34.212.231.192_12410_34.212.231.192_12411_34.212.231.192_12412_34.212.231.192_12413_34.212.231.192_12414_34.212.231.192_12415_34.212.231.192_12416_34.212.231.192_12417_34.212.231.192_12418_34.212.231.192_12419_34.212.231.192_12420_34.212.231.192_12421_34.212.231.192_12422_34.212.231.192_12423_34.212.231.192_12424_
+Single Client Capacity (MiB) for value size of 500 : 40.0
+Stage 1 Random Front-End Basic : 2.0
+Stage 1 Random Front-End Performance: 1 Client(s) % Failed : 0.0
+Stage 1 Random Front-End Performance: 1 Client(s) % Success : 100.0
+Stage 1 Random Front-End Performance: 1 Client(s) % Timeout : 0.0
+Stage 1 Random Front-End Performance: 1 Client(s) Average Response Time (ms) : 12.0
+Stage 1 Random Front-End Performance: 1 Client(s) Goodput (Requests per Second) : 91.0
+Stage 1 Random Front-End Performance: 1 Client(s) Maximum Response Time (ms) : 51.0
+Stage 1 Random Front-End Performance: 1 Client(s) STDEV Response Time (ms) : 3.0
+Stage 1 Random Front-End Performance: 1 Client(s) Successful Responses : 5403
+Stage 1 Random Front-End Performance: 1 Client(s) Throughput (Requests per Second) : 91.0
+Stage 1 Random Front-End Performance: 1 Client(s) Timeout Responses : 0
+Stage 1 Random Front-End Performance: 1 Client(s) Total Failed Responses : 0
+Stage 1 Random Front-End Performance: 1 Client(s) Total Requests (including replies) : 5431
+Stage 1 Random Front-End Performance: 1 Client(s) Total Requests (without replies) : 5403
+Stage 1 Random Front-End Performance: 256 Client(s) % Failed : 0.0
+Stage 1 Random Front-End Performance: 256 Client(s) % Success : 100.0
+Stage 1 Random Front-End Performance: 256 Client(s) % Timeout : 0.0
+Stage 1 Random Front-End Performance: 256 Client(s) Average Response Time (ms) : 11.0
+Stage 1 Random Front-End Performance: 256 Client(s) CPU load (loadavg - last one minute) : 0.87
+Stage 1 Random Front-End Performance: 256 Client(s) Goodput (Requests per Second) : 23318.0
+Stage 1 Random Front-End Performance: 256 Client(s) Maximum Response Time (ms) : 134.0
+Stage 1 Random Front-End Performance: 256 Client(s) STDEV Response Time (ms) : 3.0
+Stage 1 Random Front-End Performance: 256 Client(s) Successful Responses : 1399869
+Stage 1 Random Front-End Performance: 256 Client(s) Throughput (Requests per Second) : 23318.0
+Stage 1 Random Front-End Performance: 256 Client(s) Timeout Responses : 0
+Stage 1 Random Front-End Performance: 256 Client(s) Total Failed Responses : 0
+Stage 1 Random Front-End Performance: 256 Client(s) Total Requests (including replies) : 1406854
+Stage 1 Random Front-End Performance: 256 Client(s) Total Requests (without replies) : 1399869
+Stage 1 Random Front-End Performance: 512 Client(s) % Failed : 0.0
+Stage 1 Random Front-End Performance: 512 Client(s) % Success : 100.0
+Stage 1 Random Front-End Performance: 512 Client(s) % Timeout : 0.0
+Stage 1 Random Front-End Performance: 512 Client(s) Average Response Time (ms) : 12.0
+Stage 1 Random Front-End Performance: 512 Client(s) CPU load (loadavg - last one minute) : 1.78
+Stage 1 Random Front-End Performance: 512 Client(s) Goodput (Requests per Second) : 46209.0
+Stage 1 Random Front-End Performance: 512 Client(s) Maximum Response Time (ms) : 136.0
+Stage 1 Random Front-End Performance: 512 Client(s) STDEV Response Time (ms) : 4.0
+Stage 1 Random Front-End Performance: 512 Client(s) Successful Responses : 2774844
+Stage 1 Random Front-End Performance: 512 Client(s) Throughput (Requests per Second) : 46209.0
+Stage 1 Random Front-End Performance: 512 Client(s) Timeout Responses : 0
+Stage 1 Random Front-End Performance: 512 Client(s) Total Failed Responses : 0
+Stage 1 Random Front-End Performance: 512 Client(s) Total Requests (including replies) : 2788935
+Stage 1 Random Front-End Performance: 512 Client(s) Total Requests (without replies) : 2774844
+Stage 1 Random Front-End Performance: 64 Client(s) % Failed : 0.0
+Stage 1 Random Front-End Performance: 64 Client(s) % Success : 100.0
+Stage 1 Random Front-End Performance: 64 Client(s) % Timeout : 0.0
+Stage 1 Random Front-End Performance: 64 Client(s) Average Response Time (ms) : 12.0
+Stage 1 Random Front-End Performance: 64 Client(s) CPU load (loadavg - last one minute) : 0.21
+Stage 1 Random Front-End Performance: 64 Client(s) Goodput (Requests per Second) : 5774.0
+Stage 1 Random Front-End Performance: 64 Client(s) Maximum Response Time (ms) : 841.0
+Stage 1 Random Front-End Performance: 64 Client(s) STDEV Response Time (ms) : 12.0
+Stage 1 Random Front-End Performance: 64 Client(s) Successful Responses : 346500
+Stage 1 Random Front-End Performance: 64 Client(s) Throughput (Requests per Second) : 5774.0
+Stage 1 Random Front-End Performance: 64 Client(s) Timeout Responses : 0
+Stage 1 Random Front-End Performance: 64 Client(s) Total Failed Responses : 0
+Stage 1 Random Front-End Performance: 64 Client(s) Total Requests (including replies) : 348217
+Stage 1 Random Front-End Performance: 64 Client(s) Total Requests (without replies) : 346500
+Stage 1 Single Front Node (At-Most-Once) Policy : 2.0
+Stage 1 Single Front Node At-Most-Once Policy Empty REMs : 2.0
+Stage 1 Single Front Node At-Most-Once Policy Error Return Code : 2.0
+Stage 1 Single Front Node At-Most-Once Policy Full Test : 2.0
+Stage 1 Single Front Node Basic PUT GET  : 2.0
+Stage 1 Single Front Node Double PUT with version : 2.0
+Stage 1 Single Front Node Double Remove : 2.0
+Stage 1 Single Front Node Invalid Command : 2.0
+Stage 1 Single Front Node Invalid Key Test : 2.0
+Stage 1 Single Front Node Invalid Value Test : 2.0
+Stage 1 Single Front Node Multi-Client Crash : 2.0
+Stage 1 Single Front Node Remove Operation : 2.0
+Stage 1 Single Front-End: 1 Client(s) % Failed : 0.0
+Stage 1 Single Front-End: 1 Client(s) % Success : 100.0
+Stage 1 Single Front-End: 1 Client(s) % Timeout : 0.0
+Stage 1 Single Front-End: 1 Client(s) Average Response Time (ms) : 11.0
+Stage 1 Single Front-End: 1 Client(s) Goodput (Requests per Second) : 92.0
+Stage 1 Single Front-End: 1 Client(s) Maximum Response Time (ms) : 51.0
+Stage 1 Single Front-End: 1 Client(s) STDEV Response Time (ms) : 4.0
+Stage 1 Single Front-End: 1 Client(s) Successful Responses : 5490
+Stage 1 Single Front-End: 1 Client(s) Throughput (Requests per Second) : 92.0
+Stage 1 Single Front-End: 1 Client(s) Timeout Responses : 0
+Stage 1 Single Front-End: 1 Client(s) Total Failed Responses : 0
+Stage 1 Single Front-End: 1 Client(s) Total Requests (including retries) : 5520
+Stage 1 Single Front-End: 1 Client(s) Total Requests (without retries) : 5490
+Stage 1 Single Front-End: 256 Client(s) % Failed : 0.0
+Stage 1 Single Front-End: 256 Client(s) % Success : 100.0
+Stage 1 Single Front-End: 256 Client(s) % Timeout : 0.0
+Stage 1 Single Front-End: 256 Client(s) Average Response Time (ms) : 11.0
+Stage 1 Single Front-End: 256 Client(s) Goodput (Requests per Second) : 23376.0
+Stage 1 Single Front-End: 256 Client(s) Maximum Response Time (ms) : 137.0
+Stage 1 Single Front-End: 256 Client(s) STDEV Response Time (ms) : 4.0
+Stage 1 Single Front-End: 256 Client(s) Successful Responses : 1403186
+Stage 1 Single Front-End: 256 Client(s) Throughput (Requests per Second) : 23376.0
+Stage 1 Single Front-End: 256 Client(s) Timeout Responses : 0
+Stage 1 Single Front-End: 256 Client(s) Total Failed Responses : 0
+Stage 1 Single Front-End: 256 Client(s) Total Requests (including retries) : 1410621
+Stage 1 Single Front-End: 256 Client(s) Total Requests (without retries) : 1403186
+Stage 1 Single Front-End: 512 Client(s) % Failed : 0.0
+Stage 1 Single Front-End: 512 Client(s) % Success : 100.0
+Stage 1 Single Front-End: 512 Client(s) % Timeout : 0.0
+Stage 1 Single Front-End: 512 Client(s) Average Response Time (ms) : 12.0
+Stage 1 Single Front-End: 512 Client(s) Goodput (Requests per Second) : 43684.0
+Stage 1 Single Front-End: 512 Client(s) Maximum Response Time (ms) : 136.0
+Stage 1 Single Front-End: 512 Client(s) STDEV Response Time (ms) : 4.0
+Stage 1 Single Front-End: 512 Client(s) Successful Responses : 2624076
+Stage 1 Single Front-End: 512 Client(s) Throughput (Requests per Second) : 43684.0
+Stage 1 Single Front-End: 512 Client(s) Timeout Responses : 0
+Stage 1 Single Front-End: 512 Client(s) Total Failed Responses : 0
+Stage 1 Single Front-End: 512 Client(s) Total Requests (including retries) : 2641488
+Stage 1 Single Front-End: 512 Client(s) Total Requests (without retries) : 2624076
+Stage 1 Single Front-End: 64 Client(s) % Failed : 0.0
+Stage 1 Single Front-End: 64 Client(s) % Success : 100.0
+Stage 1 Single Front-End: 64 Client(s) % Timeout : 0.0
+Stage 1 Single Front-End: 64 Client(s) Average Response Time (ms) : 11.0
+Stage 1 Single Front-End: 64 Client(s) Goodput (Requests per Second) : 5890.0
+Stage 1 Single Front-End: 64 Client(s) Maximum Response Time (ms) : 291.0
+Stage 1 Single Front-End: 64 Client(s) STDEV Response Time (ms) : 4.0
+Stage 1 Single Front-End: 64 Client(s) Successful Responses : 353448
+Stage 1 Single Front-End: 64 Client(s) Throughput (Requests per Second) : 5890.0
+Stage 1 Single Front-End: 64 Client(s) Timeout Responses : 0
+Stage 1 Single Front-End: 64 Client(s) Total Failed Responses : 0
+Stage 1 Single Front-End: 64 Client(s) Total Requests (including retries) : 355192
+Stage 1 Single Front-End: 64 Client(s) Total Requests (without retries) : 353448
+Stage 1 Suspend Node Count : 5
+Stage 2 Distributed Shutdown Honoured : 2.0
+Stage 2 Random Front-End Basic : 2.0
+Stage 2 Random Front-End: 1 Client(s) % Failed : 0.0
+Stage 2 Random Front-End: 1 Client(s) % Success : 100.0
+Stage 2 Random Front-End: 1 Client(s) % Timeout : 0.0
+Stage 2 Random Front-End: 1 Client(s) Average Response Time (ms) : 11.0
+Stage 2 Random Front-End: 1 Client(s) Goodput (Requests per Second) : 92.0
+Stage 2 Random Front-End: 1 Client(s) Maximum Response Time (ms) : 51.0
+Stage 2 Random Front-End: 1 Client(s) STDEV Response Time (ms) : 3.0
+Stage 2 Random Front-End: 1 Client(s) Successful Responses : 5480
+Stage 2 Random Front-End: 1 Client(s) Throughput (Requests per Second) : 92.0
+Stage 2 Random Front-End: 1 Client(s) Timeout Responses : 0
+Stage 2 Random Front-End: 1 Client(s) Total Failed Responses : 0
+Stage 2 Random Front-End: 1 Client(s) Total Requests (including replies) : 5505
+Stage 2 Random Front-End: 1 Client(s) Total Requests (without replies) : 5480
+Stage 2 Random Front-End: 256 Client(s) % Failed : 0.0
+Stage 2 Random Front-End: 256 Client(s) % Success : 100.0
+Stage 2 Random Front-End: 256 Client(s) % Timeout : 0.0
+Stage 2 Random Front-End: 256 Client(s) Average Response Time (ms) : 11.0
+Stage 2 Random Front-End: 256 Client(s) CPU load (loadavg - last one minute) : 0.38
+Stage 2 Random Front-End: 256 Client(s) Goodput (Requests per Second) : 23358.0
+Stage 2 Random Front-End: 256 Client(s) Maximum Response Time (ms) : 133.0
+Stage 2 Random Front-End: 256 Client(s) STDEV Response Time (ms) : 4.0
+Stage 2 Random Front-End: 256 Client(s) Successful Responses : 1402238
+Stage 2 Random Front-End: 256 Client(s) Throughput (Requests per Second) : 23358.0
+Stage 2 Random Front-End: 256 Client(s) Timeout Responses : 0
+Stage 2 Random Front-End: 256 Client(s) Total Failed Responses : 0
+Stage 2 Random Front-End: 256 Client(s) Total Requests (including replies) : 1409254
+Stage 2 Random Front-End: 256 Client(s) Total Requests (without replies) : 1402238
+Stage 2 Random Front-End: 512 Client(s) % Failed : 0.0
+Stage 2 Random Front-End: 512 Client(s) % Success : 100.0
+Stage 2 Random Front-End: 512 Client(s) % Timeout : 0.0
+Stage 2 Random Front-End: 512 Client(s) Average Response Time (ms) : 12.0
+Stage 2 Random Front-End: 512 Client(s) CPU load (loadavg - last one minute) : 2.10
+Stage 2 Random Front-End: 512 Client(s) Goodput (Requests per Second) : 46239.0
+Stage 2 Random Front-End: 512 Client(s) Maximum Response Time (ms) : 291.0
+Stage 2 Random Front-End: 512 Client(s) STDEV Response Time (ms) : 4.0
+Stage 2 Random Front-End: 512 Client(s) Successful Responses : 2776691
+Stage 2 Random Front-End: 512 Client(s) Throughput (Requests per Second) : 46239.0
+Stage 2 Random Front-End: 512 Client(s) Timeout Responses : 0
+Stage 2 Random Front-End: 512 Client(s) Total Failed Responses : 0
+Stage 2 Random Front-End: 512 Client(s) Total Requests (including replies) : 2790782
+Stage 2 Random Front-End: 512 Client(s) Total Requests (without replies) : 2776691
+Stage 2 Random Front-End: 64 Client(s) % Failed : 0.0
+Stage 2 Random Front-End: 64 Client(s) % Success : 100.0
+Stage 2 Random Front-End: 64 Client(s) % Timeout : 0.0
+Stage 2 Random Front-End: 64 Client(s) Average Response Time (ms) : 11.0
+Stage 2 Random Front-End: 64 Client(s) CPU load (loadavg - last one minute) : 0.37
+Stage 2 Random Front-End: 64 Client(s) Goodput (Requests per Second) : 5854.0
+Stage 2 Random Front-End: 64 Client(s) Maximum Response Time (ms) : 131.0
+Stage 2 Random Front-End: 64 Client(s) STDEV Response Time (ms) : 3.0
+Stage 2 Random Front-End: 64 Client(s) Successful Responses : 351478
+Stage 2 Random Front-End: 64 Client(s) Throughput (Requests per Second) : 5854.0
+Stage 2 Random Front-End: 64 Client(s) Timeout Responses : 0
+Stage 2 Random Front-End: 64 Client(s) Total Failed Responses : 0
+Stage 2 Random Front-End: 64 Client(s) Total Requests (including replies) : 353247
+Stage 2 Random Front-End: 64 Client(s) Total Requests (without replies) : 351478
+Stage 2 Resumed Node Count : 1
+Stage 2 Single Front-End: 1 Client(s) % Failed : 0.0
+Stage 2 Single Front-End: 1 Client(s) % Success : 100.0
+Stage 2 Single Front-End: 1 Client(s) % Timeout : 0.0
+Stage 2 Single Front-End: 1 Client(s) Average Response Time (ms) : 11.0
+Stage 2 Single Front-End: 1 Client(s) Goodput (Requests per Second) : 92.0
+Stage 2 Single Front-End: 1 Client(s) Maximum Response Time (ms) : 51.0
+Stage 2 Single Front-End: 1 Client(s) STDEV Response Time (ms) : 3.0
+Stage 2 Single Front-End: 1 Client(s) Successful Responses : 5510
+Stage 2 Single Front-End: 1 Client(s) Throughput (Requests per Second) : 92.0
+Stage 2 Single Front-End: 1 Client(s) Timeout Responses : 0
+Stage 2 Single Front-End: 1 Client(s) Total Failed Responses : 0
+Stage 2 Single Front-End: 1 Client(s) Total Requests (including retries) : 5532
+Stage 2 Single Front-End: 1 Client(s) Total Requests (without retries) : 5510
+Stage 2 Single Front-End: 256 Client(s) % Failed : 0.0
+Stage 2 Single Front-End: 256 Client(s) % Success : 100.0
+Stage 2 Single Front-End: 256 Client(s) % Timeout : 0.0
+Stage 2 Single Front-End: 256 Client(s) Average Response Time (ms) : 11.0
+Stage 2 Single Front-End: 256 Client(s) Goodput (Requests per Second) : 23257.0
+Stage 2 Single Front-End: 256 Client(s) Maximum Response Time (ms) : 134.0
+Stage 2 Single Front-End: 256 Client(s) STDEV Response Time (ms) : 4.0
+Stage 2 Single Front-End: 256 Client(s) Successful Responses : 1396454
+Stage 2 Single Front-End: 256 Client(s) Throughput (Requests per Second) : 23257.0
+Stage 2 Single Front-End: 256 Client(s) Timeout Responses : 0
+Stage 2 Single Front-End: 256 Client(s) Total Failed Responses : 0
+Stage 2 Single Front-End: 256 Client(s) Total Requests (including retries) : 1403558
+Stage 2 Single Front-End: 256 Client(s) Total Requests (without retries) : 1396454
+Stage 2 Single Front-End: 512 Client(s) % Failed : 0.0
+Stage 2 Single Front-End: 512 Client(s) % Success : 100.0
+Stage 2 Single Front-End: 512 Client(s) % Timeout : 0.0
+Stage 2 Single Front-End: 512 Client(s) Average Response Time (ms) : 12.0
+Stage 2 Single Front-End: 512 Client(s) Goodput (Requests per Second) : 43956.0
+Stage 2 Single Front-End: 512 Client(s) Maximum Response Time (ms) : 136.0
+Stage 2 Single Front-End: 512 Client(s) STDEV Response Time (ms) : 4.0
+Stage 2 Single Front-End: 512 Client(s) Successful Responses : 2639498
+Stage 2 Single Front-End: 512 Client(s) Throughput (Requests per Second) : 43956.0
+Stage 2 Single Front-End: 512 Client(s) Timeout Responses : 0
+Stage 2 Single Front-End: 512 Client(s) Total Failed Responses : 0
+Stage 2 Single Front-End: 512 Client(s) Total Requests (including retries) : 2655123
+Stage 2 Single Front-End: 512 Client(s) Total Requests (without retries) : 2639498
+Stage 2 Single Front-End: 64 Client(s) % Failed : 0.0
+Stage 2 Single Front-End: 64 Client(s) % Success : 100.0
+Stage 2 Single Front-End: 64 Client(s) % Timeout : 0.0
+Stage 2 Single Front-End: 64 Client(s) Average Response Time (ms) : 11.0
+Stage 2 Single Front-End: 64 Client(s) Goodput (Requests per Second) : 5868.0
+Stage 2 Single Front-End: 64 Client(s) Maximum Response Time (ms) : 131.0
+Stage 2 Single Front-End: 64 Client(s) STDEV Response Time (ms) : 3.0
+Stage 2 Single Front-End: 64 Client(s) Successful Responses : 352115
+Stage 2 Single Front-End: 64 Client(s) Throughput (Requests per Second) : 5868.0
+Stage 2 Single Front-End: 64 Client(s) Timeout Responses : 0
+Stage 2 Single Front-End: 64 Client(s) Total Failed Responses : 0
+Stage 2 Single Front-End: 64 Client(s) Total Requests (including retries) : 353924
+Stage 2 Single Front-End: 64 Client(s) Total Requests (without retries) : 352115
+Suspend Verify v2; Stage 1; Key Recovery; : 2.0
+Suspend Verify v2; Stage 1; Key Recovery; % ERROR-INVALID-GET (value or version) : 0.0
+Suspend Verify v2; Stage 1; Key Recovery; % ERROR-OTHER : 0.0
+Suspend Verify v2; Stage 1; Key Recovery; % ERROR-UID : 0.0
+Suspend Verify v2; Stage 1; Key Recovery; % FAILED (Not SUCCESS) : 7.0925
+Suspend Verify v2; Stage 1; Key Recovery; % KEY-NOT-FOUND : 7.0925
+Suspend Verify v2; Stage 1; Key Recovery; % SUCCESS : 92.9075
+Suspend Verify v2; Stage 1; Key Recovery; % TIMEOUT : 0.0
+Suspend Verify v2; Stage 1; Key Recovery; SUCCESS Response Count : 37163.0
+Suspend Verify v2; Stage 1; Key Recovery; Total Value Size (MiB) : 17.788426399230957
+Suspend Verify v2; Stage 2b; Key Recovery; : 2.0
+Suspend Verify v2; Stage 2b; Key Recovery; % ERROR-INVALID-GET (value or version) : 0.0
+Suspend Verify v2; Stage 2b; Key Recovery; % ERROR-OTHER : 0.0
+Suspend Verify v2; Stage 2b; Key Recovery; % ERROR-UID : 0.0
+Suspend Verify v2; Stage 2b; Key Recovery; % FAILED (Not SUCCESS) : 6.145
+Suspend Verify v2; Stage 2b; Key Recovery; % KEY-NOT-FOUND : 6.145
+Suspend Verify v2; Stage 2b; Key Recovery; % SUCCESS : 93.855
+Suspend Verify v2; Stage 2b; Key Recovery; % TIMEOUT : 0.0
+Suspend Verify v2; Stage 2b; Key Recovery; SUCCESS Response Count : 37542.0
+Suspend Verify v2; Stage 2b; Key Recovery; Total Value Size (MiB) : 17.97443962097168
+Suspend Verify v2; Stage 2c; Key Recovery; : 2.0
+Suspend Verify v2; Stage 2c; Key Recovery; % ERROR-INVALID-GET (value or version) : 0.0
+Suspend Verify v2; Stage 2c; Key Recovery; % ERROR-OTHER : 0.0
+Suspend Verify v2; Stage 2c; Key Recovery; % ERROR-UID : 0.0
+Suspend Verify v2; Stage 2c; Key Recovery; % FAILED (Not SUCCESS) : 0.0
+Suspend Verify v2; Stage 2c; Key Recovery; % KEY-NOT-FOUND : 0.0
+Suspend Verify v2; Stage 2c; Key Recovery; % SUCCESS : 100.0
+Suspend Verify v2; Stage 2c; Key Recovery; % TIMEOUT : 0.0
+Suspend Verify v2; Stage 2c; Key Recovery; SUCCESS Response Count : 20000.0
+Suspend Verify v2; Stage 2c; Key Recovery; Total Value Size (MiB) : 9.51506519317627
+Test Start Time : Wed Mar 15 03:42:18 UTC 2023
+Result Verification Code : 305056B3470F3B13A4D4A7FB66ADD45F
+[Info] Number of collected result fields: 359
+[Info] Submission Successful!
+[Info] Results server is up. Secret is valid.
+[Info] Results successfully submitted.
+[Info] Completed A9 Tests.
+
+[TA-Note] Resuming any remaining dead nodes (so you do not have to redeploy your service)!
+Waiting 10 seconds before resuming nodes
+[Info] Resuming 4 servers.
+Server 34.212.231.192:12389 resumed
+Server 34.212.231.192:12410 resumed
+Server 34.212.231.192:12347 resumed
+Server 34.212.231.192:12353 resumed
+[ ... Completed in 2.826 seconds ]
+
+Testing completed in 2042.06s

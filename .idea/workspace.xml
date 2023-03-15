@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.NodesCircleTest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.g3.CPEN431.project.NodesCircleTest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.NodesCircleTest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.g3.CPEN431.project.NodesCircleTest.txt" afterDir="false" />
-    </list>
+    <list default="true" id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="remove target folder" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -238,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677605733436</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="remove target folder">
+      <created>1678859907024</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1678859907024</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
