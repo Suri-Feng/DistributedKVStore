@@ -96,7 +96,8 @@ public class KeyTransferManager {
                 socket.send(packet);
             } catch (IOException e) {
                 System.out.println("====================");
-                System.out.println(e.getMessage());
+                System.out.println("[ Key transfer, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
+                        + e.getMessage());
                 System.out.println("====================");
                 throw new RuntimeException(e);
             }

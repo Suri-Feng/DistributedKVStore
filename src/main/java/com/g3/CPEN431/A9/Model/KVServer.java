@@ -82,6 +82,8 @@ public class KVServer {
                 pool.execute(new KVServerHandler(requestMessage,
                         socket, packet.getAddress(), packet.getPort()));
             } catch (IOException e) {
+                System.out.println("[ KVServer, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
+                        + e.getLocalizedMessage() + e.getMessage());
                 throw new RuntimeException(e);
             }
         }

@@ -54,9 +54,8 @@ public class EpidemicServer implements Runnable {
                 socket.send(packet);
             } catch (IOException e) {
                 System.out.println("====================");
-                System.out.println(e.getMessage());
-                System.out.println(e.getLocalizedMessage());
-                System.out.println(socket.getLocalPort());
+                System.out.println("[ Epidemic, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
+                        + e.getMessage() + randomNode.getPort());
                 System.out.println("====================");
                 throw new RuntimeException(e);
             }

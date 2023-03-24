@@ -21,6 +21,7 @@ com/g3/CPEN431/A9/Utility/StringUtils.class
 com/g3/CPEN431/A9/Model/Store/Value.class
 com/g3/CPEN431/A9/App.class
 com/g3/CPEN431/A9/Utility/MemoryUsage.class
+com/g3/CPEN431/A9/Model/Distribution/Replication.class
 ca/NetSysLab/ProtocolBuffers/Message$Msg$1.class
 com/g3/CPEN431/A9/Model/Store/KVStore.class
 com/g3/CPEN431/A9/Model/Distribution/NodesCircle.class

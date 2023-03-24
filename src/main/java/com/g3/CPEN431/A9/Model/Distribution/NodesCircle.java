@@ -1,6 +1,8 @@
 package com.g3.CPEN431.A9.Model.Distribution;
 
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
+import com.google.common.hash.Hashing;
+import com.google.protobuf.ByteString;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -180,5 +182,12 @@ public class NodesCircle {
 
     public Node getCurrentNode() {
         return currentNode;
+    }
+
+    public Node findNodebyKey(ByteString key) {
+        String sha256 = Hashing.sha256()
+                .hashBytes(key.toByteArray()).toString();
+
+        return findCorrectNodeByHash(sha256.hashCode());
     }
 }

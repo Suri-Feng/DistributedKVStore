@@ -111,7 +111,8 @@ public class KVServerHandler implements Runnable {
             getResponseFromOwnNode(reqPayload);
         } catch (IOException e) {
             System.out.println("===================");
-            System.out.println(e.getLocalizedMessage());
+            System.out.println("[ KV Server Handler, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
+                    + e.getLocalizedMessage() + e.getMessage());
             System.out.println("===================");
             throw new RuntimeException(e);
         }
