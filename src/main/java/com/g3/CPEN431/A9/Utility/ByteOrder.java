@@ -151,5 +151,13 @@ public class ByteOrder {
         return ((int)x) & 0x000000FF;
     }
 
-    
+    public static void short2beb(short x, byte[] buf, int offset) {
+        buf[offset+1]=(byte)(x & 0x000000FF);
+        buf[offset]=(byte)((x>>8) & 0x000000FF);
+    }
+    public static void long2beb(long x, byte[] buf, int offset) {
+        for (int i = 0; i < 8; i += 1) {
+            buf[offset + 7 - i] = (byte)((x>>(8*i)) & 0xFF);
+        }
+    }
 }

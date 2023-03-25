@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.zip.CRC32;
@@ -32,15 +33,19 @@ public class KVServerHandler implements Runnable {
     NodesCircle nodesCircle = NodesCircle.getInstance();
     HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
     KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
+    Replication replication;
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
                     InetAddress address,
-                    int port) {
+                    int port,
+                    Replication replication
+    ) {
         this.socket = socket;
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
+        this.replication = replication;
     }
 
     private void manageHeartBeats(List<Long> heartbeatList) {
@@ -92,17 +97,43 @@ public class KVServerHandler implements Runnable {
             // reroute PUT/GET/REMOVE requests if come directly from client and don't belong to current node
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
                 // Find correct node and Reroute
-                byte[] key = reqPayload.getKey().toByteArray();
-                String sha256 = Hashing.sha256()
-                        .hashBytes(key).toString();
+//                byte[] key = reqPayload.getKey().toByteArray();
+//                String sha256 = Hashing.sha256()
+//                        .hashBytes(key).toString();
 
                 heartbeatsManager.removeDeadNodes();
-                Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+//                Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
-                if (node.getId() != nodesCircle.getThisNodeId()) {
-                    reRoute(node);
+//                if (node.getId() != nodesCircle.getThisNodeId()) {
+//                    reRoute(node);
+//                    return;
+//                }
+
+                ByteString key = reqPayload.getKey();
+//                if((command == Command.PUT.getCode() || command == Command.REMOVE.getCode()) && (!replication.isPrimary(key))) {
+//                    reRoute(nodesCircle.findNodebyKey(key));
+//                    return;
+//                }
+
+                if(!replication.isPrimary(key)) {
+                    reRoute(nodesCircle.findNodebyKey(key));
                     return;
                 }
+            }
+
+            if (command == Command.BACKUP_WRITE.getCode()) {
+                backupPUT(reqPayload);
+                return;
+            }
+
+            if (command == Command.BACKUP_REM.getCode()) {
+                backupREM(reqPayload);
+                return;
+            }
+
+            if (command == Command.BACKUP_ACK.getCode()) {
+                handleBackupAck();
+                return;
             }
 
             // 1. request comes from another node who thinks I'm the right node
@@ -118,24 +149,53 @@ public class KVServerHandler implements Runnable {
         }
     }
 
+    private void handleBackupAck() {
+        replication.updateWriteAckCache(requestMessage.getMessageID());
+    }
+
+    private void backupPUT(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
+        if (isMemoryOverload()) {
+            // To client
+            replication.sendResponseToClient(InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
+                    requestMessage.getClientPort(), requestMessage.getMessageID(), ErrorCode.OUT_OF_SPACE);
+            return;
+        }
+        Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
+        store.getStore().put(requestPayload.getKey(), valueV);
+        //System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+
+        // To primary
+        replication.sendAckToPrimary(address, port, requestMessage.getMessageID());
+    }
+
+    private void backupREM(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
+        if (store.getStore().get(requestPayload.getKey()) == null) {
+            return;
+        }
+        store.getStore().remove(requestPayload.getKey());
+
+        // To primary
+        replication.sendAckToPrimary(address, port, requestMessage.getMessageID());
+    }
+
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
         //System.out.println(KVServer.port + " received key transfer: " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
 
-        byte[] key = pair.getKey().toByteArray();
-        String sha256 = Hashing.sha256()
-                .hashBytes(key).toString();
-        Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
-
-        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
-        {
-            //System.out.println("send to " + nodeMatch.getPort());
-            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
-            allPairs.add(pair);
-            KeyTransferManager.getInstance().sendMessage(allPairs, nodeMatch);
-        }
+//        byte[] key = pair.getKey().toByteArray();
+//        String sha256 = Hashing.sha256()
+//                .hashBytes(key).toString();
+//        Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+//
+//        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
+//        {
+//            //System.out.println("send to " + nodeMatch.getPort());
+//            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+//            allPairs.add(pair);
+//            KeyTransferManager.getInstance().sendMessage(allPairs, nodeMatch);
+//        }
 
     }
 
@@ -204,7 +264,7 @@ public class KVServerHandler implements Runnable {
     /*
      *  Generate a response payload
      */
-    private KeyValueResponse.KVResponse processRequest(KeyValueRequest.KVRequest requestPayload) {
+    private KeyValueResponse.KVResponse processRequest(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
         // Get command, key, and value from request
         int commandCode = requestPayload.getCommand();
         ByteString key = requestPayload.getKey();
@@ -230,6 +290,8 @@ public class KVServerHandler implements Runnable {
                     .build();
         }
 
+        Boolean remove = false;
+
         switch (command.get()) {
             case PUT:
                 if (isMemoryOverload()) {
@@ -237,9 +299,15 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.OUT_OF_SPACE.getCode())
                             .build();
                 }
+                replication.createWriteAckCache(requestMessage.getMessageID(),
+                        requestMessage.hasClientAddress()? InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()): address,
+                        requestMessage.hasClientPort()? requestMessage.getClientPort(): port);
+
                 Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(key, valueV);
                 //System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+
+                replication.sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -264,7 +332,16 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                             .build();
                 }
+
+                replication.createWriteAckCache(requestMessage.getMessageID(),
+                        requestMessage.hasClientAddress()? InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()): address,
+                        requestMessage.hasClientPort()? requestMessage.getClientPort(): port);
+
                 store.getStore().remove(key);
+
+                remove = true;
+                replication.sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
+
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();

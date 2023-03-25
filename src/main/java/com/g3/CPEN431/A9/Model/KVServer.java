@@ -6,10 +6,7 @@ import java.net.*;
 import java.util.Arrays;
 import java.util.concurrent.*;
 import ca.NetSysLab.ProtocolBuffers.Message;
-import com.g3.CPEN431.A9.Model.Distribution.EpidemicServer;
-import com.g3.CPEN431.A9.Model.Distribution.KeyTransferManager;
-import com.g3.CPEN431.A9.Model.Distribution.Node;
-import com.g3.CPEN431.A9.Model.Distribution.NodesCircle;
+import com.g3.CPEN431.A9.Model.Distribution.*;
 import com.g3.CPEN431.A9.Model.Store.StoreCache;
 
 public class KVServer {
@@ -25,11 +22,15 @@ public class KVServer {
     private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
     public static int port;
 
+    Replication replication;
+
+
     public KVServer(int port) {
         this.port = port;
         try {
             socket = new DatagramSocket(port);
             keyTransferManager.setSocket(socket);
+            replication = new Replication(this.socket);
             NodesCircle nodesCircle = NodesCircle.getInstance();
             Node node = nodesCircle.getNodeFromIp(InetAddress.getLocalHost().getHostAddress(), port);
 
@@ -80,7 +81,7 @@ public class KVServer {
                         (Arrays.copyOfRange(buf, 0, packet.getLength()));
 
                 pool.execute(new KVServerHandler(requestMessage,
-                        socket, packet.getAddress(), packet.getPort()));
+                        socket, packet.getAddress(), packet.getPort(), replication));
             } catch (IOException e) {
                 System.out.println("[ KVServer, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
                         + e.getLocalizedMessage() + e.getMessage());
