@@ -110,12 +110,12 @@ public class KVServerHandler implements Runnable {
 //                }
 
                 ByteString key = reqPayload.getKey();
-//                if((command == Command.PUT.getCode() || command == Command.REMOVE.getCode()) && (!replication.isPrimary(key))) {
-//                    reRoute(nodesCircle.findNodebyKey(key));
-//                    return;
-//                }
+                if((command == Command.PUT.getCode() || command == Command.REMOVE.getCode()) && (!replication.isPrimary(key))) {
+                    reRoute(nodesCircle.findNodebyKey(key));
+                    return;
+                }
 
-                if(!replication.isPrimary(key)) {
+                if((command == Command.GET.getCode()) && (!replication.isPrimaryOrBackup(key))) {
                     reRoute(nodesCircle.findNodebyKey(key));
                     return;
                 }
