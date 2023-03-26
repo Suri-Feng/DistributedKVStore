@@ -3,6 +3,8 @@ package com.g3.CPEN431.A9.Model.Distribution;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.Internal;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,7 @@ public class NodesCircle {
     private final ConcurrentHashMap<Integer, Node> aliveNodesList;
     private final ConcurrentHashMap<Integer, Node> allNodesList;
     private final ConcurrentHashMap<Integer, Node> deadNodesList;
+    private ConcurrentHashMap<Integer, Node> myPredecessors;
     private int startupNodesSize;
     private int thisNodeId;
 
@@ -27,6 +30,7 @@ public class NodesCircle {
         aliveNodesList = new ConcurrentHashMap<>();
         allNodesList = new ConcurrentHashMap<>();
         deadNodesList = new ConcurrentHashMap<>();
+        myPredecessors = new ConcurrentHashMap<>();
         thisNodeId = -1;
         currentNode = null;
     }
@@ -45,7 +49,7 @@ public class NodesCircle {
 ////            System.out.println(entry.getKey());
 //            System.out.println(entry.getValue().getPort());
 //        }
-//        System.out.println("==========");
+//        System.out.println("==========")
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -131,6 +135,30 @@ public class NodesCircle {
         return nodes;
     }
 
+    public void updateMyPredecessor() {
+        this.myPredecessors = findPredessorNodes(this.getCurrentNode());
+    }
+
+    public ConcurrentHashMap<Integer, Node> findPredessorNodes(Node node) {
+        int hash1 = getCircleBucketFromHash(node.getSha256Hash());
+        int hash2 = getCircleBucketFromHash(node.getSha512Hash());
+        int hash3 = getCircleBucketFromHash(node.getSha384Hash());
+        int[] hashes = {hash1, hash2, hash3};
+        ConcurrentHashMap<Integer, Node> nodes = new ConcurrentHashMap<>();
+
+        for (int hash: hashes) {
+            Node predNode = null;
+            Integer lowerKey = hash;
+            do {
+                lowerKey = circle.lowerKey(lowerKey);
+                lowerKey = lowerKey == null ? circle.lastKey() : lowerKey;
+                predNode = circle.get(lowerKey);
+            } while (predNode == node);
+            nodes.put(predNode.getId(), predNode);
+        }
+        return nodes;
+    }
+
     public Node getNodeFromIp(String address, int port) {
         for (Node node: allNodesList.values()) {
             if (node.getAddress().getHostAddress().equals(address) && node.getPort() == port) {
@@ -143,6 +171,7 @@ public class NodesCircle {
     public void setThisNodeId(int id) {
         this.thisNodeId = id;
         currentNode = getNodeById(id);
+        updateMyPredecessor();
     }
 
     public int getThisNodeId() {
@@ -178,6 +207,10 @@ public class NodesCircle {
     }
     public ConcurrentHashMap<Integer, Node> getDeadNodesList() {
         return deadNodesList;
+    }
+
+    public ConcurrentHashMap<Integer, Node> getMyPredessors() {
+        return this.myPredecessors;
     }
 
     public Node getCurrentNode() {

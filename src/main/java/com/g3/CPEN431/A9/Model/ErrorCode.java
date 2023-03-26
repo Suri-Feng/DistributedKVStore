@@ -8,7 +8,8 @@ public enum ErrorCode {
     INTERNAL_FAILURE (0x04),
     UNKNOWN_COMMAND(0x05),
     INVALID_KEY (0x06),
-    INVALID_VALUE (0x07);
+    INVALID_VALUE (0x07),
+    WAIT_FOR_ACK(21);
     private final int code;
     public int getCode() {
         return code;

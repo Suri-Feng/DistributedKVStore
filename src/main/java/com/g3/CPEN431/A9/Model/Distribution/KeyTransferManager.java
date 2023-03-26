@@ -33,8 +33,7 @@ public class KeyTransferManager {
         this.socket = null;
     }
 
-    public List<ByteString> transferKeysWithinRange(Node recoveredNode, List<KeyValueRequest.HashRange> hashRanges) {
-        List<ByteString> keysToTransfer = new ArrayList<>();
+    public List<KeyValueRequest.KeyValueEntry> transferKeysWithinRange(Node recoveredNode, List<KeyValueRequest.HashRange> hashRanges) {
         List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
 
         for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
@@ -49,7 +48,6 @@ public class KeyTransferManager {
             if ((ringHash <= hashRanges.get(0).getMaxRange() && ringHash >= hashRanges.get(0).getMinRange()) ||
                     (ringHash <= hashRanges.get(1).getMaxRange() && ringHash >= hashRanges.get(1).getMinRange()) ||
                     (ringHash <= hashRanges.get(2).getMaxRange() && ringHash >= hashRanges.get(2).getMinRange())) {
-                keysToTransfer.add(entry.getKey());
 
                 allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                         .setVersion(entry.getValue().getVersion())
@@ -65,7 +63,7 @@ public class KeyTransferManager {
         } else {
 //            System.out.println(KVServer.port + "has no keys for " + recoveredNode.getPort());
         }
-        return keysToTransfer;
+        return allPairs;
     }
     public void sendMessageToSuccessor(Set<Node> successorNodes, Node recoveredNode) {
         byte[] msg_id = new byte[0];
