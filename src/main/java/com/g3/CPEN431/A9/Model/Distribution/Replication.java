@@ -28,22 +28,13 @@ import static com.g3.CPEN431.A9.Utility.NetUtils.getChecksum;
 
 public class Replication {
     private final DatagramSocket socket;
-    private final ConcurrentHashMap<ByteString, WriteAcks> writeAckCache;
     private final KVStore store = KVStore.getInstance();
     private final StoreCache storeCache = StoreCache.getInstance();
     private final NodesCircle nodesCircle = NodesCircle.getInstance();
     KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
 
-    private static final int TIME_OUT = 300; // Assume a message propagation time = 1 second
-    public static final int DEFAULT_CACHE_SIZE = 150;
-
     public Replication(DatagramSocket socket) {
         this.socket = socket;
-//        this.writeAckCache = Caffeine.newBuilder()
-//                .maximumSize(DEFAULT_CACHE_SIZE)
-//                .expireAfterWrite(TIME_OUT, TimeUnit.SECONDS)
-//                .build();
-        this.writeAckCache = new ConcurrentHashMap<>();
     }
 
 
@@ -62,39 +53,6 @@ public class Replication {
         }
         return false;
     }
-
-//    public void createWriteAckCache(ByteString messageID, InetAddress clientAddress, Integer clientPort) {
-//        writeAckCache.put(messageID, new WriteAcks(clientAddress, clientPort));
-//        //System.out.println("after put" + writeAckCache.size());
-//    }
-
-//    public void updateWriteAckCacheNEK(ByteString messageID) {
-//        WriteAcks writeAcks = writeAckCache.get(messageID);
-//        writeAckCache.remove(messageID);
-//        sendNEKToClient(writeAcks.getClientAddress(), writeAcks.getClientPort(), messageID);
-//    }
-
-    // Only primary
-    // Change to recv Ack
-//    public void updateWriteAckCache(ByteString messageID) throws InvalidProtocolBufferException {
-//        WriteAcks writeAcks = writeAckCache.get(messageID);
-//
-////        WriteAcks writeAcks = writeAckCache.getIfPresent(messageID);
-//        if (writeAcks == null) {
-//            System.out.println("=======Error in write ack cache" + writeAckCache.size());
-//            return;
-//        }
-//
-//        writeAcks.updateAck();
-//        writeAckCache.put(messageID, writeAcks);
-//
-//        if (writeAcks.allBackupsAcked()) {
-//            sendSuccessToClient(writeAcks.getClientAddress(), writeAcks.getClientPort(), messageID);
-//            //System.out.println("all acked" + messageID);
-//            writeAckCache.remove(messageID);
-//        }
-//    }
-
 
     public void takePrimaryPosition(Node deadPrimary) {
         List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
@@ -173,91 +131,4 @@ public class Replication {
         }
     }
 
-//    public void sendAckToPrimary(InetAddress primaryAddress, Integer primaryPort, ByteString messageID) {
-//        sendToPrimary(primaryAddress, primaryPort, messageID, Command.BACKUP_ACK);
-//    }
-//
-//    public void sendNEKToPrimary(InetAddress primaryAddress, Integer primaryPort, ByteString messageID) {
-//        sendToPrimary(primaryAddress, primaryPort, messageID, Command.BACKUP_NONEXISTENT_KEY);
-//    }
-//    public void sendToPrimary(InetAddress primaryAddress, Integer primaryPort, ByteString messageID, Command code) {
-//        KeyValueRequest.KVRequest request = KeyValueRequest.KVRequest.newBuilder()
-//                .setCommand(code.getCode())
-//                .build();
-//
-//        Message.Msg requestMessage = Message.Msg.newBuilder()
-//                .setMessageID(messageID)
-//                .setPayload(request.toByteString())
-//                .setCheckSum(getChecksum(messageID.toByteArray(), request.toByteArray()))
-//                .build();
-//
-//        byte[] requestBytes = requestMessage.toByteArray();
-//        DatagramPacket packet = new DatagramPacket(
-//                requestBytes,
-//                requestBytes.length,
-//                primaryAddress,
-//                primaryPort);
-//
-//        try {
-//            socket.send(packet);
-//        } catch (IOException e) {
-//            System.out.println("====================");
-//            System.out.println("[sendWriteAckToPrimary]" + e.getMessage());
-//            System.out.println("====================");
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-    // out-of-space - Can be sent by all -> called when handle BACKUP_WRITE
-    public void sendOutOfSpaceToClient(InetAddress clientAddress, Integer clientPort, ByteString messageID) {
-        Message.Msg responseMessage1 = storeCache.getCache().getIfPresent(ByteBuffer.wrap(messageID.toByteArray()));
-        if (responseMessage1 != null) {
-            System.out.println("Error - Should not store out-of-space in cache");
-        }
-        Message.Msg responseMessage = sendResponseToClient(clientAddress, clientPort, messageID, ErrorCode.OUT_OF_SPACE);
-    }
-
-    // success - Can be sent by primary only -> called by update write ack cache
-//    public void sendSuccessToClient(InetAddress clientAddress, Integer clientPort, ByteString messageID) {
-//        Message.Msg responseMessage1 = storeCache.getCache().getIfPresent(ByteBuffer.wrap(messageID.toByteArray()));
-//        if (responseMessage1 == null) {
-//            System.out.println("Error - Should have a PUT/REM in cache");
-//        }
-//        Message.Msg responseMessage = sendResponseToClient(clientAddress, clientPort, messageID, ErrorCode.SUCCESSFUL);
-//        storeCache.getCache().put(ByteBuffer.wrap(messageID.toByteArray()), responseMessage);
-//    }
-//    public void sendNEKToClient(InetAddress clientAddress, Integer clientPort, ByteString messageID) {
-//        Message.Msg responseMessage = sendResponseToClient(clientAddress, clientPort, messageID, ErrorCode.NONEXISTENT_KEY);
-//        storeCache.getCache().put(ByteBuffer.wrap(messageID.toByteArray()), responseMessage);
-//    }
-    public Message.Msg sendResponseToClient(InetAddress clientAddress, Integer clientPort, ByteString messageID, ErrorCode code) {
-
-        //System.out.println("Send msg to client, error code" + code);
-        KeyValueResponse.KVResponse response = KeyValueResponse.KVResponse.newBuilder()
-                .setErrCode(code.getCode())
-                .build();
-
-        Message.Msg responseMessage = Message.Msg.newBuilder()
-                .setMessageID(messageID)
-                .setPayload(response.toByteString())
-                .setCheckSum(getChecksum(messageID.toByteArray(), response.toByteArray()))
-                .build();
-
-        byte[] responseBytes = responseMessage.toByteArray();
-        DatagramPacket packet = new DatagramPacket(
-                responseBytes,
-                responseBytes.length,
-                clientAddress,
-                clientPort);
-
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            System.out.println("====================");
-            System.out.println("[sendResponseToClient]" + e.getMessage());
-            System.out.println("====================");
-            throw new RuntimeException(e);
-        }
-        return responseMessage;
-    }
 }

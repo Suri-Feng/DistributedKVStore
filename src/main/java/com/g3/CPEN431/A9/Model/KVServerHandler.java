@@ -110,17 +110,8 @@ public class KVServerHandler implements Runnable {
             // reroute PUT/GET/REMOVE requests if come directly from client and don't belong to current node
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
                 // Find correct node and Reroute
-//                byte[] key = reqPayload.getKey().toByteArray();
-//                String sha256 = Hashing.sha256()
-//                        .hashBytes(key).toString();
-
                 //heartbeatsManager.removeDeadNodes();
-//                Node node = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
-//                if (node.getId() != nodesCircle.getThisNodeId()) {
-//                    reRoute(node);
-//                    return;
-//                }
 
                 ByteString key = reqPayload.getKey();
 
@@ -129,15 +120,6 @@ public class KVServerHandler implements Runnable {
                     return;
                 }
 
-//                if((command == Command.PUT.getCode() || command == Command.REMOVE.getCode()) && (!replication.isPrimary(key))) {
-//                    reRoute(nodesCircle.findNodebyKey(key));
-//                    return;
-//                }
-//
-//                if((command == Command.GET.getCode()) && (!replication.isPrimaryOrBackup(key))) {
-//                    reRoute(nodesCircle.findNodebyKey(key));
-//                    return;
-//                }
             }
 
             if (command == Command.BACKUP_WRITE.getCode()) {
@@ -149,16 +131,6 @@ public class KVServerHandler implements Runnable {
                 backupREM(reqPayload);
                 return;
             }
-
-//            if (command == Command.BACKUP_ACK.getCode()) {
-//                handleBackupAck();
-//                return;
-//            }
-//
-//            if (command == Command.BACKUP_NONEXISTENT_KEY.getCode()) {
-//                handleBackupNEK();
-//                return;
-//            }
 
             // 1. request comes from another node who thinks I'm the right node
             // 2. request from client, but I think im the right node
@@ -366,10 +338,6 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                             .build();
                 }
-
-//                replication.createWriteAckCache(requestMessage.getMessageID(),
-//                        requestMessage.hasClientAddress()? InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()): address,
-//                        requestMessage.hasClientPort()? requestMessage.getClientPort(): port);
 
                 store.getStore().remove(key);
 
