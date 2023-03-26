@@ -43,12 +43,17 @@ public class KVServer {
                 EpidemicServer server = new EpidemicServer(socket, node.getId());
                 ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
                 epidemicService.scheduleAtFixedRate(
-                        server, 0, 10, TimeUnit.MILLISECONDS);
+                        server, 0, 30, TimeUnit.MILLISECONDS);
+                NodeStatusChecker checker = new NodeStatusChecker();
+                ScheduledExecutorService nodeCheckService = Executors.newScheduledThreadPool(1);
+                epidemicService.scheduleAtFixedRate(
+                        checker, 0, 1000, TimeUnit.MILLISECONDS);
             } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
                 System.exit(0);
             }
         } catch (Exception e) {
+            System.out.println("[KVServer]" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -83,6 +88,7 @@ public class KVServer {
                 pool.execute(new KVServerHandler(requestMessage,
                         socket, packet.getAddress(), packet.getPort(), replication));
             } catch (IOException e) {
+                System.out.println("[ KVServer ]");
                 System.out.println("[ KVServer, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
                         + e.getLocalizedMessage() + e.getMessage());
                 throw new RuntimeException(e);

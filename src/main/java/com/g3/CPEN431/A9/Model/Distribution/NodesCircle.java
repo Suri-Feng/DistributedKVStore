@@ -54,7 +54,6 @@ public class NodesCircle {
 
     public void setNodeList(ArrayList<Node> list) {
         for (Node node: list) {
-            this.aliveNodesList.put(node.getId(), node);
             this.allNodesList.put(node.getId(), node);
         }
         this.startupNodesSize = this.allNodesList.size();
@@ -171,6 +170,13 @@ public class NodesCircle {
     public void setThisNodeId(int id) {
         this.thisNodeId = id;
         currentNode = getNodeById(id);
+        for(Node node: allNodesList.values()) {
+            if (node == currentNode) {
+                aliveNodesList.put(currentNode.getId(), currentNode);
+            } else {
+                deadNodesList.put(node.getId(), node);
+            }
+        }
         updateMyPredecessor();
     }
 

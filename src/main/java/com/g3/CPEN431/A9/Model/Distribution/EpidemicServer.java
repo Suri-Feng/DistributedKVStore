@@ -13,7 +13,7 @@ import java.util.Random;
 
 
 public class EpidemicServer implements Runnable {
-    public static final int NUM_NEIGHBOURS = 2;
+    public static final int NUM_NEIGHBOURS = 4;
     private final NodesCircle nodesCircle = NodesCircle.getInstance();
     private final HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
     private final DatagramSocket socket;
@@ -29,9 +29,9 @@ public class EpidemicServer implements Runnable {
     @Override
     public void run() {
         // if only the current node is alive, no need to gossip
-        if (nodesCircle.getAliveNodesCount() == 1) {
-            return;
-        }
+//        if (nodesCircle.getAliveNodesCount() == 1) {
+//            return;
+//        }
 
         for (int i = 0; i < NUM_NEIGHBOURS; i++) {
             int randomInt;

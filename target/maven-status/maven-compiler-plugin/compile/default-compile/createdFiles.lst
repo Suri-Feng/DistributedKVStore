@@ -4,7 +4,6 @@ com/g3/CPEN431/A9/Model/Distribution/EpidemicServer.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse$KVResponse$1.class
 com/g3/CPEN431/A9/Model/Distribution/HeartbeatsManager.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$HashRange$Builder.class
-com/g3/CPEN431/A9/Model/Distribution/WriteAcks.class
 ca/NetSysLab/ProtocolBuffers/Message$Msg$Builder.class
 com/g3/CPEN431/A9/Model/KVServerHandler.class
 com/g3/CPEN431/A9/Model/KVServer.class
@@ -40,4 +39,5 @@ ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class
 com/g3/CPEN431/A9/Model/Store/StoreCache.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class
 com/g3/CPEN431/A9/Model/Distribution/Node.class
+com/g3/CPEN431/A9/Model/Distribution/NodeStatusChecker.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry$Builder.class

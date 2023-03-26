@@ -52,23 +52,6 @@ public class KVServerHandler implements Runnable {
 
     private void manageHeartBeats(List<Long> heartbeatList) {
         heartbeatsManager.updateHeartbeats(heartbeatList);
-        List<Node> recoveredNodes = heartbeatsManager.updateNodesStatus();
-
-        boolean predecessorUpdated = false;
-        for (Map.Entry<Integer, Node> entry: nodesCircle.getDeadNodesList().entrySet()) {
-            if(nodesCircle.getMyPredessors().containsKey(entry.getKey())) {
-                predecessorUpdated = true;
-                replication.takePrimaryPosition(entry.getValue());
-                nodesCircle.getMyPredessors().remove(entry.getKey());
-            }
-        }
-
-        if(predecessorUpdated) nodesCircle.updateMyPredecessor();
-
-        for (Node node: recoveredNodes) {
-            Set<Node> successorNodes = nodesCircle.findSuccessorNodes(node);
-            keyTransferManager.sendMessageToSuccessor(successorNodes, node);
-        }
     }
 
     @Override
@@ -104,14 +87,13 @@ public class KVServerHandler implements Runnable {
                         keyTransferManager.sendMessage(allPairs, backupNode);
                     }
                 }
+                System.gc();
 //                System.out.println(KVServer.port + " is a successor of " + node.getPort());
             }
 
             // reroute PUT/GET/REMOVE requests if come directly from client and don't belong to current node
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
                 // Find correct node and Reroute
-                //heartbeatsManager.removeDeadNodes();
-
 
                 ByteString key = reqPayload.getKey();
 
@@ -364,7 +346,6 @@ public class KVServerHandler implements Runnable {
                         .setPid(KVServer.PROCESS_ID)
                         .build();
             case GET_MEMBERSHIP_COUNT:
-//                heartbeatsManager.removeDeadNodes();
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .setMembershipCount(nodesCircle.getAliveNodesCount())
@@ -375,7 +356,7 @@ public class KVServerHandler implements Runnable {
                 .build();
     }
 
-    private  void wipeOut() {
+    private void wipeOut() {
         store.clearStore();
         storeCache.clearCache();
         Runtime.getRuntime().freeMemory();
