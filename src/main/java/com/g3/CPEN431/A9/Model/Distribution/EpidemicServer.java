@@ -40,10 +40,22 @@ public class EpidemicServer implements Runnable {
             int randomInt;
             Node randomNode;
 
-            do {
-                randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
-                randomNode = nodesCircle.getNodeById(randomInt);
-            } while (randomNode.getId() == myNodeId);
+            if (nodesCircle.getAliveNodesCount() == 1) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                do {
+                    randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
+                    randomNode = nodesCircle.getNodeById(randomInt);
+                } while (randomNode.getId() == myNodeId);
+            } else {
+                do {
+                    randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
+                    randomNode = nodesCircle.getNodeById(randomInt);
+                } while (randomNode.getId() == myNodeId && heartbeatsManager.isNodeAlive(randomNode));
+            }
 
             heartbeatsManager.getHeartBeats().put(myNodeId, System.currentTimeMillis());
             byte[] requestBytes = packMessage();
@@ -66,7 +78,9 @@ public class EpidemicServer implements Runnable {
     }
 
     private byte[] packMessage() {
-        ByteString messageID = generateMessageID(socket);
+        //ByteString messageID = generateMessageID(socket);
+
+        byte[] messageID = new byte[1];
         Collection<Long> heartbeats = heartbeatsManager.getHeartBeats().values();
         KeyValueRequest.KVRequest gossip = KeyValueRequest.KVRequest.newBuilder()
                 .setCommand(Command.HEARTBEAT.getCode())
@@ -75,9 +89,9 @@ public class EpidemicServer implements Runnable {
 
         // Create the message
         Message.Msg requestMessage = Message.Msg.newBuilder()
-                .setMessageID(messageID)
+                .setMessageID(ByteString.copyFrom(messageID))
                 .setPayload(gossip.toByteString())
-                .setCheckSum(getChecksum(messageID.toByteArray(),gossip.toByteArray()))
+                .setCheckSum(0)
                 .build();
 
         return requestMessage.toByteArray();

@@ -9,10 +9,8 @@ import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 import org.checkerframework.checker.units.qual.A;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.net.DatagramSocket;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NodeStatusChecker implements Runnable {
@@ -22,12 +20,18 @@ public class NodeStatusChecker implements Runnable {
 
     private final KVStore store = KVStore.getInstance();
 
+    public NodeStatusChecker() {}
+
     @Override
     public void run() {
         ConcurrentHashMap<Integer, Node> deadNodes = nodesCircle.getDeadNodesList();
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
         ConcurrentHashMap<Integer, Node> allNodes = nodesCircle.getAllNodesList();
         ArrayList<Integer> recoveredNodeIds = new ArrayList<>();
+
+//        if(KVServer.port == 12385) {
+//            System.out.println("12385 my time, " + System.currentTimeMillis() + ", " + (System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(nodesCircle.getCurrentNode().getId())));
+//        }
 
         for (Node node : allNodes.values()) {
             //if (node == nodesCircle.getCurrentNode()) continue;
@@ -129,5 +133,6 @@ public class NodeStatusChecker implements Runnable {
             }
         }
     }
+
 
 }

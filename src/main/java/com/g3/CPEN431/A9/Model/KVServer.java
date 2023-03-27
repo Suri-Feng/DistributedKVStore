@@ -19,12 +19,11 @@ public class KVServer {
     private final StoreCache storeCache = StoreCache.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-    ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
-    ScheduledExecutorService nodeCheckService = Executors.newScheduledThreadPool(1);
+    ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
     private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
     public static int port;
 
-    Replication replication;
+   // Replication replication;
 
 
     public KVServer(int port) {
@@ -32,7 +31,7 @@ public class KVServer {
         try {
             socket = new DatagramSocket(port);
             keyTransferManager.setSocket(socket);
-            replication = new Replication(this.socket);
+            //replication = new Replication(this.socket);
             NodesCircle nodesCircle = NodesCircle.getInstance();
             Node node = nodesCircle.getNodeFromIp(InetAddress.getLocalHost().getHostAddress(), port);
 
@@ -41,13 +40,13 @@ public class KVServer {
                 System.out.println("Server running on port: " + node.getPort());
                 nodesCircle.setThisNodeId(node.getId());
 
-                NodeStatusChecker checker = new NodeStatusChecker();
-                nodeCheckService.scheduleAtFixedRate(
-                        checker, 0, 1000, TimeUnit.MILLISECONDS);
+//                NodeStatusChecker checker = new NodeStatusChecker();
+//                scheduledExecutorService.scheduleAtFixedRate(
+//                        checker, 0, 50, TimeUnit.MILLISECONDS);
 
                 // start epidemic server
                 EpidemicServer server = new EpidemicServer(socket, node.getId());
-                epidemicService.scheduleAtFixedRate(
+                scheduledExecutorService.scheduleAtFixedRate(
                         server, 0, 50, TimeUnit.MILLISECONDS);
             } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
@@ -87,7 +86,7 @@ public class KVServer {
                         (Arrays.copyOfRange(buf, 0, packet.getLength()));
 
                 pool.execute(new KVServerHandler(requestMessage,
-                        socket, packet.getAddress(), packet.getPort(), replication));
+                        socket, packet.getAddress(), packet.getPort()));
             } catch (IOException e) {
                 System.out.println("[ KVServer ]");
                 System.out.println("[ KVServer, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
