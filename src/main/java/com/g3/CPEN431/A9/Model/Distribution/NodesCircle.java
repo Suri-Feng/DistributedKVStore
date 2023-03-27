@@ -88,6 +88,12 @@ public class NodesCircle {
         deadNodesList.remove(node.getId());
     }
 
+
+//    public List<KeyValueRequest.HashRange> getInitialNodeRange(Node node) {
+//
+//    }
+
+    // Get current hash range
     public List<KeyValueRequest.HashRange> getRecoveredNodeRange(Node recoveredNode) {
         int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
         int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
@@ -170,13 +176,6 @@ public class NodesCircle {
     public void setThisNodeId(int id) {
         this.thisNodeId = id;
         currentNode = getNodeById(id);
-        for(Node node: allNodesList.values()) {
-            if (node == currentNode) {
-                aliveNodesList.put(currentNode.getId(), currentNode);
-            } else {
-                deadNodesList.put(node.getId(), node);
-            }
-        }
         updateMyPredecessor();
     }
 

@@ -19,6 +19,8 @@ public class KVServer {
     private final StoreCache storeCache = StoreCache.getInstance();
     private final DatagramSocket socket;
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+    ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
+    ScheduledExecutorService nodeCheckService = Executors.newScheduledThreadPool(1);
     private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
     public static int port;
 
@@ -39,15 +41,14 @@ public class KVServer {
                 System.out.println("Server running on port: " + node.getPort());
                 nodesCircle.setThisNodeId(node.getId());
 
+                NodeStatusChecker checker = new NodeStatusChecker();
+                nodeCheckService.scheduleAtFixedRate(
+                        checker, 0, 1000, TimeUnit.MILLISECONDS);
+
                 // start epidemic server
                 EpidemicServer server = new EpidemicServer(socket, node.getId());
-                ScheduledExecutorService epidemicService = Executors.newScheduledThreadPool(1);
                 epidemicService.scheduleAtFixedRate(
-                        server, 0, 30, TimeUnit.MILLISECONDS);
-                NodeStatusChecker checker = new NodeStatusChecker();
-                ScheduledExecutorService nodeCheckService = Executors.newScheduledThreadPool(1);
-                epidemicService.scheduleAtFixedRate(
-                        checker, 0, 1000, TimeUnit.MILLISECONDS);
+                        server, 0, 50, TimeUnit.MILLISECONDS);
             } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
                 System.exit(0);

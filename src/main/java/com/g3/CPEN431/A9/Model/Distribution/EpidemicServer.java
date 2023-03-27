@@ -11,9 +11,12 @@ import java.net.*;
 import java.util.Collection;
 import java.util.Random;
 
+import static com.g3.CPEN431.A9.Utility.NetUtils.generateMessageID;
+import static com.g3.CPEN431.A9.Utility.NetUtils.getChecksum;
+
 
 public class EpidemicServer implements Runnable {
-    public static final int NUM_NEIGHBOURS = 4;
+    public static final int NUM_NEIGHBOURS = 2;
     private final NodesCircle nodesCircle = NodesCircle.getInstance();
     private final HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
     private final DatagramSocket socket;
@@ -63,8 +66,7 @@ public class EpidemicServer implements Runnable {
     }
 
     private byte[] packMessage() {
-        // messageID
-        byte[] msg_id = new byte[1];
+        ByteString messageID = generateMessageID(socket);
         Collection<Long> heartbeats = heartbeatsManager.getHeartBeats().values();
         KeyValueRequest.KVRequest gossip = KeyValueRequest.KVRequest.newBuilder()
                 .setCommand(Command.HEARTBEAT.getCode())
@@ -73,9 +75,9 @@ public class EpidemicServer implements Runnable {
 
         // Create the message
         Message.Msg requestMessage = Message.Msg.newBuilder()
-                .setMessageID(ByteString.copyFrom(msg_id))
+                .setMessageID(messageID)
                 .setPayload(gossip.toByteString())
-                .setCheckSum(0)
+                .setCheckSum(getChecksum(messageID.toByteArray(),gossip.toByteArray()))
                 .build();
 
         return requestMessage.toByteArray();

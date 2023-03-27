@@ -18,7 +18,7 @@ public class HeartbeatsManager {
         for (int i = 0; i < nodesCircle.getStartupNodesSize(); i++) {
             heartBeats.put(i, nodesCircle.getCurrentNode().getId() == i? System.currentTimeMillis():0L);
         }
-        metric = (long) (30 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 800));
+        metric = (long) (50 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 800));
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
@@ -31,7 +31,7 @@ public class HeartbeatsManager {
         if (node.getId() == nodesCircle.getThisNodeId()) {
             return true;
         }
-        return System.currentTimeMillis() - heartBeats.get(node.getId()) <= metric;
+        return (System.currentTimeMillis() - heartBeats.get(node.getId())) <= metric;
     }
 
 

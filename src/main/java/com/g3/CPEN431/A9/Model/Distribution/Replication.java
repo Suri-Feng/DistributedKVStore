@@ -33,6 +33,7 @@ public class Replication {
     private final NodesCircle nodesCircle = NodesCircle.getInstance();
     KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
 
+
     public Replication(DatagramSocket socket) {
         this.socket = socket;
     }
@@ -52,33 +53,6 @@ public class Replication {
             if(node.getId() == backupNode.getId()) return true;
         }
         return false;
-    }
-
-    public void takePrimaryPosition(Node deadPrimary) {
-        List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
-        List<KeyValueRequest.HashRange> hashRanges = nodesCircle.getRecoveredNodeRange(deadPrimary);
-        for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
-            String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
-            int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
-
-            if ((ringHash <= hashRanges.get(0).getMaxRange() && ringHash >= hashRanges.get(0).getMinRange()) ||
-                    (ringHash <= hashRanges.get(1).getMaxRange() && ringHash >= hashRanges.get(1).getMinRange()) ||
-                    (ringHash <= hashRanges.get(2).getMaxRange() && ringHash >= hashRanges.get(2).getMinRange())) {
-
-                allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
-                        .setVersion(entry.getValue().getVersion())
-                        .setValue(entry.getValue().getValue())
-                        .setKey(entry.getKey())
-                        .build());
-            }
-        }
-
-        if(!allPairs.isEmpty()) {
-            Set<Node> backupNodes = nodesCircle.findSuccessorNodes(nodesCircle.getCurrentNode());
-            for (Node backupNode: backupNodes) {
-                keyTransferManager.sendMessage(allPairs, backupNode);
-            }
-        }
     }
 
     // Send put/ rem
