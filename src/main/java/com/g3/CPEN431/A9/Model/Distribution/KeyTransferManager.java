@@ -13,10 +13,8 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentNavigableMap;
 
 public class KeyTransferManager {
     private DatagramSocket socket;
@@ -139,4 +137,12 @@ public class KeyTransferManager {
             }
         }
     }
+
+    /*
+     * 1. Get the tail map of the key ring hash
+     * 2. If tail map is empty, the first node in the ring is primary, find 3 unique immediate successors different from primary
+     * 3. If not empty, the first node in the tail map is primary, as long as tail map still has entries, find successors from tail map, otherwise find from circle
+     * This doesn't consider the case where the circle has less than 4 nodes
+     */
+
 }
