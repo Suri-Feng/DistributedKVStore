@@ -45,64 +45,64 @@ public class Replication {
         return nodesCircle.findNodebyKey(key).getId() == nodesCircle.getThisNodeId();
     }
 
-    public boolean isPrimaryOrBackup(ByteString key) {
-        Node node = nodesCircle.findNodebyKey(key);
-        if(node.getId() == nodesCircle.getThisNodeId()) return true;
-        Set<Node> backupNodes = nodesCircle.findSuccessorNodes(nodesCircle.getCurrentNode());
-        for (Node backupNode: backupNodes) {
-            if(node.getId() == backupNode.getId()) return true;
-        }
-        return false;
-    }
-
-    // Send put/ rem
-    public void sendWriteToBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID, Boolean remove) {
-        Set<Node> backupNodes = nodesCircle.findSuccessorNodes(nodesCircle.getCurrentNode());
-
-        for (Node backupNode: backupNodes) {
-
-            KeyValueRequest.KVRequest request;
-
-            if(remove)
-            {
-                request = KeyValueRequest.KVRequest.newBuilder()
-                        .setCommand(Command.BACKUP_REM.getCode())
-                        .build();
-            }
-            else
-            {
-                request = KeyValueRequest.KVRequest.newBuilder()
-                        .setCommand(Command.BACKUP_WRITE.getCode())
-                        .setKey(reqPayload.getKey())
-                        .setValue(reqPayload.getValue())
-                        .setVersion(reqPayload.getVersion())
-                        .build();
-            }
-
-            Message.Msg requestMessage = Message.Msg.newBuilder()
-                    .setMessageID(MessageID)
-                    .setPayload(request.toByteString())
-                    .setCheckSum(getChecksum(MessageID.toByteArray(), request.toByteArray()))
-//                    .setClientAddress(ByteString.copyFrom(Objects.requireNonNull(writeAckCache.get(MessageID)).getClientAddress().getAddress()))
-//                    .setClientPort(Objects.requireNonNull(writeAckCache.get(MessageID)).getClientPort())
-                    .build();
-
-            byte[] requestBytes = requestMessage.toByteArray();
-            DatagramPacket packet = new DatagramPacket(
-                    requestBytes,
-                    requestBytes.length,
-                    backupNode.getAddress(),
-                    backupNode.getPort());
-
-            try {
-                socket.send(packet);
-            } catch (IOException e) {
-                System.out.println("====================");
-                System.out.println("[sendWriteToBackups]" + e.getMessage());
-                System.out.println("====================");
-                throw new RuntimeException(e);
-            }
-        }
-    }
+//    public boolean isPrimaryOrBackup(ByteString key) {
+//        Node node = nodesCircle.findNodebyKey(key);
+//        if(node.getId() == nodesCircle.getThisNodeId()) return true;
+//        Set<Node> backupNodes = nodesCircle.findSuccessorNodes(nodesCircle.getCurrentNode());
+//        for (Node backupNode: backupNodes) {
+//            if(node.getId() == backupNode.getId()) return true;
+//        }
+//        return false;
+//    }
+//
+//    // Send put/ rem
+//    public void sendWriteToBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID, Boolean remove) {
+//        Set<Node> backupNodes = nodesCircle.findSuccessorNodes(nodesCircle.getCurrentNode());
+//
+//        for (Node backupNode: backupNodes) {
+//
+//            KeyValueRequest.KVRequest request;
+//
+//            if(remove)
+//            {
+//                request = KeyValueRequest.KVRequest.newBuilder()
+//                        .setCommand(Command.BACKUP_REM.getCode())
+//                        .build();
+//            }
+//            else
+//            {
+//                request = KeyValueRequest.KVRequest.newBuilder()
+//                        .setCommand(Command.BACKUP_WRITE.getCode())
+//                        .setKey(reqPayload.getKey())
+//                        .setValue(reqPayload.getValue())
+//                        .setVersion(reqPayload.getVersion())
+//                        .build();
+//            }
+//
+//            Message.Msg requestMessage = Message.Msg.newBuilder()
+//                    .setMessageID(MessageID)
+//                    .setPayload(request.toByteString())
+//                    .setCheckSum(getChecksum(MessageID.toByteArray(), request.toByteArray()))
+////                    .setClientAddress(ByteString.copyFrom(Objects.requireNonNull(writeAckCache.get(MessageID)).getClientAddress().getAddress()))
+////                    .setClientPort(Objects.requireNonNull(writeAckCache.get(MessageID)).getClientPort())
+//                    .build();
+//
+//            byte[] requestBytes = requestMessage.toByteArray();
+//            DatagramPacket packet = new DatagramPacket(
+//                    requestBytes,
+//                    requestBytes.length,
+//                    backupNode.getAddress(),
+//                    backupNode.getPort());
+//
+//            try {
+//                socket.send(packet);
+//            } catch (IOException e) {
+//                System.out.println("====================");
+//                System.out.println("[sendWriteToBackups]" + e.getMessage());
+//                System.out.println("====================");
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
 
 }
