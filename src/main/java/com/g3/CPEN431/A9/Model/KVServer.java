@@ -23,6 +23,8 @@ public class KVServer {
     private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
     public static int port;
 
+    NodesCircle nodesCircle = NodesCircle.getInstance();
+
    // Replication replication;
 
 
@@ -82,6 +84,11 @@ public class KVServer {
 
             try {
                 socket.receive(packet);
+//                if(nodesCircle.getAliveNodesCount() <= 1) {
+//                    byte[] newBuffer = new byte[15000];
+//                    packet.setData(newBuffer);
+//                }
+
                 Message.Msg requestMessage = Message.Msg.parseFrom
                         (Arrays.copyOfRange(buf, 0, packet.getLength()));
 

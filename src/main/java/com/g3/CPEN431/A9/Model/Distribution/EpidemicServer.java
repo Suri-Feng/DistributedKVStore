@@ -40,22 +40,11 @@ public class EpidemicServer implements Runnable {
             int randomInt;
             Node randomNode;
 
-            if (nodesCircle.getAliveNodesCount() == 1) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                do {
-                    randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
-                    randomNode = nodesCircle.getNodeById(randomInt);
-                } while (randomNode.getId() == myNodeId);
-            } else {
-                do {
-                    randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
-                    randomNode = nodesCircle.getNodeById(randomInt);
-                } while (randomNode.getId() == myNodeId && heartbeatsManager.isNodeAlive(randomNode));
-            }
+            do {
+                randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
+                randomNode = nodesCircle.getNodeById(randomInt);
+            } while (randomNode.getId() == myNodeId);
+
 
             heartbeatsManager.getHeartBeats().put(myNodeId, System.currentTimeMillis());
             byte[] requestBytes = packMessage();
@@ -66,10 +55,12 @@ public class EpidemicServer implements Runnable {
                     randomNode.getPort());
 
             try {
+                if (socket.getLocalPort() > 30000 || socket.getPort() > 30000)
+                    System.out.println("Get local port " + socket.getLocalPort() + ", get port " + socket.getPort());
                 socket.send(packet);
             } catch (IOException e) {
                 System.out.println("====================");
-                System.out.println("[ Epidemic, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
+                System.out.println("[ Epidemic, " + socket.getLocalPort() + ", " + Thread.currentThread().getName() + "]: "
                         + e.getMessage() + randomNode.getPort());
                 System.out.println("====================");
                 throw new RuntimeException(e);

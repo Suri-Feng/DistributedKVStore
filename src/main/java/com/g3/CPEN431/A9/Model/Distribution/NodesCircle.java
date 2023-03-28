@@ -206,12 +206,14 @@ public class NodesCircle {
         for (int hash: hashes) {
             Node predNode = null;
             Integer lowerKey = hash;
+            int encounterSelf = -1;
             do {
                 lowerKey = circle.lowerKey(lowerKey);
                 lowerKey = lowerKey == null ? circle.lastKey() : lowerKey;
                 predNode = circle.get(lowerKey);
-            } while (predNode == node);
-            nodes.put(predNode.getId(), predNode);
+                encounterSelf ++;
+            } while (predNode == node && encounterSelf <= 3);
+            if(predNode != node) nodes.put(predNode.getId(), predNode);
         }
         return nodes;
     }
@@ -319,15 +321,17 @@ public class NodesCircle {
         iterator = tailMap.entrySet().iterator();
         Node primary = iterator.next().getValue();
         int nodesFound = 0;
-        while (nodesFound < 3) {
-            if (iterator.hasNext()) {
-                Node node = iterator.next().getValue();
-                // can't be the same as primary, can't be the same as each other
-                if (node != primary && nodes.add(node)) {
-                    nodesFound++;
-                }
-            } else {
-                iterator = circle.entrySet().iterator();
+        boolean updated = false;
+        while (nodesFound < 3 && iterator.hasNext()) {
+            Node node = iterator.next().getValue();
+            // can't be the same as primary, can't be the same as each other
+            if (node != primary && nodes.add(node)) {
+                nodesFound++;
+            }
+
+            if (!updated && !iterator.hasNext()) {
+                iterator = circle.headMap(ringKey).entrySet().iterator();
+                updated = true;
             }
         }
         return nodes;
