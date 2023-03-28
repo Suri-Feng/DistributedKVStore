@@ -315,7 +315,7 @@ public class KVServerHandler implements Runnable {
             case GET:
                     Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
-                       //System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                       System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
@@ -439,7 +439,7 @@ public class KVServerHandler implements Runnable {
 //        }
 
         for(Node node: removedPrimaryHashRanges.keySet())
-            takePrimaryPosition(removedPrimaryHashRanges.get(node), successorNodes);
+            takePrimaryPosition(removedPrimaryHashRanges.get(node));
 
         // Need the updated circle to update predecessor list
         nodesCircle.updateMyPredecessor();
@@ -489,6 +489,7 @@ public class KVServerHandler implements Runnable {
 
 
             // TODO: Instead of sending all keys within 3 ranges, I might only responsible for one range
+            // TODO: This is not the priority for now
             for (KeyValueRequest.HashRange range : hashRanges) {
                 if (ringHash <= range.getMaxRange() && ringHash >= range.getMinRange()) {
 
@@ -511,7 +512,7 @@ public class KVServerHandler implements Runnable {
 
     //If my predecessor dead, I will take the primary postion
     // I will need my predecessor's place on the ring, before remove it
-    public void takePrimaryPosition(List<KeyValueRequest.HashRange> hashRanges, ConcurrentSkipListMap<Integer, ConcurrentHashMap<Integer, Node>> prevSuccessors) {
+    public void takePrimaryPosition(List<KeyValueRequest.HashRange> hashRanges) {
         ConcurrentHashMap<Node, List<KeyValueRequest.KeyValueEntry>> allPairsForNode = new ConcurrentHashMap<>();
         //hashRanges.addAll(nodesCircle.getRecoveredNodeRange(nodesCircle.getCurrentNode()));
 
@@ -523,8 +524,10 @@ public class KVServerHandler implements Runnable {
                 if (ringHash <= range.getMaxRange() && ringHash >= range.getMinRange()) {
 
                     int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
+
+                    // TODO: Only need to pass to one succ (now pass to three), but this is not the priority for now
                     for(Node currentBackup: nodesCircle.getMySuccessors().get(VN).values()) {
-                        if (prevSuccessors.get(VN) == null || !prevSuccessors.get(VN).contains(currentBackup)) {
+
                             if (!allPairsForNode.containsKey(currentBackup))
                                 allPairsForNode.put(currentBackup, new ArrayList<>());
                             allPairsForNode.get(currentBackup).add(KeyValueRequest.KeyValueEntry.newBuilder()
@@ -532,7 +535,7 @@ public class KVServerHandler implements Runnable {
                                     .setValue(entry.getValue().getValue())
                                     .setKey(entry.getKey())
                                     .build());
-                        }
+
                     }
                 }
             }
