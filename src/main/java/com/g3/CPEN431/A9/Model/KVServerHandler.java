@@ -9,6 +9,7 @@ import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.StoreCache;
 import com.g3.CPEN431.A9.Model.Store.Value;
 import com.g3.CPEN431.A9.Utility.StringUtils;
+import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -72,8 +73,14 @@ public class KVServerHandler implements Runnable {
 //                if(KVServer.port == 12385 ) {
 //                    System.out.println("12385 recv heartbeat from " + port + ", before update" +  heartbeatsManager.getHeartBeats().get(port - 12385) + ", "+ (System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(port - 12385)));
 //                }
-                manageHeartBeats(reqPayload.getHeartbeatList());
+                List<Long> heartbeats = reqPayload.getHeartbeatList();
 
+                manageHeartBeats(heartbeats);
+
+                if((System.currentTimeMillis() - heartbeats.get(nodesCircle.getThisNodeId())) > heartbeatsManager.mostPastTime) {
+//                    System.out.println(KVServer.port + " will not update node circle");
+                    return;
+                }
                 updateNodeCircle();
 //                if(KVServer.port == 12385 ) {
 //                    System.out.println("12385 recv heartbeat from " + port + ", after update" + heartbeatsManager.getHeartBeats().get(port - 12385) + ", "+(System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(port - 12385)));
@@ -361,6 +368,15 @@ public class KVServerHandler implements Runnable {
                         .build();
             case GET_MEMBERSHIP_COUNT:
                 updateNodeCircle();
+//                if(KVServer.port == 12390) {
+//                    System.out.println("==========");
+//                    for (Map.Entry<Integer, Node> entry: nodesCircle.getCircle().entrySet()) {
+////            System.out.println(entry.getKey());
+//                        System.out.println(entry.getValue().getPort());
+//                    }
+//                    System.out.println("==========");
+//                }
+
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .setMembershipCount(nodesCircle.getAliveNodesCount())
@@ -379,9 +395,8 @@ public class KVServerHandler implements Runnable {
     }
 
     private boolean isMemoryOverload() {
-        return MemoryUsage.getFreeMemory() < 0.1 * MemoryUsage.getMaxMemory();
+        return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
     }
-
 
 
     public void updateNodeCircle() {
@@ -389,7 +404,7 @@ public class KVServerHandler implements Runnable {
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
         ConcurrentHashMap<Integer, Node> allNodes = nodesCircle.getAllNodesList();
         ConcurrentHashMap<Node, List<KeyValueRequest.HashRange>> removedPrimaryHashRanges = new ConcurrentHashMap<>();
-        ArrayList<Integer> recoveredNodeIds = new ArrayList<>();
+        ConcurrentHashMap<Integer, Node> recoveredNodes = new ConcurrentHashMap<>();
         ConcurrentSkipListMap<Integer, ConcurrentHashMap<Integer, Node>> successorNodes = nodesCircle.getMySuccessors();
 
 //        if(KVServer.port == 12385) {
@@ -414,7 +429,7 @@ public class KVServerHandler implements Runnable {
             } else if (heartbeatsManager.isNodeAlive(node) && !aliveNodes.contains(node)) {
 
                 nodesCircle.rejoinNode(node);
-                recoveredNodeIds.add(node.getId());
+                recoveredNodes.put(node.getId(), node);
 
                 long time = System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(node.getId());
                 long time2 = heartbeatsManager.getHeartBeats().get(node.getId());
@@ -448,9 +463,9 @@ public class KVServerHandler implements Runnable {
 
         //  If my predecessor recovered, I will send keys to predecessor and two other replica (keys belong to my recovered successor)
         // I will need my predecessor's place AFTER it is added to the ring
-        for(Integer nodeId: recoveredNodeIds) {
-            if (nodesCircle.getMyPredessors().containsKey(nodeId)) {
-                recoverPrimaryPosition(allNodes.get(nodeId));
+        for(Node node: recoveredNodes.values()) {
+            if (nodesCircle.getMyPredessors().contains(node)) {
+                recoverPrimaryPosition(node);
             }
         }
 
@@ -462,6 +477,14 @@ public class KVServerHandler implements Runnable {
 //        }
     }
 
+    private boolean keyWithinRange(KeyValueRequest.HashRange hashRange, int ringHash) {
+        if(hashRange.getMinRange() <= hashRange.getMaxRange()) {
+            return (ringHash >= hashRange.getMinRange()) && (ringHash <= hashRange.getMaxRange());
+        }else{
+            return (ringHash <= hashRange.getMaxRange()) || (ringHash >= hashRange.getMinRange());
+        }
+    }
+
     public void updateBackupPosition(Node newBackup, int VN) {
         //System.out.println("Run into update backup");
         // List<KeyValueRequest.HashRange> hashRanges = nodesCircle.getRecoveredNodeRange(nodesCircle.getCurrentNode());
@@ -471,7 +494,7 @@ public class KVServerHandler implements Runnable {
             String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
-            if (ringHash <= hashRange.getMaxRange() && ringHash >= hashRange.getMinRange())
+            if (keyWithinRange(hashRange, ringHash))
                 allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                         .setVersion(entry.getValue().getVersion())
                         .setValue(entry.getValue().getValue())
@@ -486,16 +509,17 @@ public class KVServerHandler implements Runnable {
         List<KeyValueRequest.HashRange> hashRanges = nodesCircle.getRecoveredNodeRange(recoveredPrimary);
         List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
 
-        // Instead of sending all keys within 3 ranges
+        // TODO: Instead of sending all keys within 3 ranges
         // I am only responsible for sending to the range with maxRange just pred to my VN(s)
+        // Send to all for now
         for (KeyValueRequest.HashRange range : hashRanges) {
-            if (!myVNSet.contains(nodesCircle.findSuccVNbyRingHash(range.getMaxRange()))) continue;
+            //if (!myVNSet.contains(nodesCircle.getNextRingHash(range.getMaxRange()))) continue;
 
             for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
                 String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
                 int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
-                if ((ringHash <= range.getMaxRange()) && (ringHash >= range.getMinRange())) {
+                if (keyWithinRange(range, ringHash)) {
                     allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                             .setVersion(entry.getValue().getVersion())
                             .setValue(entry.getValue().getValue())
@@ -524,7 +548,7 @@ public class KVServerHandler implements Runnable {
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
             for(KeyValueRequest.HashRange range: hashRanges) {
-                if (ringHash <= range.getMaxRange() && ringHash >= range.getMinRange()) {
+                if (keyWithinRange(range, ringHash)) {
 
                     int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
 

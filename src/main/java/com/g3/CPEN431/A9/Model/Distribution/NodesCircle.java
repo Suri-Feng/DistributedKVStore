@@ -1,6 +1,7 @@
 package com.g3.CPEN431.A9.Model.Distribution;
 
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
+import com.g3.CPEN431.A9.Model.KVServer;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Internal;
@@ -47,11 +48,11 @@ public class NodesCircle {
             circle.put(hash3, node);
         }
 //        System.out.println("==========");
-//        for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
+//            for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
 ////            System.out.println(entry.getKey());
-//            System.out.println(entry.getValue().getPort());
-//        }
-//        System.out.println("==========")
+//                System.out.println(entry.getValue().getPort());
+//            }
+//        System.out.println("==========");
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -109,6 +110,11 @@ public class NodesCircle {
                         .setMinRange(lowerKey + 1)
                         .setMaxRange(VN)
                         .build();
+    }
+
+    public int getNextRingHash(int ringHash) {
+        Integer higherKey = circle.higherKey(ringHash);
+        return higherKey == null? circle.firstKey() : higherKey;
     }
 
     // Get current hash range
@@ -322,6 +328,10 @@ public class NodesCircle {
         Node primary = iterator.next().getValue();
         int nodesFound = 0;
         boolean updated = false;
+        if (!iterator.hasNext()) {
+            iterator = circle.headMap(ringKey).entrySet().iterator();
+            updated = true;
+        }
         while (nodesFound < 3 && iterator.hasNext()) {
             Node node = iterator.next().getValue();
             // can't be the same as primary, can't be the same as each other

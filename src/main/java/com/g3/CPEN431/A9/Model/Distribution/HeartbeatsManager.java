@@ -12,13 +12,17 @@ public class HeartbeatsManager {
     private final static HeartbeatsManager instance = new HeartbeatsManager();
     public NodesCircle nodesCircle = NodesCircle.getInstance();
     private final long metric;
+    public final long mostPastTime = 50;
+
 
     private HeartbeatsManager() {
         heartBeats = new ConcurrentHashMap<>();
         for (int i = 0; i < nodesCircle.getStartupNodesSize(); i++) {
             heartBeats.put(i, nodesCircle.getCurrentNode().getId() == i? System.currentTimeMillis():0L);
         }
-        metric = (long) (50 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 800));
+        // To find node recover -> a lower bound threshold
+        // To find node suspended faster (and start key transfers faster, stage 1) -> set lower metric
+        metric = (long) (50 * (Math.log(nodesCircle.getStartupNodesSize()) / Math.log(2) + 100));
     }
 
     public void updateHeartbeats(List<Long> receivedHeartbeats) {
@@ -28,11 +32,9 @@ public class HeartbeatsManager {
     }
 
     public boolean isNodeAlive(Node node) {
-        if (node.getId() == nodesCircle.getThisNodeId()) {
-            return true;
-        }
         return (System.currentTimeMillis() - heartBeats.get(node.getId())) <= metric;
     }
+
 
 
     public static HeartbeatsManager getInstance() {
