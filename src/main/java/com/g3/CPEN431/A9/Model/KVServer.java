@@ -24,8 +24,6 @@ public class KVServer {
     public static int port;
 
 
-   // Replication replication;
-
 
     public KVServer(int port) {
         this.port = port;
@@ -40,10 +38,6 @@ public class KVServer {
             if (node != null) {
                 System.out.println("Server running on port: " + node.getPort());
                 nodesCircle.setThisNodeId(node.getId());
-
-//                NodeStatusChecker checker = new NodeStatusChecker();
-//                scheduledExecutorService.scheduleAtFixedRate(
-//                        checker, 0, 50, TimeUnit.MILLISECONDS);
 
                 // start epidemic server
                 if (nodesCircle.getStartupNodesSize() > 1) {

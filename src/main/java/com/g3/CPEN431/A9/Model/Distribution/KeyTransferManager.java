@@ -63,42 +63,6 @@ public class KeyTransferManager {
         }
         return allPairs;
     }
-    public void sendMessageToSuccessor(Set<Node> successorNodes, Node recoveredNode) {
-        byte[] msg_id = new byte[0];
-
-        for (Node node: successorNodes) {
-            List<KeyValueRequest.HashRange> hashRangeList = nodesCircle.getRecoveredNodeRange(recoveredNode);
-            KeyValueRequest.KVRequest req = KeyValueRequest.KVRequest.newBuilder()
-                    .setCommand(Command.SUCCESSOR_NOTIFY.getCode())
-                    .setRecoveredNodeId(recoveredNode.getId())
-                    .addAllHashRanges(hashRangeList)
-                    .build();
-
-            // Create the message
-            Message.Msg requestMessage = Message.Msg.newBuilder()
-                    .setMessageID(ByteString.copyFrom(msg_id))
-                    .setPayload(req.toByteString())
-                    .setCheckSum(0)
-                    .build();
-
-            byte[] requestBytes = requestMessage.toByteArray();
-            DatagramPacket packet = new DatagramPacket(
-                    requestBytes,
-                    requestBytes.length,
-                    node.getAddress(),
-                    node.getPort());
-
-            try {
-                socket.send(packet);
-            } catch (IOException e) {
-                System.out.println("====================");
-                System.out.println("[ Key transfer, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
-                        + e.getMessage());
-                System.out.println("====================");
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     public void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
         byte[] msg_id = new byte[0];

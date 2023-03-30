@@ -89,13 +89,6 @@ public class NodesCircle {
     }
 
 
-//    public List<KeyValueRequest.HashRange> getInitialNodeRange(Node node) {
-//
-//    }
-    public int getPrevRingHash(int ringHash) {
-        Integer lowerKey = circle.lowerKey(ringHash);
-        return lowerKey == null? circle.lastKey() : lowerKey;
-    }
 
     public KeyValueRequest.HashRange getHashRangeByHash(int VN, Node PN) {
         Integer lowerKey = VN;
@@ -113,10 +106,6 @@ public class NodesCircle {
                         .build();
     }
 
-    public int getNextRingHash(int ringHash) {
-        Integer higherKey = circle.higherKey(ringHash);
-        return higherKey == null? circle.firstKey() : higherKey;
-    }
 
     // Get current hash range
     public List<KeyValueRequest.HashRange> getRecoveredNodeRange(Node recoveredNode) {
@@ -168,59 +157,6 @@ public class NodesCircle {
 
         return newSuccForVNs;
     }
-
-//    public ConcurrentHashMap<Integer, Node> findSuccessorNodesHashMap(Node recoveredNode) {
-////        if (aliveNodesList.size() <= 1) return null;
-//        int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
-//        int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
-//        int hash3 = getCircleBucketFromHash(recoveredNode.getSha384Hash());
-//        int[] hashes = {hash1, hash2, hash3};
-//        ConcurrentHashMap<Integer, Node> nodes = new ConcurrentHashMap<>();
-//
-//        for (int hash: hashes) {
-//            Node node = null;
-//            Integer higherKey = hash;
-//            do {
-//                higherKey = circle.higherKey(higherKey);
-//                higherKey = higherKey == null ? circle.firstKey() : higherKey;
-//                node = circle.get(higherKey);
-//            } while (node == recoveredNode);
-//            nodes.put(node.getId(), node);
-//        }
-//        return nodes;
-//    }
-//
-//    public Set<Node> findSuccessorNodes(Node recoveredNode) {
-////        if (aliveNodesList.size() <= 1) return null;
-//        int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
-//        int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
-//        int hash3 = getCircleBucketFromHash(recoveredNode.getSha384Hash());
-//        int[] hashes = {hash1, hash2, hash3};
-//        Set<Node> nodes = new HashSet<>();
-//
-//        for (int hash: hashes) {
-//            Node node = null;
-//            Integer higherKey = hash;
-//            do {
-//                higherKey = circle.higherKey(higherKey);
-//                higherKey = higherKey == null ? circle.firstKey() : higherKey;
-//                node = circle.get(higherKey);
-//            } while (node == recoveredNode);
-//            nodes.add(node);
-//        }
-//        return nodes;
-//    }
-
-//    public ConcurrentHashMap<Integer, Node> updateMyPredecessor() {
-//        ConcurrentHashMap<Integer, Node> preNodes = findPredessorNodes(this.getCurrentNode());
-//        ConcurrentHashMap<Integer, Node> newPreNodes = new ConcurrentHashMap<>();
-//        for (Node node: preNodes.values()) {
-//            if (this.myPredecessors == null || !this.myPredecessors.contains(node))
-//                newPreNodes.put(node.getId(), node);
-//        }
-//        this.myPredecessors = preNodes;
-//        return newPreNodes;
-//    }
 
 
     public Node getNodeFromIp(String address, int port) {

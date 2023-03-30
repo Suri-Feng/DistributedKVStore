@@ -52,17 +52,6 @@ public class EpidemicServer implements Runnable {
                 randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
                 randomNode = nodesCircle.getNodeById(randomInt);
             } while (randomNode.getId() == myNodeId && !heartbeatsManager.isNodeAlive(randomNode));
-//            if (nodesCircle.getAliveNodesCount() == 1) {
-//                do {
-//                    randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
-//                    randomNode = nodesCircle.getNodeById(randomInt);
-//                } while (randomNode.getId() == myNodeId);
-//            } else {
-//                do {
-//                    randomInt = r.nextInt(nodesCircle.getStartupNodesSize());
-//                    randomNode = nodesCircle.getNodeById(randomInt);
-//                } while (randomNode.getId() == myNodeId && heartbeatsManager.isNodeAlive(randomNode));
-//            }
 
             heartbeatsManager.getHeartBeats().put(myNodeId, System.currentTimeMillis());
             byte[] requestBytes = packMessage();

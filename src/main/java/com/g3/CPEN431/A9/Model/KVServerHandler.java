@@ -8,8 +8,6 @@ import com.g3.CPEN431.A9.Utility.MemoryUsage;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.StoreCache;
 import com.g3.CPEN431.A9.Model.Store.Value;
-import com.g3.CPEN431.A9.Utility.StringUtils;
-import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -21,7 +19,6 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.zip.CRC32;
 
 import com.g3.CPEN431.A9.Model.Distribution.KeyTransferManager;
@@ -40,19 +37,16 @@ public class KVServerHandler implements Runnable {
     NodesCircle nodesCircle = NodesCircle.getInstance();
     HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
     KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
-//    Replication replication;
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
                     InetAddress address,
                     int port
-//                    Replication replication
     ) {
         this.socket = socket;
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
-//        this.replication = replication;
     }
 
     private void manageHeartBeats(List<Long> heartbeatList) {
@@ -99,21 +93,6 @@ public class KVServerHandler implements Runnable {
                 return;
             }
 
-            // Receive notify to transfer keys to recovered node as its successor
-            // send to predecessor and other 2 replica
-//            if  (command == Command.SUCCESSOR_NOTIFY.getCode()) {
-//                Node node = nodesCircle.getNodeById(reqPayload.getRecoveredNodeId());
-//                List<KeyValueRequest.HashRange> hashRanges = reqPayload.getHashRangesList();
-//                List<KeyValueRequest.KeyValueEntry> allPairs = keyTransferManager.transferKeysWithinRange(node, hashRanges);
-//                Set<Node> backupNodes = nodesCircle.findSuccessorNodes(node);
-//                for(Node backupNode: backupNodes) {
-//                    if(backupNode != nodesCircle.getCurrentNode()) {
-//                        keyTransferManager.sendMessage(allPairs, backupNode);
-//                    }
-//                }
-//                System.gc();
-////                System.out.println(KVServer.port + " is a successor of " + node.getPort());
-//            }
 
             // reroute PUT/GET/REMOVE requests if come directly from client and don't belong to current node
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
@@ -152,43 +131,26 @@ public class KVServerHandler implements Runnable {
     }
 
 
-//    private void handleBackupNEK() {
-//        replication.updateWriteAckCacheNEK(requestMessage.getMessageID());
-//    }
-//
-//    private void handleBackupAck() throws InvalidProtocolBufferException {
-//        replication.updateWriteAckCache(requestMessage.getMessageID());
-//    }
-
-
         private void backupPUT(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
         if (isMemoryOverload()) {
-            // To client
-//            replication.sendOutOfSpaceToClient(InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
-//                    requestMessage.getClientPort(), requestMessage.getMessageID());
             return;
         }
-        System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+//        System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
         Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
         store.getStore().put(requestPayload.getKey(), valueV);
-        //System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
-        // To primary
-//        replication.sendAckToPrimary(address, port, requestMessage.getMessageID());
     }
 
     private void backupREM(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
         if (store.getStore().get(requestPayload.getKey()) != null) {
-//            replication.sendNEKToPrimary(address, port, requestMessage.getMessageID());
             return;
         }
         // To primary
         store.getStore().remove(requestPayload.getKey());
-//        replication.sendAckToPrimary(address, port, requestMessage.getMessageID());
     }
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
-        System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+//        System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
@@ -220,10 +182,8 @@ public class KVServerHandler implements Runnable {
         byte[] id = requestMessage.getMessageID().toByteArray();
         Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
         if (cachedResponse != null) {
-            //if (KeyValueResponse.KVResponse.parseFrom(cachedResponse.getPayload()).getErrCode() != ErrorCode.WAIT_FOR_ACK.getCode()) {
                 sendResponse(cachedResponse, requestMessage);
-            //}
-            return; // TODO: Currently, will lose the msg if wait for ack in cache
+            return;
         }
 
         // Prepare response payload as per client's command
@@ -240,9 +200,7 @@ public class KVServerHandler implements Runnable {
                 .setCheckSum(checksum.getValue())
                 .build();
 
-        //if ((reqPayload.getCommand() != Command.PUT.getCode()) && (reqPayload.getCommand() != Command.REMOVE.getCode())) {
             sendResponse(responseMsg, requestMessage);
-        //}
         storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
     }
 
@@ -320,9 +278,6 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.OUT_OF_SPACE.getCode())
                             .build();
                 }
-//                replication.createWriteAckCache(requestMessage.getMessageID(),
-//                        requestMessage.hasClientAddress()? InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()): address,
-//                        requestMessage.hasClientPort()? requestMessage.getClientPort(): port);
 
                 Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(key, valueV);
@@ -416,7 +371,6 @@ public class KVServerHandler implements Runnable {
 
 
     public void updateNodeCircle() {
-        ConcurrentHashMap<Integer, Node> deadNodes = nodesCircle.getDeadNodesList();
         ConcurrentHashMap<Integer, Node> aliveNodes = nodesCircle.getAliveNodesList();
         ConcurrentHashMap<Integer, Node> allNodes = nodesCircle.getAllNodesList();
         ConcurrentHashMap<Node, List<KeyValueRequest.HashRange>> removedPrimaryHashRanges = new ConcurrentHashMap<>();
@@ -502,13 +456,8 @@ public class KVServerHandler implements Runnable {
 //                recoverPrimaryPosition(node);
 //            }
 //        }
-
+        nodesCircle.updateMyPredecessor();
 //
-//         If notify the recovered nodes for transfer
-//        for (Node node: recoveredNodes) {
-//            Set<Node> successorNodes = nodesCircle.findSuccessorNodes(node);
-//            keyTransferManager.sendMessageToSuccessor(successorNodes, node);
-//        }
     }
 
     private boolean keyWithinRange(KeyValueRequest.HashRange hashRange, int ringHash) {
@@ -641,8 +590,6 @@ public class KVServerHandler implements Runnable {
                     .setMessageID(MessageID)
                     .setPayload(request.toByteString())
                     .setCheckSum(getChecksum(MessageID.toByteArray(), request.toByteArray()))
-//                    .setClientAddress(ByteString.copyFrom(Objects.requireNonNull(writeAckCache.get(MessageID)).getClientAddress().getAddress()))
-//                    .setClientPort(Objects.requireNonNull(writeAckCache.get(MessageID)).getClientPort())
                     .build();
 
             byte[] requestBytes = requestMessage.toByteArray();
