@@ -138,6 +138,44 @@ public class KeyTransferManager {
         }
     }
 
+    public void sendMessagePrimaryRecover(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
+        byte[] msg_id = new byte[0];
+
+        for (KeyValueRequest.KeyValueEntry entry: allPairs) {
+//            System.out.println(KVServer.port + " sending key transfers to port "
+//                    + recoveredNode.getPort()
+//                    + " key: " + StringUtils.byteArrayToHexString(entry.getKey().toByteArray()));
+
+            KeyValueRequest.KVRequest pairs = KeyValueRequest.KVRequest.newBuilder()
+                    .setCommand(Command.PRIMARY_RECOVER.getCode())
+                    .setPair(entry)
+                    .build();
+
+            // Create the message
+            Message.Msg requestMessage = Message.Msg.newBuilder()
+                    .setMessageID(ByteString.copyFrom(msg_id))
+                    .setPayload(pairs.toByteString())
+                    .setCheckSum(0)
+                    .build();
+
+            byte[] requestBytes = requestMessage.toByteArray();
+            DatagramPacket packet = new DatagramPacket(
+                    requestBytes,
+                    requestBytes.length,
+                    recoveredNode.getAddress(),
+                    recoveredNode.getPort());
+
+            try {
+                socket.send(packet);
+            } catch (IOException e) {
+                System.out.println("====================");
+                System.out.println(e.getMessage());
+                System.out.println("====================");
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     /*
      * 1. Get the tail map of the key ring hash
      * 2. If tail map is empty, the first node in the ring is primary, find 3 unique immediate successors different from primary

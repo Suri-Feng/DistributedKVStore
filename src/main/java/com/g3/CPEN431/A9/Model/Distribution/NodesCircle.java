@@ -1,11 +1,8 @@
 package com.g3.CPEN431.A9.Model.Distribution;
 
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
-import com.g3.CPEN431.A9.Model.KVServer;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.Internal;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,8 +18,8 @@ public class NodesCircle {
     private final ConcurrentHashMap<Integer, Node> aliveNodesList;
     private final ConcurrentHashMap<Integer, Node> allNodesList;
     private final ConcurrentHashMap<Integer, Node> deadNodesList;
-    private ConcurrentHashMap<Integer, Node> myPredecessors;
-    private ConcurrentSkipListMap<Integer, ConcurrentHashMap<Integer, Node>> mySuccessors;
+    private final ConcurrentSkipListMap<Integer, ConcurrentHashMap<Integer, Node>> myPredecessors;
+    private final ConcurrentSkipListMap<Integer, ConcurrentHashMap<Integer, Node>> mySuccessors;
     private int startupNodesSize;
     private int thisNodeId;
 
@@ -32,7 +29,7 @@ public class NodesCircle {
         aliveNodesList = new ConcurrentHashMap<>();
         allNodesList = new ConcurrentHashMap<>();
         deadNodesList = new ConcurrentHashMap<>();
-        myPredecessors = new ConcurrentHashMap<>();
+        myPredecessors =  new ConcurrentSkipListMap<>();
         mySuccessors = new ConcurrentSkipListMap<>();
         thisNodeId = -1;
         currentNode = null;
@@ -95,6 +92,10 @@ public class NodesCircle {
 //    public List<KeyValueRequest.HashRange> getInitialNodeRange(Node node) {
 //
 //    }
+    public int getPrevRingHash(int ringHash) {
+        Integer lowerKey = circle.lowerKey(ringHash);
+        return lowerKey == null? circle.lastKey() : lowerKey;
+    }
 
     public KeyValueRequest.HashRange getHashRangeByHash(int VN, Node PN) {
         Integer lowerKey = VN;
@@ -144,15 +145,28 @@ public class NodesCircle {
         return hashRangeList;
     }
 
-    public void updateMySuccessor() {
+    public ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Node>> updateMySuccessor() {
 //        this.mySuccessors = findSuccessorNodesHashMap(this.getCurrentNode());
+        ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Node>> newSuccForVNs = new ConcurrentHashMap<>();
+
         int vn1 = getCircleBucketFromHash(currentNode.getSha256Hash());
         int vn2 = getCircleBucketFromHash(currentNode.getSha512Hash());
         int vn3 = getCircleBucketFromHash(currentNode.getSha384Hash());
+        int[] vns = {vn1, vn2, vn3};
+        for (int vn: vns) {
+                ConcurrentHashMap<Integer, Node> vnSucc = findThreeImmediateSuccessorsHashMap(vn);
+                ConcurrentHashMap<Integer, Node> newSucc = new ConcurrentHashMap<>();
+                for(Node node: vnSucc.values()) {
+                    if(this.mySuccessors.get(vn) == null || !this.mySuccessors.get(vn).contains(node))
+                        newSucc.put(node.getId(), node);
+                }
+                if(newSucc.size() >= 1) {
+                    this.mySuccessors.put(vn, vnSucc);
+                    newSuccForVNs.put(vn, newSucc);
+                }
+        }
 
-        this.mySuccessors.put(vn1, findThreeImmediateSuccessorsHashMap(vn1));
-        this.mySuccessors.put(vn2, findThreeImmediateSuccessorsHashMap(vn2));
-        this.mySuccessors.put(vn3, findThreeImmediateSuccessorsHashMap(vn3));
+        return newSuccForVNs;
     }
 
 //    public ConcurrentHashMap<Integer, Node> findSuccessorNodesHashMap(Node recoveredNode) {
@@ -197,32 +211,17 @@ public class NodesCircle {
 //        return nodes;
 //    }
 
-    public void updateMyPredecessor() {
-        this.myPredecessors = findPredessorNodes(this.getCurrentNode());
-    }
+//    public ConcurrentHashMap<Integer, Node> updateMyPredecessor() {
+//        ConcurrentHashMap<Integer, Node> preNodes = findPredessorNodes(this.getCurrentNode());
+//        ConcurrentHashMap<Integer, Node> newPreNodes = new ConcurrentHashMap<>();
+//        for (Node node: preNodes.values()) {
+//            if (this.myPredecessors == null || !this.myPredecessors.contains(node))
+//                newPreNodes.put(node.getId(), node);
+//        }
+//        this.myPredecessors = preNodes;
+//        return newPreNodes;
+//    }
 
-    public ConcurrentHashMap<Integer, Node> findPredessorNodes(Node node) {
-//        if(aliveNodesList.size() <= 1) return null;
-        int hash1 = getCircleBucketFromHash(node.getSha256Hash());
-        int hash2 = getCircleBucketFromHash(node.getSha512Hash());
-        int hash3 = getCircleBucketFromHash(node.getSha384Hash());
-        int[] hashes = {hash1, hash2, hash3};
-        ConcurrentHashMap<Integer, Node> nodes = new ConcurrentHashMap<>();
-
-        for (int hash: hashes) {
-            Node predNode = null;
-            Integer lowerKey = hash;
-            int encounterSelf = -1;
-            do {
-                lowerKey = circle.lowerKey(lowerKey);
-                lowerKey = lowerKey == null ? circle.lastKey() : lowerKey;
-                predNode = circle.get(lowerKey);
-                encounterSelf ++;
-            } while (predNode == node && encounterSelf <= 3);
-            if(predNode != node) nodes.put(predNode.getId(), predNode);
-        }
-        return nodes;
-    }
 
     public Node getNodeFromIp(String address, int port) {
         for (Node node: allNodesList.values()) {
@@ -275,7 +274,7 @@ public class NodesCircle {
         return deadNodesList;
     }
 
-    public ConcurrentHashMap<Integer, Node> getMyPredessors() {
+    public ConcurrentSkipListMap<Integer, ConcurrentHashMap<Integer, Node>> getMyPredessors() {
         return this.myPredecessors;
     }
 
@@ -293,6 +292,92 @@ public class NodesCircle {
 
         return findCorrectNodeByHash(sha256.hashCode());
     }
+
+    public void updateMyPredecessor() {
+
+        int vn1 = getCircleBucketFromHash(currentNode.getSha256Hash());
+        int vn2 = getCircleBucketFromHash(currentNode.getSha512Hash());
+        int vn3 = getCircleBucketFromHash(currentNode.getSha384Hash());
+        int[] vns = {vn1, vn2, vn3};
+
+        for (int vn: vns) {
+            ConcurrentHashMap<Integer, Node> vnPred = findThreeImmediatePredecessorsHashMap(vn);
+            ConcurrentHashMap<Integer, Node> newPred = new ConcurrentHashMap<>();
+            for(Node node: vnPred.values()) {
+                if(this.myPredecessors.get(vn) == null || !this.myPredecessors.get(vn).contains(node)) {
+                    newPred.put(node.getId(), node);
+//                    System.out.println(KVServer.port + "has pred" + node.getPort());
+                }
+            }
+            if(newPred.size() >= 1) {
+                this.myPredecessors.put(vn, vnPred);
+            }
+        }
+    }
+
+    public ConcurrentHashMap<Integer, Node> findThreeImmediatePredecessorsHashMap(int hash) {
+        Set<Node> nodes = findThreeImmediatePredecessors(hash);
+        ConcurrentHashMap<Integer, Node> nodesHashMap = new ConcurrentHashMap<>();
+        for(Node node: nodes) {
+            nodesHashMap.put(node.getId(), node);
+        }
+        return nodesHashMap;
+    }
+
+    // TODO: CHANGE TO FIND ONE
+    public Set<Node> findThreeImmediatePredecessors(int ringKey) {
+        Set<Node> nodes = new HashSet<>();
+        ConcurrentNavigableMap<Integer, Node> headMap = circle.headMap(ringKey);
+
+        Iterator<Map.Entry<Integer, Node>> iterator;
+        if (headMap.isEmpty()) {
+            iterator = circle.tailMap(ringKey).descendingMap().entrySet().iterator();
+
+            int nodesFound = 0;
+            while (nodesFound < 1 && iterator.hasNext()) {
+                Node node = iterator.next().getValue();
+                if (node != currentNode && nodes.add(node)) {
+                    nodesFound++;
+                }
+            }
+            return nodes;
+        }
+
+        iterator = headMap.descendingMap().entrySet().iterator();
+        int nodesFound = 0;
+        boolean updated = false;
+        if (!iterator.hasNext()) {
+            iterator = circle.tailMap(ringKey).descendingMap().entrySet().iterator();
+            updated = true;
+        }
+        while (nodesFound < 3 && iterator.hasNext()) {
+            Node node = iterator.next().getValue();
+            if (node != currentNode && nodes.add(node)) {
+                nodesFound++;
+            }
+
+            if (!updated && !iterator.hasNext()) {
+                iterator = circle.tailMap(ringKey).descendingMap().entrySet().iterator();
+                updated = true;
+            }
+        }
+        return nodes;
+    }
+
+//    public ConcurrentHashMap<Integer, Node> findImmediatePredecessorsForVN(int hash, Node node) {
+//        ConcurrentHashMap<Integer, Node> nodes = new ConcurrentHashMap<>();
+//        Node predNode = null;
+//        Integer lowerKey = hash;
+//        int encounterSelf = -1;
+//        do {
+//            lowerKey = circle.lowerKey(lowerKey);
+//            lowerKey = lowerKey == null ? circle.lastKey() : lowerKey;
+//            predNode = circle.get(lowerKey);
+//            encounterSelf ++;
+//        } while (predNode == node && encounterSelf <= 3);
+//        if(predNode != node) nodes.put(predNode.getId(), predNode);
+//        return nodes;
+//    }
 
     public ConcurrentHashMap<Integer, Node> findThreeImmediateSuccessorsHashMap(int hash) {
         Set<Node> nodes = findThreeImmediateSuccessors(hash);

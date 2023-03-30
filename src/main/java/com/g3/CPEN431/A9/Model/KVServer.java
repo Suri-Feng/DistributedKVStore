@@ -46,9 +46,11 @@ public class KVServer {
 //                        checker, 0, 50, TimeUnit.MILLISECONDS);
 
                 // start epidemic server
-                EpidemicServer server = new EpidemicServer(socket, node.getId());
-                scheduledExecutorService.scheduleAtFixedRate(
-                        server, 0, 50, TimeUnit.MILLISECONDS);
+                if (nodesCircle.getStartupNodesSize() > 1) {
+                    EpidemicServer server = new EpidemicServer(socket, node.getId());
+                    scheduledExecutorService.scheduleAtFixedRate(
+                            server, 0, 50, TimeUnit.MILLISECONDS);
+                }
             } else {
                 System.out.println(InetAddress.getLocalHost().getHostAddress());
                 System.exit(0);
