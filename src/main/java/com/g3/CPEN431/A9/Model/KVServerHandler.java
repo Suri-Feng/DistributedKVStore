@@ -8,6 +8,7 @@ import com.g3.CPEN431.A9.Utility.MemoryUsage;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.StoreCache;
 import com.g3.CPEN431.A9.Model.Store.Value;
+import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -60,6 +61,11 @@ public class KVServerHandler implements Runnable {
             KeyValueRequest.KVRequest reqPayload = KeyValueRequest.KVRequest
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
+            if(nodesCircle.getStartupNodesSize() == 1) {
+                getResponseFromOwnNode(reqPayload);
+                return;
+            }
+
             int command = reqPayload.getCommand();
 
             // Receive heartbeats
@@ -96,8 +102,6 @@ public class KVServerHandler implements Runnable {
 
             // reroute PUT/GET/REMOVE requests if come directly from client and don't belong to current node
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
-                // Find correct node and Reroute
-//                updateNodeCircle();
                 ByteString key = reqPayload.getKey();
 
                 if(!isPrimary(key)) {
@@ -283,7 +287,8 @@ public class KVServerHandler implements Runnable {
                 store.getStore().put(key, valueV);
 //                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
 
-                sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
+                if(nodesCircle.getStartupNodesSize() != 1)
+                    sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -312,7 +317,8 @@ public class KVServerHandler implements Runnable {
                 store.getStore().remove(key);
 
                 remove = true;
-                sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
+                if(nodesCircle.getStartupNodesSize() != 1)
+                    sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -334,15 +340,6 @@ public class KVServerHandler implements Runnable {
                         .setPid(KVServer.PROCESS_ID)
                         .build();
             case GET_MEMBERSHIP_COUNT:
-//                updateNodeCircle();
-//                if(KVServer.port == 12390) {
-//                    System.out.println("==========");
-//                    for (Map.Entry<Integer, Node> entry: nodesCircle.getCircle().entrySet()) {
-////            System.out.println(entry.getKey());
-//                        System.out.println(entry.getValue().getPort());
-//                    }
-//                    System.out.println("==========");
-//                }
                 if(nodesCircle.getStartupNodesSize() == 1)
                     return builder
                             .setErrCode(ErrorCode.SUCCESSFUL.getCode())

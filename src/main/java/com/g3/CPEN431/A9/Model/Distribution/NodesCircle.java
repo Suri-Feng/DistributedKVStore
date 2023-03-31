@@ -368,6 +368,8 @@ public class NodesCircle {
         return nodes;
     }
 
+
+    // TODO
     public int findSuccVNbyRingHash(int ringHash) {
         ConcurrentNavigableMap<Integer, ConcurrentHashMap<Integer, Node>> tailMap = mySuccessors.tailMap(ringHash);
         return tailMap.isEmpty()? mySuccessors.firstKey(): tailMap.firstKey();

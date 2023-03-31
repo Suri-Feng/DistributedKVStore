@@ -8,7 +8,6 @@
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/KeyTransferManager.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/NodesCircle.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Utility/ByteOrder.java
-/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/Replication.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/KVServerHandler.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/Node.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/App.java
@@ -19,4 +18,3 @@
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Command.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Store/StoreCache.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java
-/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/NodeStatusChecker.java
