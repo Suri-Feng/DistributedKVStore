@@ -88,6 +88,41 @@ public final class KeyValueRequest {
      * <code>optional .KeyValueEntry pair = 6;</code>
      */
     ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntryOrBuilder getPairOrBuilder();
+
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return Whether the recoveredNodeId field is set.
+     */
+    boolean hasRecoveredNodeId();
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return The recoveredNodeId.
+     */
+    int getRecoveredNodeId();
+
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange> 
+        getHashRangesList();
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange getHashRanges(int index);
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    int getHashRangesCount();
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder> 
+        getHashRangesOrBuilderList();
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder getHashRangesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code KVRequest}
@@ -105,6 +140,7 @@ public final class KeyValueRequest {
       key_ = com.google.protobuf.ByteString.EMPTY;
       value_ = com.google.protobuf.ByteString.EMPTY;
       heartbeat_ = emptyLongList();
+      hashRanges_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -256,6 +292,66 @@ public final class KeyValueRequest {
       return pair_ == null ? ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KeyValueEntry.getDefaultInstance() : pair_;
     }
 
+    public static final int RECOVEREDNODEID_FIELD_NUMBER = 7;
+    private int recoveredNodeId_ = 0;
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return Whether the recoveredNodeId field is set.
+     */
+    @java.lang.Override
+    public boolean hasRecoveredNodeId() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>optional uint32 recoveredNodeId = 7;</code>
+     * @return The recoveredNodeId.
+     */
+    @java.lang.Override
+    public int getRecoveredNodeId() {
+      return recoveredNodeId_;
+    }
+
+    public static final int HASHRANGES_FIELD_NUMBER = 8;
+    @SuppressWarnings("serial")
+    private java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange> hashRanges_;
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    @java.lang.Override
+    public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange> getHashRangesList() {
+      return hashRanges_;
+    }
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder> 
+        getHashRangesOrBuilderList() {
+      return hashRanges_;
+    }
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    @java.lang.Override
+    public int getHashRangesCount() {
+      return hashRanges_.size();
+    }
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange getHashRanges(int index) {
+      return hashRanges_.get(index);
+    }
+    /**
+     * <code>repeated .HashRange hashRanges = 8;</code>
+     */
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder getHashRangesOrBuilder(
+        int index) {
+      return hashRanges_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -292,6 +388,12 @@ public final class KeyValueRequest {
       }
       if (((bitField0_ & 0x00000008) != 0)) {
         output.writeMessage(6, getPair());
+      }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        output.writeUInt32(7, recoveredNodeId_);
+      }
+      for (int i = 0; i < hashRanges_.size(); i++) {
+        output.writeMessage(8, hashRanges_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -336,6 +438,14 @@ public final class KeyValueRequest {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, getPair());
       }
+      if (((bitField0_ & 0x00000010) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(7, recoveredNodeId_);
+      }
+      for (int i = 0; i < hashRanges_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, hashRanges_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -375,6 +485,13 @@ public final class KeyValueRequest {
         if (!getPair()
             .equals(other.getPair())) return false;
       }
+      if (hasRecoveredNodeId() != other.hasRecoveredNodeId()) return false;
+      if (hasRecoveredNodeId()) {
+        if (getRecoveredNodeId()
+            != other.getRecoveredNodeId()) return false;
+      }
+      if (!getHashRangesList()
+          .equals(other.getHashRangesList())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -407,6 +524,14 @@ public final class KeyValueRequest {
       if (hasPair()) {
         hash = (37 * hash) + PAIR_FIELD_NUMBER;
         hash = (53 * hash) + getPair().hashCode();
+      }
+      if (hasRecoveredNodeId()) {
+        hash = (37 * hash) + RECOVEREDNODEID_FIELD_NUMBER;
+        hash = (53 * hash) + getRecoveredNodeId();
+      }
+      if (getHashRangesCount() > 0) {
+        hash = (37 * hash) + HASHRANGES_FIELD_NUMBER;
+        hash = (53 * hash) + getHashRangesList().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -537,6 +662,7 @@ public final class KeyValueRequest {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getPairFieldBuilder();
+          getHashRangesFieldBuilder();
         }
       }
       @java.lang.Override
@@ -553,6 +679,14 @@ public final class KeyValueRequest {
           pairBuilder_.dispose();
           pairBuilder_ = null;
         }
+        recoveredNodeId_ = 0;
+        if (hashRangesBuilder_ == null) {
+          hashRanges_ = java.util.Collections.emptyList();
+        } else {
+          hashRanges_ = null;
+          hashRangesBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -591,6 +725,15 @@ public final class KeyValueRequest {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.heartbeat_ = heartbeat_;
+        if (hashRangesBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) != 0)) {
+            hashRanges_ = java.util.Collections.unmodifiableList(hashRanges_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.hashRanges_ = hashRanges_;
+        } else {
+          result.hashRanges_ = hashRangesBuilder_.build();
+        }
       }
 
       private void buildPartial0(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.KVRequest result) {
@@ -616,6 +759,10 @@ public final class KeyValueRequest {
               ? pair_
               : pairBuilder_.build();
           to_bitField0_ |= 0x00000008;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.recoveredNodeId_ = recoveredNodeId_;
+          to_bitField0_ |= 0x00000010;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -689,6 +836,35 @@ public final class KeyValueRequest {
         if (other.hasPair()) {
           mergePair(other.getPair());
         }
+        if (other.hasRecoveredNodeId()) {
+          setRecoveredNodeId(other.getRecoveredNodeId());
+        }
+        if (hashRangesBuilder_ == null) {
+          if (!other.hashRanges_.isEmpty()) {
+            if (hashRanges_.isEmpty()) {
+              hashRanges_ = other.hashRanges_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensureHashRangesIsMutable();
+              hashRanges_.addAll(other.hashRanges_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.hashRanges_.isEmpty()) {
+            if (hashRangesBuilder_.isEmpty()) {
+              hashRangesBuilder_.dispose();
+              hashRangesBuilder_ = null;
+              hashRanges_ = other.hashRanges_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              hashRangesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getHashRangesFieldBuilder() : null;
+            } else {
+              hashRangesBuilder_.addAllMessages(other.hashRanges_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -758,6 +934,24 @@ public final class KeyValueRequest {
                 bitField0_ |= 0x00000020;
                 break;
               } // case 50
+              case 56: {
+                recoveredNodeId_ = input.readUInt32();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 56
+              case 66: {
+                ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange m =
+                    input.readMessage(
+                        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.parser(),
+                        extensionRegistry);
+                if (hashRangesBuilder_ == null) {
+                  ensureHashRangesIsMutable();
+                  hashRanges_.add(m);
+                } else {
+                  hashRangesBuilder_.addMessage(m);
+                }
+                break;
+              } // case 66
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1125,6 +1319,286 @@ public final class KeyValueRequest {
           pair_ = null;
         }
         return pairBuilder_;
+      }
+
+      private int recoveredNodeId_ ;
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @return Whether the recoveredNodeId field is set.
+       */
+      @java.lang.Override
+      public boolean hasRecoveredNodeId() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @return The recoveredNodeId.
+       */
+      @java.lang.Override
+      public int getRecoveredNodeId() {
+        return recoveredNodeId_;
+      }
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @param value The recoveredNodeId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRecoveredNodeId(int value) {
+        
+        recoveredNodeId_ = value;
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 recoveredNodeId = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRecoveredNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        recoveredNodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange> hashRanges_ =
+        java.util.Collections.emptyList();
+      private void ensureHashRangesIsMutable() {
+        if (!((bitField0_ & 0x00000080) != 0)) {
+          hashRanges_ = new java.util.ArrayList<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange>(hashRanges_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder> hashRangesBuilder_;
+
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange> getHashRangesList() {
+        if (hashRangesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(hashRanges_);
+        } else {
+          return hashRangesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public int getHashRangesCount() {
+        if (hashRangesBuilder_ == null) {
+          return hashRanges_.size();
+        } else {
+          return hashRangesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange getHashRanges(int index) {
+        if (hashRangesBuilder_ == null) {
+          return hashRanges_.get(index);
+        } else {
+          return hashRangesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder setHashRanges(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange value) {
+        if (hashRangesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHashRangesIsMutable();
+          hashRanges_.set(index, value);
+          onChanged();
+        } else {
+          hashRangesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder setHashRanges(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder builderForValue) {
+        if (hashRangesBuilder_ == null) {
+          ensureHashRangesIsMutable();
+          hashRanges_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          hashRangesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder addHashRanges(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange value) {
+        if (hashRangesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHashRangesIsMutable();
+          hashRanges_.add(value);
+          onChanged();
+        } else {
+          hashRangesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder addHashRanges(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange value) {
+        if (hashRangesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHashRangesIsMutable();
+          hashRanges_.add(index, value);
+          onChanged();
+        } else {
+          hashRangesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder addHashRanges(
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder builderForValue) {
+        if (hashRangesBuilder_ == null) {
+          ensureHashRangesIsMutable();
+          hashRanges_.add(builderForValue.build());
+          onChanged();
+        } else {
+          hashRangesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder addHashRanges(
+          int index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder builderForValue) {
+        if (hashRangesBuilder_ == null) {
+          ensureHashRangesIsMutable();
+          hashRanges_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          hashRangesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder addAllHashRanges(
+          java.lang.Iterable<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange> values) {
+        if (hashRangesBuilder_ == null) {
+          ensureHashRangesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, hashRanges_);
+          onChanged();
+        } else {
+          hashRangesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder clearHashRanges() {
+        if (hashRangesBuilder_ == null) {
+          hashRanges_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          hashRangesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public Builder removeHashRanges(int index) {
+        if (hashRangesBuilder_ == null) {
+          ensureHashRangesIsMutable();
+          hashRanges_.remove(index);
+          onChanged();
+        } else {
+          hashRangesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder getHashRangesBuilder(
+          int index) {
+        return getHashRangesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder getHashRangesOrBuilder(
+          int index) {
+        if (hashRangesBuilder_ == null) {
+          return hashRanges_.get(index);  } else {
+          return hashRangesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public java.util.List<? extends ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder> 
+           getHashRangesOrBuilderList() {
+        if (hashRangesBuilder_ != null) {
+          return hashRangesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(hashRanges_);
+        }
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder addHashRangesBuilder() {
+        return getHashRangesFieldBuilder().addBuilder(
+            ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder addHashRangesBuilder(
+          int index) {
+        return getHashRangesFieldBuilder().addBuilder(
+            index, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HashRange hashRanges = 8;</code>
+       */
+      public java.util.List<ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder> 
+           getHashRangesBuilderList() {
+        return getHashRangesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder> 
+          getHashRangesFieldBuilder() {
+        if (hashRangesBuilder_ == null) {
+          hashRangesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder>(
+                  hashRanges_,
+                  ((bitField0_ & 0x00000080) != 0),
+                  getParentForChildren(),
+                  isClean());
+          hashRanges_ = null;
+        }
+        return hashRangesBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -1815,6 +2289,557 @@ public final class KeyValueRequest {
 
   }
 
+  public interface HashRangeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:HashRange)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 minRange = 1;</code>
+     * @return The minRange.
+     */
+    int getMinRange();
+
+    /**
+     * <code>int32 maxRange = 2;</code>
+     * @return The maxRange.
+     */
+    int getMaxRange();
+  }
+  /**
+   * Protobuf type {@code HashRange}
+   */
+  public static final class HashRange extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:HashRange)
+      HashRangeOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use HashRange.newBuilder() to construct.
+    private HashRange(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private HashRange() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new HashRange();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_HashRange_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_HashRange_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.class, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder.class);
+    }
+
+    public static final int MINRANGE_FIELD_NUMBER = 1;
+    private int minRange_ = 0;
+    /**
+     * <code>int32 minRange = 1;</code>
+     * @return The minRange.
+     */
+    @java.lang.Override
+    public int getMinRange() {
+      return minRange_;
+    }
+
+    public static final int MAXRANGE_FIELD_NUMBER = 2;
+    private int maxRange_ = 0;
+    /**
+     * <code>int32 maxRange = 2;</code>
+     * @return The maxRange.
+     */
+    @java.lang.Override
+    public int getMaxRange() {
+      return maxRange_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (minRange_ != 0) {
+        output.writeInt32(1, minRange_);
+      }
+      if (maxRange_ != 0) {
+        output.writeInt32(2, maxRange_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (minRange_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, minRange_);
+      }
+      if (maxRange_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, maxRange_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange)) {
+        return super.equals(obj);
+      }
+      ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange other = (ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange) obj;
+
+      if (getMinRange()
+          != other.getMinRange()) return false;
+      if (getMaxRange()
+          != other.getMaxRange()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + MINRANGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMinRange();
+      hash = (37 * hash) + MAXRANGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMaxRange();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code HashRange}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:HashRange)
+        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_HashRange_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_HashRange_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.class, ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.Builder.class);
+      }
+
+      // Construct using ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        minRange_ = 0;
+        maxRange_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.internal_static_HashRange_descriptor;
+      }
+
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange getDefaultInstanceForType() {
+        return ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange build() {
+        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange buildPartial() {
+        ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange result = new ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.minRange_ = minRange_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.maxRange_ = maxRange_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange) {
+          return mergeFrom((ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange other) {
+        if (other == ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange.getDefaultInstance()) return this;
+        if (other.getMinRange() != 0) {
+          setMinRange(other.getMinRange());
+        }
+        if (other.getMaxRange() != 0) {
+          setMaxRange(other.getMaxRange());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                minRange_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                maxRange_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int minRange_ ;
+      /**
+       * <code>int32 minRange = 1;</code>
+       * @return The minRange.
+       */
+      @java.lang.Override
+      public int getMinRange() {
+        return minRange_;
+      }
+      /**
+       * <code>int32 minRange = 1;</code>
+       * @param value The minRange to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMinRange(int value) {
+        
+        minRange_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 minRange = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMinRange() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        minRange_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int maxRange_ ;
+      /**
+       * <code>int32 maxRange = 2;</code>
+       * @return The maxRange.
+       */
+      @java.lang.Override
+      public int getMaxRange() {
+        return maxRange_;
+      }
+      /**
+       * <code>int32 maxRange = 2;</code>
+       * @param value The maxRange to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMaxRange(int value) {
+        
+        maxRange_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 maxRange = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMaxRange() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        maxRange_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:HashRange)
+    }
+
+    // @@protoc_insertion_point(class_scope:HashRange)
+    private static final ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange();
+    }
+
+    public static ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<HashRange>
+        PARSER = new com.google.protobuf.AbstractParser<HashRange>() {
+      @java.lang.Override
+      public HashRange parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<HashRange> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HashRange> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRange getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_KVRequest_descriptor;
   private static final 
@@ -1825,6 +2850,11 @@ public final class KeyValueRequest {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_KeyValueEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_HashRange_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_HashRange_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1834,15 +2864,18 @@ public final class KeyValueRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025KeyValueRequest.proto\"\265\001\n\tKVRequest\022\017\n" +
+      "\n\025KeyValueRequest.proto\"\207\002\n\tKVRequest\022\017\n" +
       "\007command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005valu" +
       "e\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\021\n\the" +
       "artbeat\030\005 \003(\004\022!\n\004pair\030\006 \001(\0132\016.KeyValueEn" +
-      "tryH\003\210\001\001B\006\n\004_keyB\010\n\006_valueB\n\n\010_versionB\007" +
-      "\n\005_pair\"<\n\rKeyValueEntry\022\013\n\003key\030\001 \001(\014\022\017\n" +
-      "\007version\030\002 \001(\005\022\r\n\005value\030\003 \001(\014B/\n\034ca.NetS" +
-      "ysLab.ProtocolBuffersB\017KeyValueRequestb\006" +
-      "proto3"
+      "tryH\003\210\001\001\022\034\n\017recoveredNodeId\030\007 \001(\rH\004\210\001\001\022\036" +
+      "\n\nhashRanges\030\010 \003(\0132\n.HashRangeB\006\n\004_keyB\010" +
+      "\n\006_valueB\n\n\010_versionB\007\n\005_pairB\022\n\020_recove" +
+      "redNodeId\"<\n\rKeyValueEntry\022\013\n\003key\030\001 \001(\014\022" +
+      "\017\n\007version\030\002 \001(\005\022\r\n\005value\030\003 \001(\014\"/\n\tHashR" +
+      "ange\022\020\n\010minRange\030\001 \001(\005\022\020\n\010maxRange\030\002 \001(\005" +
+      "B/\n\034ca.NetSysLab.ProtocolBuffersB\017KeyVal" +
+      "ueRequestb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1853,13 +2886,19 @@ public final class KeyValueRequest {
     internal_static_KVRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KVRequest_descriptor,
-        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "Key", "Value", "Version", "Pair", });
+        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "RecoveredNodeId", "HashRanges", "Key", "Value", "Version", "Pair", "RecoveredNodeId", });
     internal_static_KeyValueEntry_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_KeyValueEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KeyValueEntry_descriptor,
         new java.lang.String[] { "Key", "Version", "Value", });
+    internal_static_HashRange_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_HashRange_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_HashRange_descriptor,
+        new java.lang.String[] { "MinRange", "MaxRange", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
