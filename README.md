@@ -1,18 +1,4 @@
-## CPEN 431 2022W2 Assignment 11
-
-Group ID: g3
-
-Verification code: A7CEFCA54F86F49F870EB540FF12724B
-
-### Usage
-To run the compiled jar file located in the root directory, run the following command:
-
-`java -Xmx512m -jar 1.jar <port number>`
-
-The server will start on the specified port number.
-
-### Brief Descriptions
-#### A11
+WIP
 - One key would have 4 replica: one primary and three backups. The node that a key can be mapped on the consistent 
   hashing ring would be the primary node for a key, and the following three nodes would be the backups for the key.
   To achieve load balancing, all the nodes mentioned are virtual nodes. One physical node has three virtual nodes on the ring.
@@ -32,12 +18,10 @@ The server will start on the specified port number.
   to update its ring unless its own entry on the heartbeat list is quite recent - this can guarantee that the messages a node uses 
   to update its ring will not be stale, and avoid mistakenly removing active nodes from the ring with stale messages, which works
   good for nodes were suspended and resumed.
-#### A9
 - To recover nodes that have been resumed from a temporary failure, alive nodes upon receiving new heartbeats check if
   any previously dead nodes have become alive and add them back to the circle. To remap the keys, nodes that have
   discovered the resumed nodes will send a message to the resumed nodes' successors with the affected key hash ranges. The 
   successors will then look for keys within these ranges and transfer them to the recovered node.
-#### A7
 - Consistent hashing is used to determine the interested node for PUT/GET/REMOVE commands. 
   If another node other than self should handle the request, the request is first appended with the client
   address and port before forwarding to the correct node. The correct node will then process the request and send the
