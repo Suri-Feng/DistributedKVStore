@@ -57,6 +57,17 @@ public final class Message {
      * @return The clientPort.
      */
     int getClientPort();
+
+    /**
+     * <code>optional int64 time = 6;</code>
+     * @return Whether the time field is set.
+     */
+    boolean hasTime();
+    /**
+     * <code>optional int64 time = 6;</code>
+     * @return The time.
+     */
+    long getTime();
   }
   /**
    * Protobuf type {@code Msg}
@@ -173,6 +184,25 @@ public final class Message {
       return clientPort_;
     }
 
+    public static final int TIME_FIELD_NUMBER = 6;
+    private long time_ = 0L;
+    /**
+     * <code>optional int64 time = 6;</code>
+     * @return Whether the time field is set.
+     */
+    @java.lang.Override
+    public boolean hasTime() {
+      return ((bitField0_ & 0x00000004) != 0);
+    }
+    /**
+     * <code>optional int64 time = 6;</code>
+     * @return The time.
+     */
+    @java.lang.Override
+    public long getTime() {
+      return time_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -202,6 +232,9 @@ public final class Message {
       if (((bitField0_ & 0x00000002) != 0)) {
         output.writeInt32(5, clientPort_);
       }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        output.writeInt64(6, time_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -230,6 +263,10 @@ public final class Message {
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, clientPort_);
+      }
+      if (((bitField0_ & 0x00000004) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(6, time_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -262,6 +299,11 @@ public final class Message {
         if (getClientPort()
             != other.getClientPort()) return false;
       }
+      if (hasTime() != other.hasTime()) return false;
+      if (hasTime()) {
+        if (getTime()
+            != other.getTime()) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -287,6 +329,11 @@ public final class Message {
       if (hasClientPort()) {
         hash = (37 * hash) + CLIENTPORT_FIELD_NUMBER;
         hash = (53 * hash) + getClientPort();
+      }
+      if (hasTime()) {
+        hash = (37 * hash) + TIME_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getTime());
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -422,6 +469,7 @@ public final class Message {
         checkSum_ = 0L;
         clientAddress_ = com.google.protobuf.ByteString.EMPTY;
         clientPort_ = 0;
+        time_ = 0L;
         return this;
       }
 
@@ -472,6 +520,10 @@ public final class Message {
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.clientPort_ = clientPort_;
           to_bitField0_ |= 0x00000002;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.time_ = time_;
+          to_bitField0_ |= 0x00000004;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -535,6 +587,9 @@ public final class Message {
         if (other.hasClientPort()) {
           setClientPort(other.getClientPort());
         }
+        if (other.hasTime()) {
+          setTime(other.getTime());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -586,6 +641,11 @@ public final class Message {
                 bitField0_ |= 0x00000010;
                 break;
               } // case 40
+              case 48: {
+                time_ = input.readInt64();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 48
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -778,6 +838,46 @@ public final class Message {
         onChanged();
         return this;
       }
+
+      private long time_ ;
+      /**
+       * <code>optional int64 time = 6;</code>
+       * @return Whether the time field is set.
+       */
+      @java.lang.Override
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000020) != 0);
+      }
+      /**
+       * <code>optional int64 time = 6;</code>
+       * @return The time.
+       */
+      @java.lang.Override
+      public long getTime() {
+        return time_;
+      }
+      /**
+       * <code>optional int64 time = 6;</code>
+       * @param value The time to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTime(long value) {
+        
+        time_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 time = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        time_ = 0L;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -856,12 +956,12 @@ public final class Message {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rMessage.proto\"\221\001\n\003Msg\022\021\n\tmessageID\030\001 \001" +
+      "\n\rMessage.proto\"\255\001\n\003Msg\022\021\n\tmessageID\030\001 \001" +
       "(\014\022\017\n\007payload\030\002 \001(\014\022\020\n\010checkSum\030\003 \001(\006\022\032\n" +
       "\rclientAddress\030\004 \001(\014H\000\210\001\001\022\027\n\nclientPort\030" +
-      "\005 \001(\005H\001\210\001\001B\020\n\016_clientAddressB\r\n\013_clientP" +
-      "ortB\'\n\034ca.NetSysLab.ProtocolBuffersB\007Mes" +
-      "sageb\006proto3"
+      "\005 \001(\005H\001\210\001\001\022\021\n\004time\030\006 \001(\003H\002\210\001\001B\020\n\016_client" +
+      "AddressB\r\n\013_clientPortB\007\n\005_timeB\'\n\034ca.Ne" +
+      "tSysLab.ProtocolBuffersB\007Messageb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -872,7 +972,7 @@ public final class Message {
     internal_static_Msg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Msg_descriptor,
-        new java.lang.String[] { "MessageID", "Payload", "CheckSum", "ClientAddress", "ClientPort", "ClientAddress", "ClientPort", });
+        new java.lang.String[] { "MessageID", "Payload", "CheckSum", "ClientAddress", "ClientPort", "Time", "ClientAddress", "ClientPort", "Time", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

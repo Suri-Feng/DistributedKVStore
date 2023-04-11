@@ -8,6 +8,7 @@ import com.g3.CPEN431.A11.Utility.MemoryUsage;
 import com.g3.CPEN431.A11.Model.Store.KVStore;
 import com.g3.CPEN431.A11.Model.Store.StoreCache;
 import com.g3.CPEN431.A11.Model.Store.Value;
+import com.g3.CPEN431.A11.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -35,6 +36,7 @@ public class KVServerHandler implements Runnable {
     NodesCircle nodesCircle = NodesCircle.getInstance();
     HeartbeatsManager heartbeatsManager = HeartbeatsManager.getInstance();
     KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
+    long enter_system_time;
 
     KVServerHandler(Message.Msg requestMessage,
                     DatagramSocket socket,
@@ -45,6 +47,11 @@ public class KVServerHandler implements Runnable {
         this.requestMessage = requestMessage;
         this.address = address;
         this.port = port;
+        if (requestMessage.hasTime()) {
+            this.enter_system_time = requestMessage.getTime();
+        } else {
+            this.enter_system_time = System.currentTimeMillis();
+        }
     }
 
     private void manageHeartBeats(List<Long> heartbeatList) {
@@ -58,7 +65,7 @@ public class KVServerHandler implements Runnable {
             KeyValueRequest.KVRequest reqPayload = KeyValueRequest.KVRequest
                     .parseFrom(requestMessage.getPayload().toByteArray());
 
-            if(nodesCircle.getStartupNodesSize() == 1) {
+            if (nodesCircle.getStartupNodesSize() == 1) {
                 getResponseFromOwnNode(reqPayload);
                 return;
             }
@@ -67,26 +74,19 @@ public class KVServerHandler implements Runnable {
 
             // Receive heartbeats
             if (command == Command.HEARTBEAT.getCode()) {
-//                if(KVServer.port == 12385 ) {
-//                    System.out.println("12385 recv heartbeat from " + port + ", before update" +  heartbeatsManager.getHeartBeats().get(port - 12385) + ", "+ (System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(port - 12385)));
-//                }
                 List<Long> heartbeats = reqPayload.getHeartbeatList();
 
                 manageHeartBeats(heartbeats);
 
-                if((System.currentTimeMillis() - heartbeats.get(nodesCircle.getThisNodeId())) > heartbeatsManager.mostPastTime) {
-//                    System.out.println(KVServer.port + " will not update node circle");
+                if ((System.currentTimeMillis() - heartbeats.get(nodesCircle.getThisNodeId())) > heartbeatsManager.mostPastTime) {
                     return;
                 }
                 updateNodeCircle();
-//                if(KVServer.port == 12385 ) {
-//                    System.out.println("12385 recv heartbeat from " + port + ", after update" + heartbeatsManager.getHeartBeats().get(port - 12385) + ", "+(System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(port - 12385)));
-//                }
                 return;
             }
 
             // Receive keys transfer
-            if  (command == Command.KEY_TRANSFER.getCode()) {
+            if (command == Command.KEY_TRANSFER.getCode()) {
                 addKey(reqPayload.getPair());
                 return;
             }
@@ -101,11 +101,10 @@ public class KVServerHandler implements Runnable {
             if (command <= 3 && command >= 1 && !requestMessage.hasClientAddress()) {
                 ByteString key = reqPayload.getKey();
 
-                if(!isPrimary(key)) {
+                if (!isPrimary(key)) {
                     reRoute(nodesCircle.findNodebyKey(key));
                     return;
                 }
-
             }
 
             if (command == Command.BACKUP_WRITE.getCode()) {
@@ -124,22 +123,31 @@ public class KVServerHandler implements Runnable {
             getResponseFromOwnNode(reqPayload);
         } catch (IOException e) {
             System.out.println("===================");
-            System.out.println("[ KV Server Handler, "+socket.getLocalPort()+", " + Thread.currentThread().getName() + "]: "
+            System.out.println("[ KV Server Handler, " + socket.getLocalPort() + ", " + Thread.currentThread().getName() + "]: "
                     + e.getLocalizedMessage() + e.getMessage());
             System.out.println("===================");
             throw new RuntimeException(e);
         }
     }
 
+    private boolean putValueInStore(KeyValueRequest.KVRequest requestPayload) {
+        ByteString key = requestPayload.getKey();
+        Value previousValue = store.getStore().get(key);
+        if (previousValue == null || (previousValue.getR_TS() <= enter_system_time && previousValue.getW_TS() <= enter_system_time)) {
+            Value value = new Value(requestPayload.getVersion(), requestPayload.getValue(), enter_system_time);
+            store.getStore().put(key, value);
+            return true;
+        }
+        return false;
+    }
 
-        private void backupPUT(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
+
+    private void backupPUT(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
         if (isMemoryOverload()) {
             return;
         }
 //        System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-        Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
-        store.getStore().put(requestPayload.getKey(), valueV);
-
+        putValueInStore(requestPayload);
     }
 
     private void backupREM(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
@@ -152,24 +160,27 @@ public class KVServerHandler implements Runnable {
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
 //        System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+        Value value = new Value(pair.getVersion(), pair.getValue(), pair.getWTS());
+        value.setR_TS(pair.getWTS());
         store.getStore().put(
                 pair.getKey(),
-                new Value(pair.getVersion(), pair.getValue()));
+                value);
     }
 
     private void addKeyPrimaryRecover(KeyValueRequest.KeyValueEntry pair) {
 //        System.out.println(KVServer.port + " received key transfer (primary) from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+        Value value = new Value(pair.getVersion(), pair.getValue(), pair.getWTS());
+        value.setR_TS(pair.getWTS());
         store.getStore().put(
                 pair.getKey(),
-                new Value(pair.getVersion(), pair.getValue()));
+                value);
 
         byte[] key = pair.getKey().toByteArray();
         String sha256 = Hashing.sha256()
                 .hashBytes(key).toString();
         Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
-        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
-        {
+        if (nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId()) {
             //System.out.println("send to " + nodeMatch.getPort());
             List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
             allPairs.add(pair);
@@ -183,7 +194,7 @@ public class KVServerHandler implements Runnable {
         byte[] id = requestMessage.getMessageID().toByteArray();
         Message.Msg cachedResponse = storeCache.getCache().getIfPresent(ByteBuffer.wrap(id));
         if (cachedResponse != null) {
-                sendResponse(cachedResponse, requestMessage);
+            sendResponse(cachedResponse, requestMessage);
             return;
         }
 
@@ -201,17 +212,18 @@ public class KVServerHandler implements Runnable {
                 .setCheckSum(checksum.getValue())
                 .build();
 
-            sendResponse(responseMsg, requestMessage);
+        sendResponse(responseMsg, requestMessage);
         storeCache.getCache().put(ByteBuffer.wrap(id), responseMsg);
     }
 
     private void reRoute(Node node) throws IOException {
         Message.Msg.Builder msgBuilder = Message.Msg.newBuilder()
-                    .setMessageID(requestMessage.getMessageID())
-                    .setPayload(requestMessage.getPayload())
-                    .setCheckSum(requestMessage.getCheckSum())
-                    .setClientPort(this.port)
-                    .setClientAddress(ByteString.copyFrom(this.address.getAddress()));
+                .setMessageID(requestMessage.getMessageID())
+                .setPayload(requestMessage.getPayload())
+                .setCheckSum(requestMessage.getCheckSum())
+                .setTime(this.enter_system_time)
+                .setClientPort(this.port)
+                .setClientAddress(ByteString.copyFrom(this.address.getAddress()));
 
         byte[] responseAsByteArray = msgBuilder.build().toByteArray();
         DatagramPacket responsePkt = new DatagramPacket(
@@ -270,8 +282,6 @@ public class KVServerHandler implements Runnable {
                     .build();
         }
 
-        Boolean remove = false;
-
         switch (command.get()) {
             case PUT:
                 if (isMemoryOverload()) {
@@ -279,31 +289,43 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.OUT_OF_SPACE.getCode())
                             .build();
                 }
+                if (putValueInStore(requestPayload)) {
+                    if (nodesCircle.getStartupNodesSize() != 1)
+                        sendWriteToBackups(requestPayload, requestMessage.getMessageID(), false);
 
-                Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
-                store.getStore().put(key, valueV);
-//                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-
-                if(nodesCircle.getStartupNodesSize() != 1)
-                    sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
-
-                return builder
-                        .setErrCode(ErrorCode.SUCCESSFUL.getCode())
-                        .build();
+                    return builder
+                            .setErrCode(ErrorCode.SUCCESSFUL.getCode())
+                            .build();
+                } else {
+                    System.out.println("Key " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()) + " write reject");
+                    return builder
+                            .setErrCode(ErrorCode.OVERLOAD.getCode())
+                            .setOverloadWaitTime(50)
+                            .build();
+                }
             case GET:
-                    Value valueInStore = store.getStore().get(key);
-                    if (valueInStore == null) {
+                Value valueInStore = store.getStore().get(key);
+                if (valueInStore == null) {
 //                       System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-                        return builder
-                                .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
-                                .build();
-                    }
-
+                    return builder
+                            .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
+                            .build();
+                }
+                if (valueInStore.getW_TS() > enter_system_time) {
+                    // TODO: reject
+                    System.out.println("Key " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()) + " read reject");
+                    return builder
+                            .setErrCode(ErrorCode.OVERLOAD.getCode())
+                            .setOverloadWaitTime(50)
+                            .build();
+                } else {
+                    valueInStore.setR_TS(enter_system_time);
                     return builder
                             .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                             .setValue(valueInStore.getValue())
                             .setVersion(valueInStore.getVersion())
                             .build();
+                }
             case REMOVE:
                 if (store.getStore().get(key) == null) {
                     return builder
@@ -312,10 +334,8 @@ public class KVServerHandler implements Runnable {
                 }
 
                 store.getStore().remove(key);
-
-                remove = true;
-                if(nodesCircle.getStartupNodesSize() != 1)
-                    sendWriteToBackups(requestPayload, requestMessage.getMessageID(), remove);
+                if (nodesCircle.getStartupNodesSize() != 1)
+                    sendWriteToBackups(requestPayload, requestMessage.getMessageID(), true);
 
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
@@ -337,7 +357,7 @@ public class KVServerHandler implements Runnable {
                         .setPid(KVServer.PROCESS_ID)
                         .build();
             case GET_MEMBERSHIP_COUNT:
-                if(nodesCircle.getStartupNodesSize() == 1)
+                if (nodesCircle.getStartupNodesSize() == 1)
                     return builder
                             .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                             .setMembershipCount(1)
@@ -384,8 +404,8 @@ public class KVServerHandler implements Runnable {
                 // I will need my predecessor's place on the ring, before remove it
                 // TODO: Optimize this
                 boolean contains = false;
-                for(ConcurrentHashMap<Integer, Node> prePreds: nodesCircle.getMyPredessors().values()) {
-                    if(prePreds.contains(node)) contains = true;
+                for (ConcurrentHashMap<Integer, Node> prePreds : nodesCircle.getMyPredessors().values()) {
+                    if (prePreds.contains(node)) contains = true;
                 }
                 if (!contains)
                     removedPrimaryHashRanges.put(node, nodesCircle.getRecoveredNodeRange(node));
@@ -402,8 +422,8 @@ public class KVServerHandler implements Runnable {
                 // TODO: The same thing as removed primary -> to get range here, since range might have been changed when send msg NO
 //                recoveredNodes.put(node.getId(), node);
                 boolean contains = false;
-                for(ConcurrentHashMap<Integer, Node> prePreds: nodesCircle.getMyPredessors().values()) {
-                    if(prePreds.contains(node)) contains = true;
+                for (ConcurrentHashMap<Integer, Node> prePreds : nodesCircle.getMyPredessors().values()) {
+                    if (prePreds.contains(node)) contains = true;
                 }
                 if (!contains)
                     recoveredPrimaryHashRanges.put(node, nodesCircle.getRecoveredNodeRange(node));
@@ -419,14 +439,14 @@ public class KVServerHandler implements Runnable {
         // I will need new successor's place after ring updated
         //TODO: Here might be concurrent issue
         ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Node>> newSuccsForVNs = nodesCircle.updateMySuccessor();
-        for(Integer VN: newSuccsForVNs.keySet()) {
+        for (Integer VN : newSuccsForVNs.keySet()) {
             for (Node newBackup : newSuccsForVNs.get(VN).values()) {
                 updateBackupPosition(newBackup, VN);
             }
         }
 
 
-        for(Node node: removedPrimaryHashRanges.keySet())
+        for (Node node : removedPrimaryHashRanges.keySet())
             takePrimaryPosition(removedPrimaryHashRanges.get(node));
 
         // Need the updated circle to update predecessor list
@@ -439,7 +459,7 @@ public class KVServerHandler implements Runnable {
 
         //  If my predecessor recovered, I will send keys to predecessor and two other replica (keys belong to my recovered successor)
         // I will need my predecessor's place AFTER it is added to the ring
-        for (Node node: recoveredPrimaryHashRanges.keySet()) {
+        for (Node node : recoveredPrimaryHashRanges.keySet()) {
             recoverPrimaryPosition(node, recoveredPrimaryHashRanges.get(node));
         }
 //        for (Node node: newPreds.values()) {
@@ -455,9 +475,9 @@ public class KVServerHandler implements Runnable {
     }
 
     private boolean keyWithinRange(KeyValueRequest.HashRange hashRange, int ringHash) {
-        if(hashRange.getMinRange() <= hashRange.getMaxRange()) {
+        if (hashRange.getMinRange() <= hashRange.getMaxRange()) {
             return (ringHash >= hashRange.getMinRange()) && (ringHash <= hashRange.getMaxRange());
-        }else{
+        } else {
             return (ringHash <= hashRange.getMaxRange()) || (ringHash >= hashRange.getMinRange());
         }
     }
@@ -476,6 +496,8 @@ public class KVServerHandler implements Runnable {
                         .setVersion(entry.getValue().getVersion())
                         .setValue(entry.getValue().getValue())
                         .setKey(entry.getKey())
+                        .setRTS(entry.getValue().getR_TS())
+                        .setWTS(entry.getValue().getW_TS())
                         .build());
         }
         keyTransferManager.sendMessage(allPairs, newBackup);
@@ -503,6 +525,8 @@ public class KVServerHandler implements Runnable {
                             .setVersion(entry.getValue().getVersion())
                             .setValue(entry.getValue().getValue())
                             .setKey(entry.getKey())
+                            .setWTS(entry.getValue().getW_TS())
+                            .setRTS(entry.getValue().getR_TS())
                             .build());
                 }
             }
@@ -526,52 +550,49 @@ public class KVServerHandler implements Runnable {
             String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
-            for(KeyValueRequest.HashRange range: hashRanges) {
+            for (KeyValueRequest.HashRange range : hashRanges) {
                 if (keyWithinRange(range, ringHash)) {
 
                     int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
 
                     // TODO: Only need to pass to one succ (now pass to three), but this is not the priority for now
-                    for(Node currentBackup: nodesCircle.getMySuccessors().get(VN).values()) {
+                    for (Node currentBackup : nodesCircle.getMySuccessors().get(VN).values()) {
 
-                            if (!allPairsForNode.containsKey(currentBackup))
-                                allPairsForNode.put(currentBackup, new ArrayList<>());
-                            allPairsForNode.get(currentBackup).add(KeyValueRequest.KeyValueEntry.newBuilder()
-                                    .setVersion(entry.getValue().getVersion())
-                                    .setValue(entry.getValue().getValue())
-                                    .setKey(entry.getKey())
-                                    .build());
+                        if (!allPairsForNode.containsKey(currentBackup))
+                            allPairsForNode.put(currentBackup, new ArrayList<>());
+                        allPairsForNode.get(currentBackup).add(KeyValueRequest.KeyValueEntry.newBuilder()
+                                .setVersion(entry.getValue().getVersion())
+                                .setValue(entry.getValue().getValue())
+                                .setKey(entry.getKey())
+                                .build());
 
                     }
                 }
             }
         }
 
-        for(Node newBackupNode: allPairsForNode.keySet()) {
+        for (Node newBackupNode : allPairsForNode.keySet()) {
             keyTransferManager.sendMessage(allPairsForNode.get(newBackupNode), newBackupNode);
         }
     }
 
     public void sendWriteToBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID, Boolean remove) {
-        if(nodesCircle.getStartupNodesSize() == 1) return;
+        if (nodesCircle.getStartupNodesSize() == 1) return;
         ByteString key = reqPayload.getKey();
         String sha256 = Hashing.sha256().hashBytes(key.toByteArray()).toString();
 
         int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
         int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
 
-        for (Node backupNode: nodesCircle.getMySuccessors().get(VN).values()) {
+        for (Node backupNode : nodesCircle.getMySuccessors().get(VN).values()) {
 
             KeyValueRequest.KVRequest request;
 
-            if(remove)
-            {
+            if (remove) {
                 request = KeyValueRequest.KVRequest.newBuilder()
                         .setCommand(Command.BACKUP_REM.getCode())
                         .build();
-            }
-            else
-            {
+            } else {
                 request = KeyValueRequest.KVRequest.newBuilder()
                         .setCommand(Command.BACKUP_WRITE.getCode())
                         .setKey(reqPayload.getKey())
@@ -584,6 +605,7 @@ public class KVServerHandler implements Runnable {
                     .setMessageID(MessageID)
                     .setPayload(request.toByteString())
                     .setCheckSum(getChecksum(MessageID.toByteArray(), request.toByteArray()))
+                    .setTime(this.enter_system_time)
                     .build();
 
             byte[] requestBytes = requestMessage.toByteArray();
