@@ -3,25 +3,24 @@ package com.g3.CPEN431.A9.Model.Distribution;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.Message;
 import com.g3.CPEN431.A9.Model.Command;
-import com.g3.CPEN431.A9.Model.KVServer;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.Value;
 import com.g3.CPEN431.A9.Utility.MemoryUsage;
-import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.g3.CPEN431.A9.Utility.NetUtils.getChecksum;
 
 public class KeyTransferManager {
     private DatagramSocket socket;
-    private final KVStore store = KVStore.getInstance();
-    private final NodesCircle nodesCircle = NodesCircle.getInstance();
+    KVStore store = KVStore.getInstance();
+    NodesCircle nodesCircle = NodesCircle.getInstance();
     private final static KeyTransferManager instance = new KeyTransferManager();
     public static KeyTransferManager getInstance() {
         return instance;
@@ -33,40 +32,7 @@ public class KeyTransferManager {
         this.socket = null;
     }
 
-    public List<KeyValueRequest.KeyValueEntry> transferKeysWithinRange(Node recoveredNode, List<KeyValueRequest.HashRange> hashRanges) {
-        List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
-
-        for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
-            String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
-
-            int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
-            // keys within affected range
-//            System.out.println("Key hash" + StringUtils.byteArrayToHexString(entry.getKey().toByteArray()) + ", key range" + ringHash);
-//            System.out.println("range 0 " + hashRanges.get(0).getMinRange() + " ," + hashRanges.get(0).getMaxRange());
-//            System.out.println("range 1 " + hashRanges.get(1).getMinRange() + " ," + hashRanges.get(1).getMaxRange());
-//            System.out.println("range 2 " + hashRanges.get(2).getMinRange() + " ," + hashRanges.get(2).getMaxRange());
-            if ((ringHash <= hashRanges.get(0).getMaxRange() && ringHash >= hashRanges.get(0).getMinRange()) ||
-                    (ringHash <= hashRanges.get(1).getMaxRange() && ringHash >= hashRanges.get(1).getMinRange()) ||
-                    (ringHash <= hashRanges.get(2).getMaxRange() && ringHash >= hashRanges.get(2).getMinRange())) {
-
-                allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
-                        .setVersion(entry.getValue().getVersion())
-                        .setValue(entry.getValue().getValue())
-                        .setKey(entry.getKey())
-                        .build());
-            }
-        }
-
-        if (!allPairs.isEmpty()) {
-            sendMessage(allPairs, recoveredNode);
-//            System.out.println(KVServer.port + "sending" + allPairs.size() + " keys for " + recoveredNode.getPort());
-        } else {
-//            System.out.println(KVServer.port + "has no keys for " + recoveredNode.getPort());
-        }
-        return allPairs;
-    }
-
-    public void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
+    public void sendMessageToBackups(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
         byte[] msg_id = new byte[0];
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
@@ -136,6 +102,168 @@ public class KeyTransferManager {
             } catch (IOException e) {
                 System.out.println("====================");
                 System.out.println(e.getMessage());
+                System.out.println("====================");
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
+
+    private boolean keyWithinRange(KeyValueRequest.HashRange hashRange, int ringHash) {
+        if(hashRange.getMinRange() <= hashRange.getMaxRange()) {
+            return (ringHash >= hashRange.getMinRange()) && (ringHash <= hashRange.getMaxRange());
+        }else{
+            return (ringHash <= hashRange.getMaxRange()) || (ringHash >= hashRange.getMinRange());
+        }
+    }
+
+    public void updateBackupPosition(Node newBackup, int VN) {
+//        System.out.println(KVServer.port + "sent key transfer to backup" + newBackup.getPort());
+        // List<KeyValueRequest.HashRange> hashRanges = nodesCircle.getRecoveredNodeRange(nodesCircle.getCurrentNode());
+        KeyValueRequest.HashRange hashRange = nodesCircle.getHashRangeByHash(VN, nodesCircle.getCurrentNode());
+        List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+        for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
+            String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
+            int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+
+            if (keyWithinRange(hashRange, ringHash))
+                allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
+                        .setVersion(entry.getValue().getVersion())
+                        .setValue(entry.getValue().getValue())
+                        .setKey(entry.getKey())
+                        .build());
+        }
+        sendMessageToBackups(allPairs, newBackup);
+    }
+
+    public void recoverPrimaryPosition(Node recoveredPrimary, List<KeyValueRequest.HashRange> hashRanges) {
+//        System.out.println(KVServer.port + "sent key transfer to recovered primary" + recoveredPrimary.getPort());
+//        NavigableSet<Integer> myVNSet =  nodesCircle.getMySuccessors().keySet();
+//        List<KeyValueRequest.HashRange> hashRanges = nodesCircle.getRecoveredNodeRange(recoveredPrimary);
+//        int recoveredPrimaryVN = nodesCircle.getPrevRingHash(VN);
+//        KeyValueRequest.HashRange hashRange = nodesCircle.getHashRangeByHash(recoveredPrimaryVN, recoveredPrimary);
+        List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+
+        // TODO: Instead of sending all keys within 3 ranges
+        // I am only responsible for sending to the range with maxRange just pred to my VN(s)
+        for (KeyValueRequest.HashRange range : hashRanges) {
+//            if (!myVNSet.contains(nodesCircle.getNextRingHash(range.getMaxRange()))) continue;
+
+            for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
+                String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
+                int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+
+                if (keyWithinRange(range, ringHash)) {
+                    allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
+                            .setVersion(entry.getValue().getVersion())
+                            .setValue(entry.getValue().getValue())
+                            .setKey(entry.getKey())
+                            .build());
+                }
+            }
+        }
+
+        sendMessagePrimaryRecover(allPairs, recoveredPrimary);
+//        for (Node backupNode : nodesCircle.findSuccessorNodesHashMap(recoveredPrimary).values()) {
+//            if (backupNode != nodesCircle.getCurrentNode()) {
+//                keyTransferManager.sendMessage(allPairs, backupNode);
+//            }
+//        }
+    }
+
+    //If my predecessor dead, I will take the primary postion
+    // I will need my predecessor's place on the ring, before remove it
+    public void takePrimaryPosition(List<KeyValueRequest.HashRange> hashRanges) {
+        ConcurrentHashMap<Node, List<KeyValueRequest.KeyValueEntry>> allPairsForNode = new ConcurrentHashMap<>();
+        //hashRanges.addAll(nodesCircle.getRecoveredNodeRange(nodesCircle.getCurrentNode()));
+
+        for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
+            String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
+            int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+
+            for(KeyValueRequest.HashRange range: hashRanges) {
+                if (keyWithinRange(range, ringHash)) {
+
+                    int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
+
+                    // TODO: Only need to pass to one succ (now pass to three), but this is not the priority for now
+                    for(Node currentBackup: nodesCircle.getMySuccessors().get(VN).values()) {
+
+                        if (!allPairsForNode.containsKey(currentBackup))
+                            allPairsForNode.put(currentBackup, new ArrayList<>());
+                        allPairsForNode.get(currentBackup).add(KeyValueRequest.KeyValueEntry.newBuilder()
+                                .setVersion(entry.getValue().getVersion())
+                                .setValue(entry.getValue().getValue())
+                                .setKey(entry.getKey())
+                                .build());
+
+                    }
+                }
+            }
+        }
+
+        for(Node newBackupNode: allPairsForNode.keySet()) {
+            sendMessageToBackups(allPairsForNode.get(newBackupNode), newBackupNode);
+        }
+    }
+
+    public void sendREMtoBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID) {
+        sendWriteToBackups(reqPayload, MessageID, true);
+    }
+
+
+    public void sendPUTtoBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID) {
+        sendWriteToBackups(reqPayload, MessageID, false);
+    }
+
+    public void sendWriteToBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID, Boolean remove) {
+        if(nodesCircle.getStartupNodesSize() == 1) return;
+        ByteString key = reqPayload.getKey();
+        String sha256 = Hashing.sha256().hashBytes(key.toByteArray()).toString();
+
+        int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
+        int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
+
+        for (Node backupNode: nodesCircle.getMySuccessors().get(VN).values()) {
+
+            KeyValueRequest.KVRequest request;
+
+            if(remove)
+            {
+                request = KeyValueRequest.KVRequest.newBuilder()
+                        .setCommand(Command.BACKUP_REM.getCode())
+                        .setKey(reqPayload.getKey())
+                        .build();
+            }
+            else
+            {
+                request = KeyValueRequest.KVRequest.newBuilder()
+                        .setCommand(Command.BACKUP_WRITE.getCode())
+                        .setKey(reqPayload.getKey())
+                        .setValue(reqPayload.getValue())
+                        .setVersion(reqPayload.getVersion())
+                        .build();
+            }
+
+            Message.Msg requestMessage = Message.Msg.newBuilder()
+                    .setMessageID(MessageID)
+                    .setPayload(request.toByteString())
+                    .setCheckSum(getChecksum(MessageID.toByteArray(), request.toByteArray()))
+                    .build();
+
+            byte[] requestBytes = requestMessage.toByteArray();
+            DatagramPacket packet = new DatagramPacket(
+                    requestBytes,
+                    requestBytes.length,
+                    backupNode.getAddress(),
+                    backupNode.getPort());
+
+            try {
+                socket.send(packet);
+            } catch (IOException e) {
+                System.out.println("====================");
+                System.out.println("[sendWriteToBackups]" + e.getMessage());
                 System.out.println("====================");
                 throw new RuntimeException(e);
             }

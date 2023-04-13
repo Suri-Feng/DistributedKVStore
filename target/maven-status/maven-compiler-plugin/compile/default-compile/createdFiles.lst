@@ -30,6 +30,7 @@ ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest$1.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KVRequest.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$KeyValueEntry.class
 com/g3/CPEN431/A9/Model/Store/StoreCache.class
+com/g3/CPEN431/A9/Model/Distribution/NodeCircleManager.class
 ca/NetSysLab/ProtocolBuffers/KeyValueResponse.class
 com/g3/CPEN431/A9/Model/Distribution/Node.class
 ca/NetSysLab/ProtocolBuffers/KeyValueRequest$HashRangeOrBuilder.class
