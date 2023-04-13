@@ -6,6 +6,7 @@ import com.g3.CPEN431.A9.Model.Command;
 import com.g3.CPEN431.A9.Model.KVServer;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.Value;
+import com.g3.CPEN431.A9.Utility.MemoryUsage;
 import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
@@ -13,6 +14,7 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ConcurrentNavigableMap;
 
@@ -138,6 +140,81 @@ public class KeyTransferManager {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void handleReplicationRequest(KeyValueRequest.KVRequest reqPayload) {
+        int command = reqPayload.getCommand();
+
+        if  (command == Command.KEY_TRANSFER.getCode()) {
+            addKey(reqPayload.getPair());
+            return;
+        }
+
+        if (command == Command.PRIMARY_RECOVER.getCode()) {
+            addKeyPrimaryRecover(reqPayload.getPair());
+            return;
+        }
+
+        if (command == Command.BACKUP_WRITE.getCode()) {
+            backupPUT(reqPayload);
+            return;
+        }
+
+        if (command == Command.BACKUP_REM.getCode()) {
+            backupREM(reqPayload);
+            return;
+        }
+    }
+
+    private void backupPUT(KeyValueRequest.KVRequest requestPayload)  {
+        if (isMemoryOverload()) {
+            return;
+        }
+//        System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+        Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
+        store.getStore().put(requestPayload.getKey(), valueV);
+
+    }
+
+    private void backupREM(KeyValueRequest.KVRequest requestPayload) {
+        if (store.getStore().get(requestPayload.getKey()) != null) {
+            return;
+        }
+        // To primary
+        store.getStore().remove(requestPayload.getKey());
+    }
+
+    private void addKey(KeyValueRequest.KeyValueEntry pair) {
+//        System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+        store.getStore().put(
+                pair.getKey(),
+                new Value(pair.getVersion(), pair.getValue()));
+    }
+
+    private void addKeyPrimaryRecover(KeyValueRequest.KeyValueEntry pair) {
+//        System.out.println(KVServer.port + " received key transfer (primary) from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
+        store.getStore().put(
+                pair.getKey(),
+                new Value(pair.getVersion(), pair.getValue()));
+
+        byte[] key = pair.getKey().toByteArray();
+        String sha256 = Hashing.sha256()
+                .hashBytes(key).toString();
+        Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
+
+        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
+        {
+            //System.out.println("send to " + nodeMatch.getPort());
+            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+            allPairs.add(pair);
+            sendMessagePrimaryRecover(allPairs, nodeMatch);
+        }
+
+    }
+
+
+    private boolean isMemoryOverload() {
+        return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
     }
 
     /*

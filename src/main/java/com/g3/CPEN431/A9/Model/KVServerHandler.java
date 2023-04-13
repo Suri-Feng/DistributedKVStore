@@ -88,14 +88,8 @@ public class KVServerHandler implements Runnable {
                 return;
             }
 
-            // Receive keys transfer
-            if  (command == Command.KEY_TRANSFER.getCode()) {
-                addKey(reqPayload.getPair());
-                return;
-            }
-
-            if (command == Command.PRIMARY_RECOVER.getCode()) {
-                addKeyPrimaryRecover(reqPayload.getPair());
+            if (command >= 21) {
+                keyTransferManager.handleReplicationRequest(reqPayload);
                 return;
             }
 
@@ -111,16 +105,6 @@ public class KVServerHandler implements Runnable {
 
             }
 
-            if (command == Command.BACKUP_WRITE.getCode()) {
-                backupPUT(reqPayload);
-                return;
-            }
-
-            if (command == Command.BACKUP_REM.getCode()) {
-                backupREM(reqPayload);
-                return;
-            }
-
             // 1. request comes from another node who thinks I'm the right node
             // 2. request from client, but I think im the right node
             // could be true or im temporarily storing the data b/c the actual right node is down
@@ -134,52 +118,6 @@ public class KVServerHandler implements Runnable {
         }
     }
 
-
-        private void backupPUT(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
-        if (isMemoryOverload()) {
-            return;
-        }
-//        System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-        Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
-        store.getStore().put(requestPayload.getKey(), valueV);
-
-    }
-
-    private void backupREM(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
-        if (store.getStore().get(requestPayload.getKey()) != null) {
-            return;
-        }
-        // To primary
-        store.getStore().remove(requestPayload.getKey());
-    }
-
-    private void addKey(KeyValueRequest.KeyValueEntry pair) {
-//        System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
-        store.getStore().put(
-                pair.getKey(),
-                new Value(pair.getVersion(), pair.getValue()));
-    }
-
-    private void addKeyPrimaryRecover(KeyValueRequest.KeyValueEntry pair) {
-//        System.out.println(KVServer.port + " received key transfer (primary) from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
-        store.getStore().put(
-                pair.getKey(),
-                new Value(pair.getVersion(), pair.getValue()));
-
-        byte[] key = pair.getKey().toByteArray();
-        String sha256 = Hashing.sha256()
-                .hashBytes(key).toString();
-        Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
-
-        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
-        {
-            //System.out.println("send to " + nodeMatch.getPort());
-            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
-            allPairs.add(pair);
-            keyTransferManager.sendMessagePrimaryRecover(allPairs, nodeMatch);
-        }
-
-    }
 
     private void getResponseFromOwnNode(KeyValueRequest.KVRequest reqPayload) throws IOException {
         // If cached request, get response msg from cache and send it
