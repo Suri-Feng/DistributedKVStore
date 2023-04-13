@@ -1,5 +1,6 @@
 package com.g3.CPEN431.A9.Model.Distribution;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
+import com.g3.CPEN431.A9.Model.KVServer;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -36,13 +37,10 @@ public class NodeCircleManager {
 
                 //If my predecessor dead, I will take the primary postion
                 // I will need my predecessor's place on the ring, before remove it
-                // TODO: Optimize this
-                boolean contains = false;
                 for (ConcurrentHashMap<Integer, Node> prePreds : nodesCircle.getMyPredessors().values()) {
-                    if (prePreds.contains(node)) contains = true;
+                    if (prePreds.contains(node))
+                        removedPrimaryHashRanges.put(node, nodesCircle.getCurrentKeyRangeOnNodeCircle(node));
                 }
-                if (!contains)
-                    removedPrimaryHashRanges.put(node, nodesCircle.getRecoveredNodeRange(node));
 
                 nodesCircle.removeNode(node);
 
@@ -60,7 +58,7 @@ public class NodeCircleManager {
                     if (prePreds.contains(node)) contains = true;
                 }
                 if (!contains)
-                    recoveredPrimaryHashRanges.put(node, nodesCircle.getRecoveredNodeRange(node));
+                    recoveredPrimaryHashRanges.put(node, nodesCircle.getCurrentKeyRangeOnNodeCircle(node));
 
 //                long time = System.currentTimeMillis() - heartbeatsManager.getHeartBeats().get(node.getId());
 //                long time2 = heartbeatsManager.getHeartBeats().get(node.getId());
@@ -80,8 +78,10 @@ public class NodeCircleManager {
         }
 
 
-        for (Node node : removedPrimaryHashRanges.keySet())
+        for (Node node : removedPrimaryHashRanges.keySet()) {
+//            System.out.println(KVServer.port + "transport keys for dead primary" + node.getPort());
             keyTransferManager.takePrimaryPosition(removedPrimaryHashRanges.get(node));
+        }
 
         // Need the updated circle to update predecessor list
 //        ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Node>> newPredsForVNs = nodesCircle.updateMyPredecessor();

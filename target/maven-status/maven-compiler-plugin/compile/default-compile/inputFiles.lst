@@ -15,6 +15,7 @@
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Utility/NetUtils.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Store/KVStore.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/HeartbeatsManager.java
+/Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Distribution/NodeCircleManager.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Command.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/Store/StoreCache.java
 /Users/suri/IdeaProjects/CPEN431_2023_A04/src/main/java/com/g3/CPEN431/A9/Model/KVServer.java

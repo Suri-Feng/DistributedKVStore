@@ -8,6 +8,7 @@ import com.g3.CPEN431.A9.Utility.MemoryUsage;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.StoreCache;
 import com.g3.CPEN431.A9.Model.Store.Value;
+import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.protobuf.ByteString;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class KVServerHandler implements Runnable {
             }
 
             if (command >= 21 && command <= 27) {
-                keyTransferManager.handleReplicationRequest(reqPayload);
+                keyTransferManager.handleReplicationRequest(reqPayload, port);
                 return;
             }
 
@@ -216,8 +217,11 @@ public class KVServerHandler implements Runnable {
 
                 Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
                 store.getStore().put(key, valueV);
-//                System.out.println(socket.getLocalPort() + " save: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
-
+                String valuePrint1 = StringUtils.byteArrayToHexString(requestPayload.getValue().toByteArray());
+                valuePrint1 = valuePrint1.length() > 100 ? valuePrint1.substring(0, 100): valuePrint1;
+                System.out.println(socket.getLocalPort() + " PUT: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray())
+                        + ", val " + valuePrint1
+                        + ", version " + requestPayload.getVersion());
                 if(nodesCircle.getStartupNodesSize() != 1)
                     keyTransferManager.sendPUTtoBackups(requestPayload, requestMessage.getMessageID());
 
@@ -227,12 +231,16 @@ public class KVServerHandler implements Runnable {
             case GET:
                     Value valueInStore = store.getStore().get(key);
                     if (valueInStore == null) {
-//                       System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
+                       System.out.println(socket.getLocalPort() + " no key: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
                         return builder
                                 .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                                 .build();
                     }
-
+                String valuePrint = StringUtils.byteArrayToHexString(valueInStore.getValue().toByteArray());
+                valuePrint = valuePrint.length() > 100 ? valuePrint.substring(0, 100): valuePrint;
+                System.out.println(socket.getLocalPort() + " GET: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray())
+                        + ", val " + valuePrint
+                        + ", version " + valueInStore.getVersion());
                     return builder
                             .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                             .setValue(valueInStore.getValue())

@@ -1,6 +1,7 @@
 package com.g3.CPEN431.A9.Model.Distribution;
 
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
+import com.g3.CPEN431.A9.Model.KVServer;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -50,6 +51,24 @@ public class NodesCircle {
 //                System.out.println(entry.getValue().getPort());
 //            }
 //        System.out.println("==========");
+    }
+
+    public void printPredecessors() {
+        StringBuilder predMsg = new StringBuilder(KVServer.port + " has predecessors: ");
+        for (int vn: myPredecessors.keySet()) {
+            for (Node node: myPredecessors.get(vn).values())
+                predMsg.append(node.getPort()).append(" ");
+        }
+        System.out.println(predMsg);
+    }
+
+    public void printSuccessors() {
+        StringBuilder succMsg = new StringBuilder(KVServer.port + " has successors: ");
+        for (int vn: mySuccessors.keySet()) {
+            for (Node node: mySuccessors.get(vn).values())
+                succMsg.append(node.getPort()).append("  ");
+        }
+        System.out.println(succMsg);
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -108,7 +127,7 @@ public class NodesCircle {
 
 
     // Get current hash range
-    public List<KeyValueRequest.HashRange> getRecoveredNodeRange(Node recoveredNode) {
+    public List<KeyValueRequest.HashRange> getCurrentKeyRangeOnNodeCircle(Node recoveredNode) {
         int hash1 = getCircleBucketFromHash(recoveredNode.getSha256Hash());
         int hash2 = getCircleBucketFromHash(recoveredNode.getSha512Hash());
         int hash3 = getCircleBucketFromHash(recoveredNode.getSha384Hash());
@@ -173,6 +192,8 @@ public class NodesCircle {
         currentNode = getNodeById(id);
         updateMyPredecessor();
         updateMySuccessor();
+//        printPredecessors();
+//        printSuccessors();
     }
 
     public int getThisNodeId() {
@@ -260,7 +281,6 @@ public class NodesCircle {
         return nodesHashMap;
     }
 
-    // TODO: CHANGE TO FIND ONE
     public Set<Node> findThreeImmediatePredecessors(int ringKey) {
         Set<Node> nodes = new HashSet<>();
         ConcurrentNavigableMap<Integer, Node> headMap = circle.headMap(ringKey);

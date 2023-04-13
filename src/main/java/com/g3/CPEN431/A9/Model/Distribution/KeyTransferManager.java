@@ -3,9 +3,11 @@ package com.g3.CPEN431.A9.Model.Distribution;
 import ca.NetSysLab.ProtocolBuffers.KeyValueRequest;
 import ca.NetSysLab.ProtocolBuffers.Message;
 import com.g3.CPEN431.A9.Model.Command;
+import com.g3.CPEN431.A9.Model.KVServer;
 import com.g3.CPEN431.A9.Model.Store.KVStore;
 import com.g3.CPEN431.A9.Model.Store.Value;
 import com.g3.CPEN431.A9.Utility.MemoryUsage;
+import com.g3.CPEN431.A9.Utility.StringUtils;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
@@ -15,6 +17,7 @@ import java.net.DatagramSocket;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.g3.CPEN431.A9.Model.KVServer.port;
 import static com.g3.CPEN431.A9.Utility.NetUtils.getChecksum;
 
 public class KeyTransferManager {
@@ -32,7 +35,7 @@ public class KeyTransferManager {
         this.socket = null;
     }
 
-    public void sendMessageToBackups(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
+    public void sendMessageToBackups(List<KeyValueRequest.KeyValueEntry> allPairs, Node backupNode) {
         byte[] msg_id = new byte[0];
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
@@ -56,8 +59,8 @@ public class KeyTransferManager {
             DatagramPacket packet = new DatagramPacket(
                     requestBytes,
                     requestBytes.length,
-                    recoveredNode.getAddress(),
-                    recoveredNode.getPort());
+                    backupNode.getAddress(),
+                    backupNode.getPort());
 
             try {
                 socket.send(packet);
@@ -217,7 +220,7 @@ public class KeyTransferManager {
         sendWriteToBackups(reqPayload, MessageID, false);
     }
 
-    public void sendWriteToBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID, Boolean remove) {
+    private void sendWriteToBackups(KeyValueRequest.KVRequest reqPayload, ByteString MessageID, Boolean remove) {
         if(nodesCircle.getStartupNodesSize() == 1) return;
         ByteString key = reqPayload.getKey();
         String sha256 = Hashing.sha256().hashBytes(key.toByteArray()).toString();
@@ -270,20 +273,27 @@ public class KeyTransferManager {
         }
     }
 
-    public void handleReplicationRequest(KeyValueRequest.KVRequest reqPayload) {
+    public void handleReplicationRequest(KeyValueRequest.KVRequest reqPayload, int port) {
         int command = reqPayload.getCommand();
 
         if  (command == Command.KEY_TRANSFER.getCode()) {
+//            System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(reqPayload.getPair().getKey().toByteArray()));
             addKey(reqPayload.getPair());
             return;
         }
 
         if (command == Command.PRIMARY_RECOVER.getCode()) {
+            String val = StringUtils.byteArrayToHexString(reqPayload.getPair().getValue().toByteArray());
+            val = val.length() > 100 ? val.substring(0, 100): val;
+            System.out.println(KVServer.port + " received key transfer (primary) from "  + port +": " + StringUtils.byteArrayToHexString(reqPayload.getPair().getKey().toByteArray())
+                    + ", val " + val
+                    + ", version " + reqPayload.getPair().getVersion());
             addKeyPrimaryRecover(reqPayload.getPair());
             return;
         }
 
         if (command == Command.BACKUP_WRITE.getCode()) {
+//            System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(reqPayload.getKey().toByteArray()));
             backupPUT(reqPayload);
             return;
         }
@@ -296,9 +306,9 @@ public class KeyTransferManager {
 
     private void backupPUT(KeyValueRequest.KVRequest requestPayload)  {
         if (isMemoryOverload()) {
+            System.out.println(KVServer.port + " BACKUP PUT OVERLOAD");
             return;
         }
-//        System.out.println(KVServer.port + " received backup put: " + StringUtils.byteArrayToHexString(requestPayload.getKey().toByteArray()));
         Value valueV = new Value(requestPayload.getVersion(), requestPayload.getValue());
         store.getStore().put(requestPayload.getKey(), valueV);
 
@@ -308,19 +318,16 @@ public class KeyTransferManager {
         if (store.getStore().get(requestPayload.getKey()) != null) {
             return;
         }
-        // To primary
         store.getStore().remove(requestPayload.getKey());
     }
 
     private void addKey(KeyValueRequest.KeyValueEntry pair) {
-//        System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
     }
 
     private void addKeyPrimaryRecover(KeyValueRequest.KeyValueEntry pair) {
-//        System.out.println(KVServer.port + " received key transfer (primary) from "  + port +": " + StringUtils.byteArrayToHexString(pair.getKey().toByteArray()));
         store.getStore().put(
                 pair.getKey(),
                 new Value(pair.getVersion(), pair.getValue()));
