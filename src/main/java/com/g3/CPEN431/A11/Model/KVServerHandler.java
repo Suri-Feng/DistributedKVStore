@@ -9,7 +9,6 @@ import com.g3.CPEN431.A11.Utility.MemoryUsage;
 import com.g3.CPEN431.A11.Model.Store.KVStore;
 import com.g3.CPEN431.A11.Model.Store.StoreCache;
 import com.g3.CPEN431.A11.Model.Store.Value;
-import com.google.common.hash.Hashing;
 import com.google.protobuf.ByteString;
 
 import java.io.IOException;
@@ -18,7 +17,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.CRC32;
 import com.g3.CPEN431.A11.Model.Distribution.KeyTransferManager;
 
@@ -62,10 +60,10 @@ public class KVServerHandler implements Runnable {
 
             int command = reqPayload.getCommand();
 
-//            if (command == Command.PUT_ACK.getCode()) {
-//                processBackupAck();
-//                return;
-//            }
+            if (command == Command.PUT_ACK.getCode()) {
+                processBackupAck();
+                return;
+            }
 
             // Receive heartbeats
             if (command == Command.HEARTBEAT.getCode()) {
@@ -151,26 +149,11 @@ public class KVServerHandler implements Runnable {
         // Prepare response payload as per client's command
         KeyValueResponse.KVResponse responsePayload = processRequest(reqPayload);
 
-//        if (nodesCircle.getStartupNodesSize() != 1 && reqPayload.getCommand() == Command.PUT.getCode()
-//                && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
-//            String uuid = UUID.randomUUID().toString();
-//            QueuedMessage queuedMessage;
-//            if (!requestMessage.hasClientPort()) {
-//                queuedMessage = new QueuedMessage(this.address, this.port, requestMessage.getMessageID(), reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion());
-//            } else {
-//                queuedMessage = new QueuedMessage(InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
-//                        requestMessage.getClientPort(),
-//                        requestMessage.getMessageID(),
-//                        reqPayload.getKey(),
-//                        reqPayload.getValue(),
-//                        reqPayload.getVersion());
-//            }
-//            long R_TS = System.currentTimeMillis();
-//            putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
-//            storeCache.getQueuedResponses().put(ByteString.copyFromUtf8(uuid), queuedMessage);
-//            sendWriteToBackups(reqPayload, ByteString.copyFromUtf8(uuid), false, R_TS);
-//            return;
-//        }
+        if (nodesCircle.getStartupNodesSize() != 1 && reqPayload.getCommand() == Command.PUT.getCode()
+                && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
+            putWriteMessageInQueue(reqPayload);
+            return;
+        }
         // Attach payload, id, and checksum to reply message
 //        long R_TS = System.currentTimeMillis();
 //        boolean sendWriteToBackups = false;
@@ -195,24 +178,33 @@ public class KVServerHandler implements Runnable {
 
         sendResponse(responseMsg, requestMessage);
         storeCache.getCache().put(ByteString.copyFrom(id), responseMsg);
-//
-//        if (nodesCircle.getStartupNodesSize() != 1 &&
-//                reqPayload.getCommand() == Command.REMOVE.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
-//            keyTransferManager.sendREMtoBackups(reqPayload, requestMessage.getMessageID(), 0);
-//        }
+
+        if (nodesCircle.getStartupNodesSize() != 1 &&
+                reqPayload.getCommand() == Command.REMOVE.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
+            keyTransferManager.sendREMtoBackups(reqPayload, requestMessage.getMessageID(), 0);
+        }
 //        if (sendWriteToBackups) {
 //            keyTransferManager.sendPUTtoBackups(reqPayload, requestMessage.getMessageID(), R_TS);
 //        }
     }
 
-    private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {
-        byte[] responseAsByteArray = msg.toByteArray();
-        DatagramPacket responsePkt = new DatagramPacket(
-                    responseAsByteArray,
-                    responseAsByteArray.length,
-                    address,
-                    port);
-        socket.send(responsePkt);
+    private void putWriteMessageInQueue(KeyValueRequest.KVRequest reqPayload) throws UnknownHostException {
+        String uuid = UUID.randomUUID().toString();
+        QueuedMessage queuedMessage;
+        if (!requestMessage.hasClientPort()) {
+            queuedMessage = new QueuedMessage(this.address, this.port, requestMessage.getMessageID(), reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion());
+        } else {
+            queuedMessage = new QueuedMessage(InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
+                    requestMessage.getClientPort(),
+                    requestMessage.getMessageID(),
+                    reqPayload.getKey(),
+                    reqPayload.getValue(),
+                    reqPayload.getVersion());
+        }
+        long R_TS = System.currentTimeMillis();
+        putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
+        storeCache.getQueuedResponses().put(ByteString.copyFromUtf8(uuid), queuedMessage);
+        keyTransferManager.sendPUTtoBackups(reqPayload, ByteString.copyFromUtf8(uuid), R_TS);
     }
 
     private void putValueInStore(ByteString key, ByteString value, int version, long R_TS) {
@@ -255,6 +247,16 @@ public class KVServerHandler implements Runnable {
         socket.send(responsePkt);
     }
 
+    private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {
+        byte[] responseAsByteArray = msg.toByteArray();
+        DatagramPacket responsePkt = new DatagramPacket(
+                responseAsByteArray,
+                responseAsByteArray.length,
+                address,
+                port);
+        socket.send(responsePkt);
+    }
+
     /*
      *  Generate a response payload
      */
@@ -291,12 +293,12 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.OUT_OF_SPACE.getCode())
                             .build();
                 }
-//                if (nodesCircle.getStartupNodesSize() == 1) {
-//                    store.getStore().put(requestPayload.getKey(), new Value(requestPayload.getVersion(), requestPayload.getValue()));
-//                }
-                long R_TS = System.currentTimeMillis();
-                putValueInStore(requestPayload.getKey(), requestPayload.getValue(), requestPayload.getVersion(), R_TS);
-                keyTransferManager.sendPUTtoBackups(requestPayload, requestMessage.getMessageID(), R_TS);
+                if (nodesCircle.getStartupNodesSize() == 1) {
+                    store.getStore().put(requestPayload.getKey(), new Value(requestPayload.getVersion(), requestPayload.getValue()));
+                }
+//                long R_TS = System.currentTimeMillis();
+//                putValueInStore(requestPayload.getKey(), requestPayload.getValue(), requestPayload.getVersion(), R_TS);
+//                keyTransferManager.sendPUTtoBackups(requestPayload, requestMessage.getMessageID(), R_TS);
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
@@ -320,7 +322,7 @@ public class KVServerHandler implements Runnable {
                 }
 
                 store.getStore().remove(key);
-                keyTransferManager.sendREMtoBackups(requestPayload, requestMessage.getMessageID(), 0);
+//                keyTransferManager.sendREMtoBackups(requestPayload, requestMessage.getMessageID(), 0);
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();

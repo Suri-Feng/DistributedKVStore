@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e02bb82b-234e-4c42-800d-d923235cb253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/KVServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/KVServerHandler.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,19 +44,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/meganma/Desktop/2023w/CPEN 431/cpen431_2023_project_g3&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
+    "last_opened_file_path": "/Users/meganma/Desktop/2023w/CPEN 431/DistributedKVStore",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
@@ -195,7 +185,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9a2aaa2b-63ca-4387-8bc2-c37165dca4ea" name="Changes" comment="" />
+      <changelist id="e02bb82b-234e-4c42-800d-d923235cb253" name="Changes" comment="" />
       <created>1674589612525</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
