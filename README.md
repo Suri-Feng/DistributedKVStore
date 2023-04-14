@@ -12,6 +12,9 @@ To run the compiled jar file located in the root directory, run the following co
 The server will start on the specified port number.
 
 ### Brief Descriptions
+#### A12
+- In A11, a non-blocking primary/backup protocol was used, meaning that for put requests nodes would send responses 
+- To ensure ordering of events, timestamps 
 #### A11
 - One key would have 4 replica: one primary and three backups. The node that a key can be mapped on the consistent 
   hashing ring would be the primary node for a key, and the following three nodes would be the backups for the key.
