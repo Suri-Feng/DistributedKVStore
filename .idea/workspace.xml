@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e02bb82b-234e-4c42-800d-d923235cb253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/KVServerHandler.java" afterDir="false" />
+    <list default="true" id="e02bb82b-234e-4c42-800d-d923235cb253" name="Changes" comment="change to blocking">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +48,6 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "corretto-17",
     "last_opened_file_path": "/Users/meganma/Desktop/2023w/CPEN 431/DistributedKVStore",
     "project.structure.last.edited": "Modules",
@@ -240,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678859907024</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="change to blocking">
+      <created>1681496116607</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681496116607</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -258,6 +264,7 @@
     <MESSAGE value="wuyu" />
     <MESSAGE value="A7" />
     <MESSAGE value="remove target folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove target folder" />
+    <MESSAGE value="change to blocking" />
+    <option name="LAST_COMMIT_MESSAGE" value="change to blocking" />
   </component>
 </project>

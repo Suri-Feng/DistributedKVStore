@@ -12,6 +12,7 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -259,18 +260,14 @@ public class KeyTransferManager {
             return;
         }
 
-        if (command == Command.BACKUP_WRITE.getCode()) {
-            backupPUT(reqPayload);
-            return;
-        }
-
         if (command == Command.BACKUP_REM.getCode()) {
             backupREM(reqPayload);
             return;
         }
     }
 
-    private void backupPUT(KeyValueRequest.KVRequest requestPayload)  {
+    public void backupPUT(KeyValueRequest.KVRequest requestPayload, ByteString id, InetAddress address
+            , int port)  {
         if (isMemoryOverload()) {
             return;
         }
@@ -281,31 +278,31 @@ public class KeyTransferManager {
 
         putValueInStore(requestPayload.getKey(), requestPayload.getValue(), requestPayload.getVersion(), requestPayload.getRTS());
 
-//        KeyValueRequest.KVRequest request = KeyValueRequest.KVRequest.newBuilder()
-//                .setCommand(Command.PUT_ACK.getCode())
-//                .build();
-//
-//        Message.Msg requestMessage = Message.Msg.newBuilder()
-//                .setMessageID(this.requestMessage.getMessageID())
-//                .setPayload(request.toByteString())
-//                .setCheckSum(0)
-//                .build();
-//
-//        byte[] requestBytes = requestMessage.toByteArray();
-//        DatagramPacket packet = new DatagramPacket(
-//                requestBytes,
-//                requestBytes.length,
-//                this.address,
-//                this.port);
-//
-//        try {
-//            socket.send(packet);
-//        } catch (IOException e) {
-//            System.out.println("====================");
-//            System.out.println("[sendACKtoPrimary]" + e.getMessage());
-//            System.out.println("====================");
-//            throw new RuntimeException(e);
-//        }
+        KeyValueRequest.KVRequest request = KeyValueRequest.KVRequest.newBuilder()
+                .setCommand(Command.PUT_ACK.getCode())
+                .build();
+
+        Message.Msg requestMessage = Message.Msg.newBuilder()
+                .setMessageID(id)
+                .setPayload(request.toByteString())
+                .setCheckSum(0)
+                .build();
+
+        byte[] requestBytes = requestMessage.toByteArray();
+        DatagramPacket packet = new DatagramPacket(
+                requestBytes,
+                requestBytes.length,
+                address,
+                port);
+
+        try {
+            socket.send(packet);
+        } catch (IOException e) {
+            System.out.println("====================");
+            System.out.println("[sendACKtoPrimary]" + e.getMessage());
+            System.out.println("====================");
+            throw new RuntimeException(e);
+        }
     }
 
     private void backupREM(KeyValueRequest.KVRequest requestPayload) {

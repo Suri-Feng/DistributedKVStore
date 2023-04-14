@@ -77,6 +77,10 @@ public class KVServerHandler implements Runnable {
             }
 
             if (command >= 21 && command <= 28) {
+                if (command == Command.BACKUP_WRITE.getCode()) {
+                    keyTransferManager.backupPUT(reqPayload, this.requestMessage.getMessageID(), this.address, this.port);
+                    return;
+                }
                 keyTransferManager.handleReplicationRequest(reqPayload);
                 return;
             }
@@ -309,11 +313,11 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.NONEXISTENT_KEY.getCode())
                             .build();
                 }
-                    return builder
-                            .setErrCode(ErrorCode.SUCCESSFUL.getCode())
-                            .setValue(valueInStore.getValue())
-                            .setVersion(valueInStore.getVersion())
-                            .build();
+                return builder
+                        .setErrCode(ErrorCode.SUCCESSFUL.getCode())
+                        .setValue(valueInStore.getValue())
+                        .setVersion(valueInStore.getVersion())
+                        .build();
             case REMOVE:
                 if (store.getStore().get(key) == null) {
                     return builder
