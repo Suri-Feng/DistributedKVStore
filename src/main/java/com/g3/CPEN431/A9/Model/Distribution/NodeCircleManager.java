@@ -67,6 +67,7 @@ public class NodeCircleManager {
             }
         }
 
+
         // If my successor changed (died or recovered), I will replace the backup
         // I will need new successor's place after ring updated
         //TODO: Here might be concurrent issue
@@ -104,6 +105,7 @@ public class NodeCircleManager {
 //                recoverPrimaryPosition(node);
 //            }
 //        }
+
         nodesCircle.updateMyPredecessor();
 //
     }

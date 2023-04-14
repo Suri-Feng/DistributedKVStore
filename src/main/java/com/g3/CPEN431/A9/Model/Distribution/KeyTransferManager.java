@@ -130,7 +130,8 @@ public class KeyTransferManager {
             String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
-            if (keyWithinRange(hashRange, ringHash))
+
+            if (keyWithinRange(hashRange, ringHash) && isPrimary(entry.getKey()))
                 allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                         .setVersion(entry.getValue().getVersion())
                         .setValue(entry.getValue().getValue())
@@ -186,7 +187,9 @@ public class KeyTransferManager {
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
             for(KeyValueRequest.HashRange range: hashRanges) {
-                if (keyWithinRange(range, ringHash)) {
+                // Can only send keys that I am primary, will not responsible for sending keys if not primary though I have them
+                if (keyWithinRange(range, ringHash) && isPrimary(entry.getKey())) {
+
 
                     int VN = nodesCircle.findSuccVNbyRingHash(ringHash);
 
@@ -277,7 +280,11 @@ public class KeyTransferManager {
         int command = reqPayload.getCommand();
 
         if  (command == Command.KEY_TRANSFER.getCode()) {
-//            System.out.println(KVServer.port + " received key transfer from "  + port +": " + StringUtils.byteArrayToHexString(reqPayload.getPair().getKey().toByteArray()));
+            String val = StringUtils.byteArrayToHexString(reqPayload.getPair().getValue().toByteArray());
+            val = val.length() > 100 ? val.substring(0, 100): val;
+            System.out.println(KVServer.port + " received key transfer (as backup) from "  + port +": " + StringUtils.byteArrayToHexString(reqPayload.getPair().getKey().toByteArray())
+                    + ", val " + val
+                    + ", version " + reqPayload.getPair().getVersion());
             addKey(reqPayload.getPair());
             return;
         }
@@ -337,19 +344,37 @@ public class KeyTransferManager {
                 .hashBytes(key).toString();
         Node nodeMatch = nodesCircle.findCorrectNodeByHash(sha256.hashCode());
 
-        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
-        {
-            //System.out.println("send to " + nodeMatch.getPort());
-            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
-            allPairs.add(pair);
-            sendMessagePrimaryRecover(allPairs, nodeMatch);
+        for (ConcurrentHashMap<Integer, Node> pred: nodesCircle.getMyPredessors().values()) {
+            if (pred.containsValue(nodeMatch)) {
+                List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+                allPairs.add(pair);
+                sendMessagePrimaryRecover(allPairs, nodeMatch);
+            }
         }
+
+//        if(nodesCircle.getAliveNodesList().containsValue(nodeMatch) && nodeMatch.getId() != nodesCircle.getThisNodeId())
+//        {
+//            //System.out.println("send to " + nodeMatch.getPort());
+//            List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+//            allPairs.add(pair);
+//            sendMessagePrimaryRecover(allPairs, nodeMatch);
+//        }
 
     }
 
+    private void addKeyPrimaryRecoverSecondary(KeyValueRequest.KeyValueEntry pair) {
+        store.getStore().put(
+                pair.getKey(),
+                new Value(pair.getVersion(), pair.getValue()));
+    }
 
     private boolean isMemoryOverload() {
         return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
+    }
+
+    public boolean isPrimary(ByteString key) {
+        NodesCircle nodesCircle = NodesCircle.getInstance();
+        return nodesCircle.findNodebyKey(key).getId() == nodesCircle.getThisNodeId();
     }
 
     /*

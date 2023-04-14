@@ -258,7 +258,7 @@ public class NodesCircle {
         int[] vns = {vn1, vn2, vn3};
 
         for (int vn: vns) {
-            ConcurrentHashMap<Integer, Node> vnPred = findThreeImmediatePredecessorsHashMap(vn);
+            ConcurrentHashMap<Integer, Node> vnPred = findOneImmediatePredecessorsHashMap(vn);
             ConcurrentHashMap<Integer, Node> newPred = new ConcurrentHashMap<>();
             for(Node node: vnPred.values()) {
                 if(this.myPredecessors.get(vn) == null || !this.myPredecessors.get(vn).contains(node)) {
@@ -272,8 +272,8 @@ public class NodesCircle {
         }
     }
 
-    public ConcurrentHashMap<Integer, Node> findThreeImmediatePredecessorsHashMap(int hash) {
-        Set<Node> nodes = findThreeImmediatePredecessors(hash);
+    public ConcurrentHashMap<Integer, Node> findOneImmediatePredecessorsHashMap(int hash) {
+        Set<Node> nodes = findOneImmediatePredecessors(hash);
         ConcurrentHashMap<Integer, Node> nodesHashMap = new ConcurrentHashMap<>();
         for(Node node: nodes) {
             nodesHashMap.put(node.getId(), node);
@@ -281,7 +281,7 @@ public class NodesCircle {
         return nodesHashMap;
     }
 
-    public Set<Node> findThreeImmediatePredecessors(int ringKey) {
+    public Set<Node> findOneImmediatePredecessors(int ringKey) {
         Set<Node> nodes = new HashSet<>();
         ConcurrentNavigableMap<Integer, Node> headMap = circle.headMap(ringKey);
 
@@ -306,7 +306,7 @@ public class NodesCircle {
             iterator = circle.tailMap(ringKey).descendingMap().entrySet().iterator();
             updated = true;
         }
-        while (nodesFound < 3 && iterator.hasNext()) {
+        while (nodesFound < 1 && iterator.hasNext()) {
             Node node = iterator.next().getValue();
             if (node != currentNode && nodes.add(node)) {
                 nodesFound++;
