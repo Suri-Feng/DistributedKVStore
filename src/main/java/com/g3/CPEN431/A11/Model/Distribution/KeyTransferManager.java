@@ -31,7 +31,7 @@ public class KeyTransferManager {
         this.socket = null;
     }
 
-    public void sendMessageToBackups(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
+    public void sendMessageToBackups(List<KeyValueRequest.KeyValueEntry> allPairs, Node backupNode) {
         byte[] msg_id = new byte[0];
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
@@ -51,8 +51,8 @@ public class KeyTransferManager {
             DatagramPacket packet = new DatagramPacket(
                     requestBytes,
                     requestBytes.length,
-                    recoveredNode.getAddress(),
-                    recoveredNode.getPort());
+                    backupNode.getAddress(),
+                    backupNode.getPort());
 
             try {
                 socket.send(packet);
@@ -114,6 +114,7 @@ public class KeyTransferManager {
             String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
             int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
 
+//            if (keyWithinRange(hashRange, ringHash) && isPrimary(entry.getKey()))
             if (keyWithinRange(hashRange, ringHash))
                 allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                         .setVersion(entry.getValue().getVersion())
@@ -133,15 +134,15 @@ public class KeyTransferManager {
             for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
                 String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
                 int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
-
-                if (keyWithinRange(range, ringHash)) {
+//                if (keyWithinRange(range, ringHash) && isPrimary(entry.getKey()))
+                if (keyWithinRange(range, ringHash))
                     allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
                             .setVersion(entry.getValue().getVersion())
                             .setValue(entry.getValue().getValue())
                             .setKey(entry.getKey())
                             .setRTS(entry.getValue().getR_TS())
                             .build());
-                }
+
             }
         }
 
@@ -344,6 +345,15 @@ public class KeyTransferManager {
             sendMessagePrimaryRecover(allPairs, nodeMatch);
         }
 
+//        for (ConcurrentHashMap<Integer, Node> pred: nodesCircle.getMyPredessors().values()) {
+//            if (pred.containsValue(nodeMatch)) {
+//                List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
+//                allPairs.add(pair);
+//                sendMessagePrimaryRecover(allPairs, nodeMatch);
+//            }
+//        }
+
+
     }
 
     private void putValueInStore(ByteString key, ByteString value, int version, long R_TS) {
@@ -356,6 +366,10 @@ public class KeyTransferManager {
         } else {
             return MemoryUsage.getFreeMemory() < 0.04 * MemoryUsage.getMaxMemory();
         }
+    }
+
+    public boolean isPrimary(ByteString key) {
+        return nodesCircle.findNodebyKey(key).getId() == nodesCircle.getThisNodeId();
     }
 
     /*

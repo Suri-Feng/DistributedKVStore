@@ -172,16 +172,16 @@ public class KVServerHandler implements Runnable {
 //            return;
 //        }
         // Attach payload, id, and checksum to reply message
-        long R_TS = System.currentTimeMillis();
-        boolean sendWriteToBackups = false;
-        if (reqPayload.getCommand() == Command.PUT.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
-            if (nodesCircle.getStartupNodesSize() == 1) {
-                store.getStore().put(reqPayload.getKey(), new Value(reqPayload.getVersion(), reqPayload.getValue()));
-            } else {
-                sendWriteToBackups = true;
-                putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
-            }
-        }
+//        long R_TS = System.currentTimeMillis();
+//        boolean sendWriteToBackups = false;
+//        if (reqPayload.getCommand() == Command.PUT.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
+//            if (nodesCircle.getStartupNodesSize() == 1) {
+//                store.getStore().put(reqPayload.getKey(), new Value(reqPayload.getVersion(), reqPayload.getValue()));
+//            } else {
+//                sendWriteToBackups = true;
+//                putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
+//            }
+//        }
 
         CRC32 checksum = new CRC32();
         checksum.update(id);
@@ -195,14 +195,14 @@ public class KVServerHandler implements Runnable {
 
         sendResponse(responseMsg, requestMessage);
         storeCache.getCache().put(ByteString.copyFrom(id), responseMsg);
-
-        if (nodesCircle.getStartupNodesSize() != 1 &&
-                reqPayload.getCommand() == Command.REMOVE.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
-            keyTransferManager.sendREMtoBackups(reqPayload, requestMessage.getMessageID(), 0);
-        }
-        if (sendWriteToBackups) {
-            keyTransferManager.sendPUTtoBackups(reqPayload, requestMessage.getMessageID(), R_TS);
-        }
+//
+//        if (nodesCircle.getStartupNodesSize() != 1 &&
+//                reqPayload.getCommand() == Command.REMOVE.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
+//            keyTransferManager.sendREMtoBackups(reqPayload, requestMessage.getMessageID(), 0);
+//        }
+//        if (sendWriteToBackups) {
+//            keyTransferManager.sendPUTtoBackups(reqPayload, requestMessage.getMessageID(), R_TS);
+//        }
     }
 
     private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {
@@ -294,6 +294,9 @@ public class KVServerHandler implements Runnable {
 //                if (nodesCircle.getStartupNodesSize() == 1) {
 //                    store.getStore().put(requestPayload.getKey(), new Value(requestPayload.getVersion(), requestPayload.getValue()));
 //                }
+                long R_TS = System.currentTimeMillis();
+                putValueInStore(requestPayload.getKey(), requestPayload.getValue(), requestPayload.getVersion(), R_TS);
+                keyTransferManager.sendPUTtoBackups(requestPayload, requestMessage.getMessageID(), R_TS);
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
@@ -317,6 +320,7 @@ public class KVServerHandler implements Runnable {
                 }
 
                 store.getStore().remove(key);
+                keyTransferManager.sendREMtoBackups(requestPayload, requestMessage.getMessageID(), 0);
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
@@ -369,7 +373,6 @@ public class KVServerHandler implements Runnable {
 
 
     public boolean isPrimary(ByteString key) {
-        NodesCircle nodesCircle = NodesCircle.getInstance();
         return nodesCircle.findNodebyKey(key).getId() == nodesCircle.getThisNodeId();
     }
 }

@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e02bb82b-234e-4c42-800d-d923235cb253" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/HeartbeatsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/HeartbeatsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/KVServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/g3/CPEN431/A11/Model/KVServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/CPEN431_2022_A4-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/KeyTransferManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/Distribution/NodesCircleManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/KVServerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/g3/CPEN431/A11/Model/KVServerHandler.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -29,7 +29,7 @@ public class NodesCircleManager {
                 // I will need my predecessor's place on the ring, before remove it
                 for (ConcurrentHashMap<Integer, Node> prePreds : nodesCircle.getMyPredessors().values()) {
                     if (prePreds.contains(node))
-                        removedPrimaryHashRanges.put(node, nodesCircle.getRecoveredNodeRange(node));
+                        removedPrimaryHashRanges.put(node, nodesCircle.getCurrentKeyRangeOnNodeCircle(node));
                 }
 
                 nodesCircle.removeNode(node);
@@ -41,7 +41,7 @@ public class NodesCircleManager {
                     if (prePreds.contains(node)) contains = true;
                 }
                 if (!contains)
-                    recoveredPrimaryHashRanges.put(node, nodesCircle.getRecoveredNodeRange(node));
+                    recoveredPrimaryHashRanges.put(node, nodesCircle.getCurrentKeyRangeOnNodeCircle(node));
             }
         }
 
