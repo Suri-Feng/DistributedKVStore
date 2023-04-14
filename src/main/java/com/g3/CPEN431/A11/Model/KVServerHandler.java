@@ -61,10 +61,10 @@ public class KVServerHandler implements Runnable {
 
             int command = reqPayload.getCommand();
 
-            if (command == Command.PUT_ACK.getCode()) {
-                processBackupAck();
-                return;
-            }
+//            if (command == Command.PUT_ACK.getCode()) {
+//                processBackupAck();
+//                return;
+//            }
 
             // Receive heartbeats
             if (command == Command.HEARTBEAT.getCode()) {
@@ -165,37 +165,37 @@ public class KVServerHandler implements Runnable {
         // Prepare response payload as per client's command
         KeyValueResponse.KVResponse responsePayload = processRequest(reqPayload);
 
-        if (nodesCircle.getStartupNodesSize() != 1 && reqPayload.getCommand() == Command.PUT.getCode()
-                && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
-            String uuid = UUID.randomUUID().toString();
-            QueuedMessage queuedMessage;
-            if (!requestMessage.hasClientPort()) {
-                queuedMessage = new QueuedMessage(this.address, this.port, requestMessage.getMessageID(), reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion());
-            } else {
-                queuedMessage = new QueuedMessage(InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
-                        requestMessage.getClientPort(),
-                        requestMessage.getMessageID(),
-                        reqPayload.getKey(),
-                        reqPayload.getValue(),
-                        reqPayload.getVersion());
-            }
-            long R_TS = System.currentTimeMillis();
-            putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
-            storeCache.getQueuedResponses().put(ByteString.copyFromUtf8(uuid), queuedMessage);
-            sendWriteToBackups(reqPayload, ByteString.copyFromUtf8(uuid), false, R_TS);
-            return;
-        }
-        // Attach payload, id, and checksum to reply message
-//        long R_TS = System.currentTimeMillis();
-//        boolean sendWriteToBackups = false;
-//        if (reqPayload.getCommand() == Command.PUT.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
-//            if (nodesCircle.getStartupNodesSize() == 1) {
-//                store.getStore().put(reqPayload.getKey(), new Value(reqPayload.getVersion(), reqPayload.getValue()));
+//        if (nodesCircle.getStartupNodesSize() != 1 && reqPayload.getCommand() == Command.PUT.getCode()
+//                && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
+//            String uuid = UUID.randomUUID().toString();
+//            QueuedMessage queuedMessage;
+//            if (!requestMessage.hasClientPort()) {
+//                queuedMessage = new QueuedMessage(this.address, this.port, requestMessage.getMessageID(), reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion());
 //            } else {
-//                sendWriteToBackups = true;
-//                putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
+//                queuedMessage = new QueuedMessage(InetAddress.getByAddress(requestMessage.getClientAddress().toByteArray()),
+//                        requestMessage.getClientPort(),
+//                        requestMessage.getMessageID(),
+//                        reqPayload.getKey(),
+//                        reqPayload.getValue(),
+//                        reqPayload.getVersion());
 //            }
+//            long R_TS = System.currentTimeMillis();
+//            putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
+//            storeCache.getQueuedResponses().put(ByteString.copyFromUtf8(uuid), queuedMessage);
+//            sendWriteToBackups(reqPayload, ByteString.copyFromUtf8(uuid), false, R_TS);
+//            return;
 //        }
+        // Attach payload, id, and checksum to reply message
+        long R_TS = System.currentTimeMillis();
+        boolean sendWriteToBackups = false;
+        if (reqPayload.getCommand() == Command.PUT.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
+            if (nodesCircle.getStartupNodesSize() == 1) {
+                store.getStore().put(reqPayload.getKey(), new Value(reqPayload.getVersion(), reqPayload.getValue()));
+            } else {
+                sendWriteToBackups = true;
+                putValueInStore(reqPayload.getKey(), reqPayload.getValue(), reqPayload.getVersion(), R_TS);
+            }
+        }
 
         CRC32 checksum = new CRC32();
         checksum.update(id);
@@ -214,9 +214,9 @@ public class KVServerHandler implements Runnable {
                 reqPayload.getCommand() == Command.REMOVE.getCode() && responsePayload.getErrCode() == ErrorCode.SUCCESSFUL.getCode()) {
             sendWriteToBackups(reqPayload, requestMessage.getMessageID(), true, 0);
         }
-//        if (sendWriteToBackups) {
-//            sendWriteToBackups(reqPayload, requestMessage.getMessageID(), false, R_TS);
-//        }
+        if (sendWriteToBackups) {
+            sendWriteToBackups(reqPayload, requestMessage.getMessageID(), false, R_TS);
+        }
     }
 
     private void sendResponse(Message.Msg msg, InetAddress address, int port) throws IOException {
@@ -244,31 +244,31 @@ public class KVServerHandler implements Runnable {
 
         putValueInStore(requestPayload.getKey(), requestPayload.getValue(), requestPayload.getVersion(), requestPayload.getRTS());
 
-        KeyValueRequest.KVRequest request = KeyValueRequest.KVRequest.newBuilder()
-                .setCommand(Command.PUT_ACK.getCode())
-                .build();
-
-        Message.Msg requestMessage = Message.Msg.newBuilder()
-                .setMessageID(this.requestMessage.getMessageID())
-                .setPayload(request.toByteString())
-                .setCheckSum(0)
-                .build();
-
-        byte[] requestBytes = requestMessage.toByteArray();
-        DatagramPacket packet = new DatagramPacket(
-                requestBytes,
-                requestBytes.length,
-                this.address,
-                this.port);
-
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            System.out.println("====================");
-            System.out.println("[sendACKtoPrimary]" + e.getMessage());
-            System.out.println("====================");
-            throw new RuntimeException(e);
-        }
+//        KeyValueRequest.KVRequest request = KeyValueRequest.KVRequest.newBuilder()
+//                .setCommand(Command.PUT_ACK.getCode())
+//                .build();
+//
+//        Message.Msg requestMessage = Message.Msg.newBuilder()
+//                .setMessageID(this.requestMessage.getMessageID())
+//                .setPayload(request.toByteString())
+//                .setCheckSum(0)
+//                .build();
+//
+//        byte[] requestBytes = requestMessage.toByteArray();
+//        DatagramPacket packet = new DatagramPacket(
+//                requestBytes,
+//                requestBytes.length,
+//                this.address,
+//                this.port);
+//
+//        try {
+//            socket.send(packet);
+//        } catch (IOException e) {
+//            System.out.println("====================");
+//            System.out.println("[sendACKtoPrimary]" + e.getMessage());
+//            System.out.println("====================");
+//            throw new RuntimeException(e);
+//        }
     }
 
     private void backupREM(KeyValueRequest.KVRequest requestPayload) throws UnknownHostException {
@@ -382,9 +382,9 @@ public class KVServerHandler implements Runnable {
                             .setErrCode(ErrorCode.OUT_OF_SPACE.getCode())
                             .build();
                 }
-                if (nodesCircle.getStartupNodesSize() == 1) {
-                    store.getStore().put(requestPayload.getKey(), new Value(requestPayload.getVersion(), requestPayload.getValue()));
-                }
+//                if (nodesCircle.getStartupNodesSize() == 1) {
+//                    store.getStore().put(requestPayload.getKey(), new Value(requestPayload.getVersion(), requestPayload.getValue()));
+//                }
                 return builder
                         .setErrCode(ErrorCode.SUCCESSFUL.getCode())
                         .build();
