@@ -28,40 +28,10 @@ public class KeyTransferManager {
         this.socket = null;
     }
 
-//    public List<KeyValueRequest.KeyValueEntry> transferKeysWithinRange(Node recoveredNode, List<KeyValueRequest.HashRange> hashRanges) {
-//        List<KeyValueRequest.KeyValueEntry> allPairs = new ArrayList<>();
-//
-//        for (Map.Entry<ByteString, Value> entry : store.getStore().entrySet()) {
-//            String sha256 = Hashing.sha256().hashBytes(entry.getKey().toByteArray()).toString();
-//
-//            int ringHash = nodesCircle.getCircleBucketFromHash(sha256.hashCode());
-//            // keys within affected range
-//            if ((ringHash <= hashRanges.get(0).getMaxRange() && ringHash >= hashRanges.get(0).getMinRange()) ||
-//                    (ringHash <= hashRanges.get(1).getMaxRange() && ringHash >= hashRanges.get(1).getMinRange()) ||
-//                    (ringHash <= hashRanges.get(2).getMaxRange() && ringHash >= hashRanges.get(2).getMinRange())) {
-//
-//                allPairs.add(KeyValueRequest.KeyValueEntry.newBuilder()
-//                        .setVersion(entry.getValue().getVersion())
-//                        .setValue(entry.getValue().getValue())
-//                        .setKey(entry.getKey())
-//                        .build());
-//            }
-//        }
-//
-//        if (!allPairs.isEmpty()) {
-//            sendMessage(allPairs, recoveredNode);
-//        }
-//        return allPairs;
-//    }
-
     public void sendMessage(List<KeyValueRequest.KeyValueEntry> allPairs, Node recoveredNode) {
         byte[] msg_id = new byte[0];
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
-//            System.out.println(KVServer.port + " sending key transfers to port "
-//                    + recoveredNode.getPort()
-//                    + " key: " + StringUtils.byteArrayToHexString(entry.getKey().toByteArray()));
-
             KeyValueRequest.KVRequest pairs = KeyValueRequest.KVRequest.newBuilder()
                     .setCommand(Command.KEY_TRANSFER.getCode())
                     .setPair(entry)
@@ -96,10 +66,6 @@ public class KeyTransferManager {
         byte[] msg_id = new byte[0];
 
         for (KeyValueRequest.KeyValueEntry entry: allPairs) {
-//            System.out.println(KVServer.port + " sending key transfers to port "
-//                    + recoveredNode.getPort()
-//                    + " key: " + StringUtils.byteArrayToHexString(entry.getKey().toByteArray()));
-
             KeyValueRequest.KVRequest pairs = KeyValueRequest.KVRequest.newBuilder()
                     .setCommand(Command.PRIMARY_RECOVER.getCode())
                     .setPair(entry)

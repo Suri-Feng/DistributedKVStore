@@ -57,14 +57,4 @@ public class QueuedMessage {
         return value;
     }
 
-//    @Override
-//    public int compareTo(QueuedMessage o) {
-//        if (this.timestamp < o.timestamp) {
-//            return -1;
-//        } else if (this.timestamp > o.timestamp) {
-//            return 1;
-//        } else {
-//            return 0;
-//        }
-//    }
 }

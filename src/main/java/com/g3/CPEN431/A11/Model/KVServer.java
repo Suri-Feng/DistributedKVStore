@@ -21,9 +21,8 @@ public class KVServer {
     private final ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
     private final static KeyTransferManager keyTransferManager = KeyTransferManager.getInstance();
-    public static int port;
-
-
+    NodesCircle nodesCircle = NodesCircle.getInstance();
+    public int port;
 
     public KVServer(int port) {
         this.port = port;
@@ -31,7 +30,6 @@ public class KVServer {
             socket = new DatagramSocket(port);
             keyTransferManager.setSocket(socket);
             //replication = new Replication(this.socket);
-            NodesCircle nodesCircle = NodesCircle.getInstance();
             Node node = nodesCircle.getNodeFromIp(InetAddress.getLocalHost().getHostAddress(), port);
 
             // Make sure the current node is in the nodes list
@@ -55,25 +53,27 @@ public class KVServer {
         }
     }
 
-//    private void resizeCache() {
-//        if (storeCache.getCache().estimatedSize() >= currentCacheSize * 2/ 3) {
-//            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
-//                eviction.setMaximum(2 * eviction.getMaximum());
-//                currentCacheSize = eviction.getMaximum();
-//            });
-//        } else if (currentCacheSize != DEFAULT_CACHE_SIZE
-//                && storeCache.getCache().estimatedSize() < DEFAULT_CACHE_SIZE * 2/ 3) {
-//            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
-//                eviction.setMaximum(DEFAULT_CACHE_SIZE);
-//                currentCacheSize = DEFAULT_CACHE_SIZE;
-//            });
-//        }
-//    }
+    private void resizeCache() {
+        if (storeCache.getCache().estimatedSize() >= currentCacheSize * 2/ 3) {
+            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
+                eviction.setMaximum(2 * eviction.getMaximum());
+                currentCacheSize = eviction.getMaximum();
+            });
+        } else if (currentCacheSize != DEFAULT_CACHE_SIZE
+                && storeCache.getCache().estimatedSize() < DEFAULT_CACHE_SIZE * 2/ 3) {
+            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
+                eviction.setMaximum(DEFAULT_CACHE_SIZE);
+                currentCacheSize = DEFAULT_CACHE_SIZE;
+            });
+        }
+    }
 
     public void start() {
         // receive request
         while (true) {
-//            resizeCache();
+            if (nodesCircle.getStartupNodesSize() == 1) {
+                resizeCache();
+            }
             byte[] buf = new byte[15000];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 

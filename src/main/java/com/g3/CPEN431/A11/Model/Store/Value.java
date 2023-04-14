@@ -6,10 +6,18 @@ public class Value {
     int version;
     ByteString value;
     long R_TS;
+
+    // For distributed systems
     public Value(int version, ByteString value, long R_TS) {
         this.value = value;
         this.version = version;
         this.R_TS = R_TS;
+    }
+
+    // For single node applications
+    public Value(int version, ByteString value) {
+        this.value = value;
+        this.version = version;
     }
 
     public ByteString getValue() {

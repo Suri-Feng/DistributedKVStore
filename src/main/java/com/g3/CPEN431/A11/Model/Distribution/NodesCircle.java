@@ -44,12 +44,12 @@ public class NodesCircle {
             circle.put(hash2, node);
             circle.put(hash3, node);
         }
-        System.out.println("==========");
-            for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-//            System.out.println(entry.getKey());
-                System.out.println(entry.getValue().getPort());
-            }
-        System.out.println("==========");
+//        System.out.println("==========");
+//            for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
+////            System.out.println(entry.getKey());
+//                System.out.println(entry.getValue().getPort());
+//            }
+//        System.out.println("==========");
     }
 
     public void setNodeList(ArrayList<Node> list) {
@@ -299,21 +299,6 @@ public class NodesCircle {
         }
         return nodes;
     }
-
-//    public ConcurrentHashMap<Integer, Node> findImmediatePredecessorsForVN(int hash, Node node) {
-//        ConcurrentHashMap<Integer, Node> nodes = new ConcurrentHashMap<>();
-//        Node predNode = null;
-//        Integer lowerKey = hash;
-//        int encounterSelf = -1;
-//        do {
-//            lowerKey = circle.lowerKey(lowerKey);
-//            lowerKey = lowerKey == null ? circle.lastKey() : lowerKey;
-//            predNode = circle.get(lowerKey);
-//            encounterSelf ++;
-//        } while (predNode == node && encounterSelf <= 3);
-//        if(predNode != node) nodes.put(predNode.getId(), predNode);
-//        return nodes;
-//    }
 
     public ConcurrentHashMap<Integer, Node> findThreeImmediateSuccessorsHashMap(int hash) {
         Set<Node> nodes = findThreeImmediateSuccessors(hash);

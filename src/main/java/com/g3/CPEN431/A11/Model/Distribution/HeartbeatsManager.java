@@ -32,8 +32,6 @@ public class HeartbeatsManager {
         return (System.currentTimeMillis() - heartBeats.get(node.getId())) <= metric;
     }
 
-
-
     public static HeartbeatsManager getInstance() {
         return instance;
     }

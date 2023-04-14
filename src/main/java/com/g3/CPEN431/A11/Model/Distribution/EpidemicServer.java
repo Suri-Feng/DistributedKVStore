@@ -30,16 +30,10 @@ public class EpidemicServer implements Runnable {
     public void run() {
         // if only the current node is alive, no need to gossip
         // I want to process information from other node faster, instead of sending info to other nodes (should already sned)
-//        if (nodesCircle.getAliveNodesCount() == 1) {
-//           System.out.println(KVServer.port + " suspended node should not have alive list = 1");
-//            heartbeatsManager.getHeartBeats().put(myNodeId, System.currentTimeMillis());
-//            return;
-//        }
 
         for (int i = 0; i < NUM_NEIGHBOURS; i++) {
             int randomInt;
             Node randomNode;
-
 
             // Alive nodes are my priority, since recovered nodes will contact me first
             // If the node chosen is not on the ring, I would prefer not sending to it
