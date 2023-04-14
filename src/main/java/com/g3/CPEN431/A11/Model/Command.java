@@ -19,8 +19,8 @@ public enum Command {
     BACKUP_REM(24),
     BACKUP_ACK(25),
     BACKUP_NONEXISTENT_KEY(26),
-
-    PRIMARY_RECOVER(27);
+    PRIMARY_RECOVER(27),
+    PUT_ACK(28);
 
     private final int code;
 

@@ -44,12 +44,12 @@ public class NodesCircle {
             circle.put(hash2, node);
             circle.put(hash3, node);
         }
-//        System.out.println("==========");
-//            for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
-////            System.out.println(entry.getKey());
-//                System.out.println(entry.getValue().getPort());
-//            }
-//        System.out.println("==========");
+        System.out.println("==========");
+            for (Map.Entry<Integer, Node> entry: circle.entrySet()) {
+//            System.out.println(entry.getKey());
+                System.out.println(entry.getValue().getPort());
+            }
+        System.out.println("==========");
     }
 
     public void setNodeList(ArrayList<Node> list) {

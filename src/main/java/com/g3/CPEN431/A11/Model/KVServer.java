@@ -55,25 +55,25 @@ public class KVServer {
         }
     }
 
-    private void resizeCache() {
-        if (storeCache.getCache().estimatedSize() >= currentCacheSize * 2/ 3) {
-            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
-                eviction.setMaximum(2 * eviction.getMaximum());
-                currentCacheSize = eviction.getMaximum();
-            });
-        } else if (currentCacheSize != DEFAULT_CACHE_SIZE
-                && storeCache.getCache().estimatedSize() < DEFAULT_CACHE_SIZE * 2/ 3) {
-            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
-                eviction.setMaximum(DEFAULT_CACHE_SIZE);
-                currentCacheSize = DEFAULT_CACHE_SIZE;
-            });
-        }
-    }
+//    private void resizeCache() {
+//        if (storeCache.getCache().estimatedSize() >= currentCacheSize * 2/ 3) {
+//            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
+//                eviction.setMaximum(2 * eviction.getMaximum());
+//                currentCacheSize = eviction.getMaximum();
+//            });
+//        } else if (currentCacheSize != DEFAULT_CACHE_SIZE
+//                && storeCache.getCache().estimatedSize() < DEFAULT_CACHE_SIZE * 2/ 3) {
+//            storeCache.getCache().policy().eviction().ifPresent(eviction -> {
+//                eviction.setMaximum(DEFAULT_CACHE_SIZE);
+//                currentCacheSize = DEFAULT_CACHE_SIZE;
+//            });
+//        }
+//    }
 
     public void start() {
         // receive request
         while (true) {
-            resizeCache();
+//            resizeCache();
             byte[] buf = new byte[15000];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 

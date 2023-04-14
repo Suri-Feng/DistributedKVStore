@@ -123,6 +123,17 @@ public final class KeyValueRequest {
      */
     ca.NetSysLab.ProtocolBuffers.KeyValueRequest.HashRangeOrBuilder getHashRangesOrBuilder(
         int index);
+
+    /**
+     * <code>optional int64 R_TS = 9;</code>
+     * @return Whether the rTS field is set.
+     */
+    boolean hasRTS();
+    /**
+     * <code>optional int64 R_TS = 9;</code>
+     * @return The rTS.
+     */
+    long getRTS();
   }
   /**
    * Protobuf type {@code KVRequest}
@@ -352,6 +363,25 @@ public final class KeyValueRequest {
       return hashRanges_.get(index);
     }
 
+    public static final int R_TS_FIELD_NUMBER = 9;
+    private long rTS_ = 0L;
+    /**
+     * <code>optional int64 R_TS = 9;</code>
+     * @return Whether the rTS field is set.
+     */
+    @java.lang.Override
+    public boolean hasRTS() {
+      return ((bitField0_ & 0x00000020) != 0);
+    }
+    /**
+     * <code>optional int64 R_TS = 9;</code>
+     * @return The rTS.
+     */
+    @java.lang.Override
+    public long getRTS() {
+      return rTS_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -394,6 +424,9 @@ public final class KeyValueRequest {
       }
       for (int i = 0; i < hashRanges_.size(); i++) {
         output.writeMessage(8, hashRanges_.get(i));
+      }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        output.writeInt64(9, rTS_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -446,6 +479,10 @@ public final class KeyValueRequest {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, hashRanges_.get(i));
       }
+      if (((bitField0_ & 0x00000020) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(9, rTS_);
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
@@ -492,6 +529,11 @@ public final class KeyValueRequest {
       }
       if (!getHashRangesList()
           .equals(other.getHashRangesList())) return false;
+      if (hasRTS() != other.hasRTS()) return false;
+      if (hasRTS()) {
+        if (getRTS()
+            != other.getRTS()) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -532,6 +574,11 @@ public final class KeyValueRequest {
       if (getHashRangesCount() > 0) {
         hash = (37 * hash) + HASHRANGES_FIELD_NUMBER;
         hash = (53 * hash) + getHashRangesList().hashCode();
+      }
+      if (hasRTS()) {
+        hash = (37 * hash) + R_TS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getRTS());
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -687,6 +734,7 @@ public final class KeyValueRequest {
           hashRangesBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000080);
+        rTS_ = 0L;
         return this;
       }
 
@@ -763,6 +811,10 @@ public final class KeyValueRequest {
         if (((from_bitField0_ & 0x00000040) != 0)) {
           result.recoveredNodeId_ = recoveredNodeId_;
           to_bitField0_ |= 0x00000010;
+        }
+        if (((from_bitField0_ & 0x00000100) != 0)) {
+          result.rTS_ = rTS_;
+          to_bitField0_ |= 0x00000020;
         }
         result.bitField0_ |= to_bitField0_;
       }
@@ -865,6 +917,9 @@ public final class KeyValueRequest {
             }
           }
         }
+        if (other.hasRTS()) {
+          setRTS(other.getRTS());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -952,6 +1007,11 @@ public final class KeyValueRequest {
                 }
                 break;
               } // case 66
+              case 72: {
+                rTS_ = input.readInt64();
+                bitField0_ |= 0x00000100;
+                break;
+              } // case 72
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -1599,6 +1659,46 @@ public final class KeyValueRequest {
           hashRanges_ = null;
         }
         return hashRangesBuilder_;
+      }
+
+      private long rTS_ ;
+      /**
+       * <code>optional int64 R_TS = 9;</code>
+       * @return Whether the rTS field is set.
+       */
+      @java.lang.Override
+      public boolean hasRTS() {
+        return ((bitField0_ & 0x00000100) != 0);
+      }
+      /**
+       * <code>optional int64 R_TS = 9;</code>
+       * @return The rTS.
+       */
+      @java.lang.Override
+      public long getRTS() {
+        return rTS_;
+      }
+      /**
+       * <code>optional int64 R_TS = 9;</code>
+       * @param value The rTS to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRTS(long value) {
+        
+        rTS_ = value;
+        bitField0_ |= 0x00000100;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 R_TS = 9;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRTS() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        rTS_ = 0L;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -3010,19 +3110,19 @@ public final class KeyValueRequest {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025KeyValueRequest.proto\"\207\002\n\tKVRequest\022\017\n" +
+      "\n\025KeyValueRequest.proto\"\243\002\n\tKVRequest\022\017\n" +
       "\007command\030\001 \001(\r\022\020\n\003key\030\002 \001(\014H\000\210\001\001\022\022\n\005valu" +
       "e\030\003 \001(\014H\001\210\001\001\022\024\n\007version\030\004 \001(\005H\002\210\001\001\022\021\n\the" +
       "artbeat\030\005 \003(\004\022!\n\004pair\030\006 \001(\0132\016.KeyValueEn" +
       "tryH\003\210\001\001\022\034\n\017recoveredNodeId\030\007 \001(\rH\004\210\001\001\022\036" +
-      "\n\nhashRanges\030\010 \003(\0132\n.HashRangeB\006\n\004_keyB\010" +
-      "\n\006_valueB\n\n\010_versionB\007\n\005_pairB\022\n\020_recove" +
-      "redNodeId\"X\n\rKeyValueEntry\022\013\n\003key\030\001 \001(\014\022" +
-      "\017\n\007version\030\002 \001(\005\022\r\n\005value\030\003 \001(\014\022\014\n\004R_TS\030" +
-      "\004 \001(\003\022\014\n\004W_TS\030\005 \001(\003\"/\n\tHashRange\022\020\n\010minR" +
-      "ange\030\001 \001(\005\022\020\n\010maxRange\030\002 \001(\005B/\n\034ca.NetSy" +
-      "sLab.ProtocolBuffersB\017KeyValueRequestb\006p" +
-      "roto3"
+      "\n\nhashRanges\030\010 \003(\0132\n.HashRange\022\021\n\004R_TS\030\t" +
+      " \001(\003H\005\210\001\001B\006\n\004_keyB\010\n\006_valueB\n\n\010_versionB" +
+      "\007\n\005_pairB\022\n\020_recoveredNodeIdB\007\n\005_R_TS\"X\n" +
+      "\rKeyValueEntry\022\013\n\003key\030\001 \001(\014\022\017\n\007version\030\002" +
+      " \001(\005\022\r\n\005value\030\003 \001(\014\022\014\n\004R_TS\030\004 \001(\003\022\014\n\004W_T" +
+      "S\030\005 \001(\003\"/\n\tHashRange\022\020\n\010minRange\030\001 \001(\005\022\020" +
+      "\n\010maxRange\030\002 \001(\005B/\n\034ca.NetSysLab.Protoco" +
+      "lBuffersB\017KeyValueRequestb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3033,7 +3133,7 @@ public final class KeyValueRequest {
     internal_static_KVRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_KVRequest_descriptor,
-        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "RecoveredNodeId", "HashRanges", "Key", "Value", "Version", "Pair", "RecoveredNodeId", });
+        new java.lang.String[] { "Command", "Key", "Value", "Version", "Heartbeat", "Pair", "RecoveredNodeId", "HashRanges", "RTS", "Key", "Value", "Version", "Pair", "RecoveredNodeId", "RTS", });
     internal_static_KeyValueEntry_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_KeyValueEntry_fieldAccessorTable = new
