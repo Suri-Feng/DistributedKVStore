@@ -7,7 +7,7 @@ public class HeartbeatsManager {
     // Key is node id
     private final ConcurrentHashMap<Integer, Long> heartBeats;
     private final static HeartbeatsManager instance = new HeartbeatsManager();
-    public NodesCircle nodesCircle = NodesCircle.getInstance();
+    NodesCircle nodesCircle = NodesCircle.getInstance();
     private final long metric;
     public final long mostPastTime = 50;
 
