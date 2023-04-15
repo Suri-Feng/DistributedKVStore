@@ -1,4 +1,4 @@
-package com.g3.CPEN431.A11.Model;
+package com.g3.CPEN431.A12.Model;
 
 public enum ErrorCode {
     SUCCESSFUL (0x00),

@@ -1,4 +1,4 @@
-package com.g3.CPEN431.A11.Model.Distribution;
+package com.g3.CPEN431.A12.Model.Distribution;
 
 import com.google.common.hash.Hashing;
 

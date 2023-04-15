@@ -1,4 +1,4 @@
-package com.g3.CPEN431.A11.Model;
+package com.g3.CPEN431.A12.Model;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -6,8 +6,8 @@ import java.net.*;
 import java.util.Arrays;
 import java.util.concurrent.*;
 import ca.NetSysLab.ProtocolBuffers.Message;
-import com.g3.CPEN431.A11.Model.Distribution.*;
-import com.g3.CPEN431.A11.Model.Store.StoreCache;
+import com.g3.CPEN431.A12.Model.Distribution.*;
+import com.g3.CPEN431.A12.Model.Store.StoreCache;
 
 public class KVServer {
     public static final int MAX_KEY_LENGTH = 32; // bytes
