@@ -1,40 +1,43 @@
-## CPEN 431 2022W2 Assignment 11
+## CPEN 431 2022W2 Assignment 12
 
-Group ID: g3
+Group ID: G3
 
-Verification code: A7CEFCA54F86F49F870EB540FF12724B
+Verification code: 10B70185CB311EE931119E954AAE2A15
 
 ### Usage
 To run the compiled jar file located in the root directory, run the following command:
 
-`java -Xmx512m -jar 1.jar <port number>`
+`java -Xmx512m -jar 12.jar <port number>`
 
 The server will start on the specified port number.
 
 ### Brief Descriptions
 #### A12
-- In A11, a non-blocking primary/backup protocol was used, meaning that for put requests nodes would send responses 
-- To ensure ordering of events, timestamps 
+- We have switched to using a blocking primary/backup replication protocol for PUT requests, wherein primary nodes wait for 3 replicas' 
+  ACKs before responding to clients. PUT requests are inserted into the primary node's queue and will be removed 
+  either after 3 ACKs have been received at which point a SUCCESS reply will be sent to the client or after 4 seconds of insertion, whichever occurs first.
+- To maintain the order of events across nodes, a write_timestamp is appended to each key when it is first entered into the system. 
+   For subsequent PUT requests on the same key, we verify whether the operation time is earlier than the write_timestamp in the system. 
+   If it is, we reject the operation; otherwise, we perform the PUT and update the write_timestamp to the new operation time. During key transfers, 
+   these write_timestamps are synchronized across the replicas to ensure that nodes see the same sequence of operations.
 #### A11
-- One key would have 4 replica: one primary and three backups. The node that a key can be mapped on the consistent 
-  hashing ring would be the primary node for a key, and the following three nodes would be the backups for the key.
-  To achieve load balancing, all the nodes mentioned are virtual nodes. One physical node has three virtual nodes on the ring.
-  Different keys that mapped to the same primary node might have different backups, as they can be mapped to different 
-  virtual nodes the physical node associated with.
-- Non-blocking primary-backup protocol is implemented to achieve lower latency: only the primary node can be written and read. 
-  Whenever a client sends PUT/REM to the primary node a key is associated with, the primary node will send instructions to the 
-  backups for PUT/REM, and continues to execute without waiting for any ACK. 
-- When nodes are suspended or resumed, a key can be mapped to new primary depending on whether it will be mapped to a new node on the updated ring. Key transfers will 
-  be followed by those remapping: when a key's primary node dies, the first backup is elected to be the new primary, and transfer
-  the key-value pair to the new backup(s); when a key's backup nodes updated, the primary will transfer keys to new backups; 
-  when a key's primary is recovered, the first backup will transfer keys to the resumed primary, continuous transferring is applied 
-  here to ensure real primary will receive the key-value pairs. 
-- The epidemic protocol is lazily implemented. The only condition that a node is going to update its consistent hashing ring 
-  (adding/ deleting nodes on the circle) after it receives a heartbeat (gossip) message from other nodes. When receiving a heartbeats  
-  list from other nodes, a node will always use this to update its own heartbeat list; however, it won't use this information 
-  to update its ring unless its own entry on the heartbeat list is quite recent - this can guarantee that the messages a node uses 
-  to update its ring will not be stale, and avoid mistakenly removing active nodes from the ring with stale messages, which works
-  good for nodes were suspended and resumed.
+- A replication factor of 4 is used: one primary and three backups. The first node that a key is mapped to on the consistent 
+  hashing ring is the primary node for the key, and the following three nodes are the replicas.
+- To achieve load balancing, all the nodes mentioned are virtual nodes. Each physical node has three virtual nodes on the ring. 
+  As different keys can be mapped to different virtual nodes associated with the same physical node, it is possible for keys that are mapped to 
+  the same primary node to have different replicas.
+- To minimize latency, a non-blocking primary-backup protocol is implemented. The primary node is responsible for processing and responding to 
+  clients' PUT/GET/REMOVE requests, and requests are forwarded to replicas asynchronously.
+- When nodes are suspended or resumed, keys can be mapped to new primaries depending on whether they will be mapped to new nodes on the updated ring. 
+  Key transfers are followed by remapping. For instance, when a key's primary node fails, the first backup is elected to be the new primary and 
+  transfer the key-value pair to the new backup(s). Similarly, when a key's backup nodes are updated, the primary transfers keys to new backups. 
+  When a key's primary is recovered, the first backup transfers keys to the resumed primary. Continuous transferring is applied here to ensure that 
+  the real primary receives the key-value pairs.
+- The epidemic protocol is implemented lazily. A node updates its consistent hashing ring (adding/deleting nodes on the circle) only after it 
+  receives a heartbeat (gossip) message from other nodes. When a node receives a heartbeat list from other nodes, it always uses it to update its 
+  own heartbeat list. However, it only uses this information to update its ring if its own entry on the heartbeat list is recent enough. 
+  This ensures that the messages a node uses to update its ring are not stale and avoids mistakenly removing active nodes from the ring with stale
+  messages. This approach works well for nodes that are suspended and resumed.
 #### A9
 - To recover nodes that have been resumed from a temporary failure, alive nodes upon receiving new heartbeats check if
   any previously dead nodes have become alive and add them back to the circle. To remap the keys, nodes that have
